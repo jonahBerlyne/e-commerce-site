@@ -6,7 +6,7 @@ export default function Shop() {
  function getState() {
 
   const state = store.getState();
-  console.log("state is " + state + " and the length is " + state.length);
+  console.log("state is " + state + " and the shop length is " + state.length);
  }
   return (
     <div className="App">

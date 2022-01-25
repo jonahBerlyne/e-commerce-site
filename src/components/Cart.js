@@ -6,7 +6,7 @@ export default function Cart() {
  function getState() {
 
   const state = store.getState();
-  console.log("state is " + state + " and the length is " + state.length);
+  console.log("state is " + state + " and the cart length is " + state.length);
  }
   return (
     <div className="App">
