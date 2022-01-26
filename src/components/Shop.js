@@ -47,6 +47,7 @@ export default function Shop() {
       <h1>Shop Page</h1>
       <button onClick={getState}>Get State</button>
       <h2>Items:</h2>
+      {/* Save point for Fortnite API */}
       {items.sort((a, b) => {
        if (a.name < b.name) return -1;
        if (a.name > b.name) return 1;
