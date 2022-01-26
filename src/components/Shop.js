@@ -26,8 +26,16 @@ export default function Shop() {
   const data = await fetch("https://fortnite-api.com/v2/shop/br/combined");
   // console.log(data);
   const dataItems = await data.json();
-  console.log(dataItems.data.featured.entries[0], dataItems.data.featured.entries[1], dataItems.data.featured.entries[2], dataItems.data.featured.entries[3]);
-  const arr = [dataItems.data.featured.entries[0], dataItems.data.featured.entries[1], dataItems.data.featured.entries[2], dataItems.data.featured.entries[3]];
+  console.log(dataItems);
+  // const arr = [dataItems.data.featured.entries[0], dataItems.data.featured.entries[1], dataItems.data.featured.entries[2], dataItems.data.featured.entries[3]];
+  const arr = [];
+  for (let i = 0; i < 4; i++) {
+   let itemLength = dataItems.data.featured.entries[i].items.length;
+   for (let j = 0; j < itemLength; j++) {
+    arr.push(dataItems.data.featured.entries[i].items[j]);
+   }
+  }
+  console.log(arr);
   setItems(arr);
  };
 
@@ -39,30 +47,17 @@ export default function Shop() {
       <h1>Shop Page</h1>
       <button onClick={getState}>Get State</button>
       <h2>Items:</h2>
-      {/* {items.map(item => {
+      {items.sort((a, b) => {
+       if (a.name < b.name) return -1;
+       if (a.name > b.name) return 1;
+      }).map(item => {
        return (
-        <div key={uniqid()}>
-         <h1>{item.section.name}</h1>
+        <div key={item.id}>
+         <h1>{item.name}</h1>
+         <img src={item.images.smallIcon} alt={item.name} height="150px" width="150px"/>
         </div>
        )
-      })} */}
-      {items.map(item => 
-      item.items
-      // .sort((a, b) => {
-      //  console.log(a);
-      //  console.log(b);
-      //  if (a.name < b.name) return -1;
-      //  if (a.name > b.name) return 1;
-      // })
-      .map(i => {
-        return (
-         <div key={i.id}>
-          <h1>{i.name}</h1>
-          <img src={i.images.smallIcon} alt={i.name} height="150px" width="150px"/>
-         </div>
-        )
-       })
-      )}
+      })}
     </div>
   );
 }
