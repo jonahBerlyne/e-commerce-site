@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import store from "../store";
+import { itemAdded } from '../Actions';
 
 export default function AddToCart( {initialPrice} ) {
 
@@ -25,8 +27,10 @@ export default function AddToCart( {initialPrice} ) {
   if (error == '') setErrorMessage('');
  });
 
- const [numItems, setNumItems] = useState(0);
- const addToCart = () => setNumItems(numItems + 1);
+//  const [numItems, setNumItems] = useState(0);
+ const addToCart = () => {
+   //store.dispatch(itemAdded(item.title, initialPrice));
+ }
 
  return (
   <div>

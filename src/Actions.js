@@ -7,9 +7,12 @@ import * as actions from "./ActionTypes";
 //   }
 // });
 
-export const itemAdded = id => ({
+// let items = 0;
+
+export const itemAdded = (title, price) => ({
   type: actions.ITEM_ADDED,
   payload: {
-    id
+    title,
+    price
   }
 });
