@@ -9,10 +9,11 @@ import * as actions from "./ActionTypes";
 
 // let items = 0;
 
-export const itemAdded = (title, price) => ({
+export const itemAdded = (title, image, price) => ({
   type: actions.ITEM_ADDED,
   payload: {
     title,
+    image,
     price
   }
 });

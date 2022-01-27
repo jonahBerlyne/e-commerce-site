@@ -5,13 +5,8 @@ import * as actions from "./ActionTypes";
 export default function reducer(state = [], action) {
  switch (action.type) {
   case actions.ITEM_ADDED:
-   return [
-     ...state,
-     {
-       title: action.payload.title,
-       price: action.payload.price
-     }
-   ];
+   const isInCart = state.find(item => item.title === action.payload.title);
+   return isInCart ? state.map(item => item.title === action.payload.title ? {...item, quantity: item.quantity + 1, price: parseFloat((action.payload.price * (item.quantity + 1)).toFixed(2))} : item) : [...state, {...action.payload, quantity: 1}];
   // case actions.BUG_ADDED:
   //  return [
   //   ...state,

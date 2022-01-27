@@ -15,6 +15,7 @@ export default function AddToCart( {initialPrice} ) {
   try {
    const itemData = await fetch(`https://fakestoreapi.com/products/${id}`);
    const item = await itemData.json();
+   console.log(item.image);
    setItem(item);
    setError('');
   } catch (err) {
@@ -24,12 +25,18 @@ export default function AddToCart( {initialPrice} ) {
  }
 
  useEffect(() => {
+   fetchItem();
+ }, []);
+
+ useEffect(() => {
   if (error == '') setErrorMessage('');
  });
 
 //  const [numItems, setNumItems] = useState(0);
  const addToCart = () => {
-   //store.dispatch(itemAdded(item.title, initialPrice));
+   store.dispatch(itemAdded(item.title, item.image, initialPrice));
+   console.log("added!");
+   console.log(store.getState());
  }
 
  return (
