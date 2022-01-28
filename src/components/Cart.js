@@ -3,16 +3,32 @@ import store from "../store";
 
 export default function Cart() {
 
- function getState() {
-
   const state = store.getState();
-  console.log("state is " + state + " and the cart length is " + state.length);
- }
+  console.log(state[0]);
+
+
+//  function getState() {
+
+//   const state = store.getState();
+//   console.log("state is " + state + " and the cart length is " + state.length);
+//  }
   return (
     <div className="App">
       <NavBar/>
       <h1>Cart Page</h1>
-      <button onClick={getState}>Get State</button>
+      {state.map(item => {
+        return (
+          <div>
+            <h3>{item.title}</h3>
+            <img src={item.image} alt={item.image} height="100px" width="100px"/>
+            <br/>
+            <br/>
+            <input type="number" value={item.quantity}></input>
+            <h4>Price: ${item.price.toFixed(2)}</h4>
+          </div>
+        );
+      })}
+      {/* <button onClick={getState}>Get State</button> */}
     </div>
   );
 }
