@@ -19,6 +19,14 @@ export const itemAdded = (id, title, image, price) => ({
   }
 });
 
+export const itemDecreased = (id, price) => ({
+  type: actions.ITEM_DECREASED,
+  payload: {
+    id,
+    price 
+  }
+});
+
 export const itemRemoved = id => ({
   type: actions.ITEM_REMOVED,
   payload: {

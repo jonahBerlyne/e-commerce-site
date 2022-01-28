@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "./NavBar";
 import store from "../store";
-import { itemRemoved } from "../Actions";
+import { itemAdded, itemDecreased, itemRemoved } from "../Actions";
 
 export default function Cart() {
 
@@ -26,6 +26,21 @@ export default function Cart() {
 
   const [refresh, setRefresh] = useState(false);
 
+  const decrementQty = (id, price, quantity) => {
+    store.dispatch(itemDecreased(id, price));
+    console.log("decreased!");
+    console.log(store.getState());
+    if (quantity - 1 === 0) removeItem(id);
+    setRefresh(!refresh);
+  }
+
+  const incrementQty = (id, title, image, price) => {
+   store.dispatch(itemAdded(id, title, image, price));
+   console.log("added!");
+   console.log(store.getState());
+   setRefresh(!refresh);
+  }
+
   const removeItem = id => {
     console.log("clicked");
     store.dispatch(itemRemoved(id));
@@ -43,6 +58,11 @@ export default function Cart() {
             <br/>
             <br/>
             {/* <input type="number" min="1" value={item.quantity}></input> */}
+            <div style={{display: "flex", gap: "5px"}}>
+              <button onClick={() => decrementQty(item.id, item.price, item.quantity)}>-</button>
+              <h4>{item.quantity}</h4>
+              <button onClick={() => incrementQty(item.id, item.title, item.image, item.price)}>+</button>
+            </div>
             <h4>Price: ${parseFloat(item.price.toFixed(2))}</h4>
             <button onClick={() => removeItem(item.id)}>Remove Item</button>
           </div>
