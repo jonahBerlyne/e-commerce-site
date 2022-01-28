@@ -28,6 +28,7 @@ export default function Cart() {
           </div>
         );
       })}
+      <h2>Total Price: ${state.reduce((a, b) => a.price + b.price).toFixed(2)}</h2>
       {/* <button onClick={getState}>Get State</button> */}
     </div>
   );
