@@ -32,11 +32,16 @@ export default function AddToCart( {initialPrice} ) {
   if (error == '') setErrorMessage('');
  });
 
-//  const [numItems, setNumItems] = useState(0);
+ const [added, setAdded] = useState(false);
+
  const addToCart = () => {
    store.dispatch(itemAdded(item.id, item.title, item.image, initialPrice));
    console.log("added!");
    console.log(store.getState());
+   setAdded(true);
+   setTimeout(() => {
+     setAdded(false);
+   }, 500);
  }
 
  return (
@@ -46,7 +51,7 @@ export default function AddToCart( {initialPrice} ) {
     <button onClick={addToCart}>Add to Cart</button>
    </div> 
    <br/>
-   {/* {added && <p>Added!</p>} */}
+   {added && <p>Added!</p>}
    <br/>
    <br/>
   </div>
