@@ -34,7 +34,7 @@ export default function AddToCart( {initialPrice} ) {
 
 //  const [numItems, setNumItems] = useState(0);
  const addToCart = () => {
-   store.dispatch(itemAdded(item.title, item.image, initialPrice));
+   store.dispatch(itemAdded(item.id, item.title, item.image, initialPrice));
    console.log("added!");
    console.log(store.getState());
  }
