@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "./NavBar";
-import store from "../store";
-import { itemDecreased, itemIncreased, itemRemoved } from "../Actions";
+import store from '../Redux/Store';
+import { itemDecreased, itemIncreased, itemRemoved } from "../Redux/Actions";
 
 export default function Cart() {
 
-  const state = store.getState();
-  let arr = [];
-  if (state.length !== 0) {
-    for (let i = 0; i < state.length; i++) {
-      arr.push(state[i].price);
+  const [state, setState] = useState(store.getState());
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let priceArr = [];
+    if (state.length !== 0) {
+      for (let i = 0; i < state.length; i++) {
+        priceArr.push(state[i].price);
+      }
     }
-  }
-  let total = 0;
-  if (arr.length !== 0) {
-    total = parseFloat(arr.reduce((a, b) => a + b)).toFixed(2);
+    calculateTotal(priceArr);
+  }, [state]);
+  
+  const calculateTotal = prices => {
+    if (prices.length !== 0) {
+      setTotal(parseFloat(prices.reduce((a, b) => a + b)).toFixed(2));
+    } else {
+      setTotal(0);
+    }
+    setRefresh(!refresh);
   }
 
   const [refresh, setRefresh] = useState(false);
@@ -23,6 +33,7 @@ export default function Cart() {
     store.dispatch(itemDecreased(id, price));
     console.log("decreased!");
     console.log(store.getState());
+    setState(store.getState());
     if (quantity - 1 === 0) removeItem(id);
     setRefresh(!refresh);
   }
@@ -31,12 +42,14 @@ export default function Cart() {
    store.dispatch(itemIncreased(id, price));
    console.log("increased!");
    console.log(store.getState());
+   setState(store.getState());
    setRefresh(!refresh);
   }
 
   const removeItem = id => {
     store.dispatch(itemRemoved(id));
     console.log("removed");
+    setState(store.getState());
     setRefresh(!refresh);
   }
 
@@ -44,6 +57,7 @@ export default function Cart() {
     <div className="App">
       <NavBar/>
       <h1>Cart Page</h1>
+      {total === 0 && <h2>Your cart is empty.</h2>}
       {state.map(item => {
         return (
           <div key={item.id}>
@@ -61,7 +75,7 @@ export default function Cart() {
           </div>
         );
       })}
-      <h2>Total Price: ${total}</h2>
+      {total !== 0 && <h2>Total Price: ${total}</h2>}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import store from "../store";
-import { itemAdded } from '../Actions';
+import store from '../Redux/Store';
+import { itemAdded } from '../Redux/Actions';
 
 export default function AddToCart( {initialPrice} ) {
 

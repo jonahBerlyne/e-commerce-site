@@ -1,20 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import store from './store';
+import store from "./Redux/Store";
 import { Provider } from "react-redux";
 
-const AppWrapper = ({ children }) => {
-  return (
-    <Provider store={store}>{children}</Provider>
-  );
-}
-
 ReactDOM.render(
-  <React.StrictMode>
-    <AppWrapper>
+    <Provider store={store}>
       <App />
-    </AppWrapper>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );

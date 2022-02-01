@@ -1,9 +1,9 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Shop from "./components/Shop";
-import ItemDetail from "./components/ItemDetail";
-import Cart from "./components/Cart";
+import Home from "./Components/Home";
+import Shop from "./Components/Shop";
+import ItemDetail from "./Components/ItemDetail";
+import Cart from "./Components/Cart";
 
 export default function App() {
   return (
