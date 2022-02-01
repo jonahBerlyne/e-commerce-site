@@ -1,9 +1,9 @@
 import NavBar from "./NavBar";
-import firebase from "../firebase";
+import app from "../firebase";
 
 export default function Home() {
 
-  const ref = firebase.firestore().collection("demo");
+  const ref = app.firestore().collection("demo");
   console.log(ref);
 
   return (
