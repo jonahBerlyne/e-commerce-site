@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import store from '../Redux/Store';
 import { itemAdded } from '../Redux/Actions';
+import { addItemToFirebase } from '../firebase';
 
 export default function AddToCart( {initialPrice} ) {
 
@@ -38,6 +39,9 @@ export default function AddToCart( {initialPrice} ) {
    store.dispatch(itemAdded(item.id, item.title, item.image, initialPrice));
    console.log("added!");
    console.log(store.getState());
+   let state = store.getState();
+   state = state.find(i => i.id === item.id);
+   addItemToFirebase(state, item.id);
    setAdded(true);
    setTimeout(() => {
      setAdded(false);

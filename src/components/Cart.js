@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from "./NavBar";
 import store from '../Redux/Store';
 import { itemDecreased, itemIncreased, itemRemoved } from "../Redux/Actions";
+import { removeItemFromFirebase } from '../firebase';
 
 export default function Cart() {
 
@@ -48,6 +49,7 @@ export default function Cart() {
 
   const removeItem = id => {
     store.dispatch(itemRemoved(id));
+    removeItemFromFirebase(id);
     console.log("removed");
     setState(store.getState());
     setRefresh(!refresh);

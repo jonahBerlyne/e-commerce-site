@@ -1,5 +1,4 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyA7Nq0NhcXzQHsZvF5Y-3WcYSmqjSiYzSo",
   authDomain: "e-commerce-site-6836a.firebaseapp.com",
   projectId: "e-commerce-site-6836a",
   storageBucket: "e-commerce-site-6836a.appspot.com",
