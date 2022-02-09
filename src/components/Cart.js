@@ -3,6 +3,8 @@ import NavBar from "./NavBar";
 import store from '../Redux/Store';
 import { itemDecreased, itemIncreased, itemRemoved } from "../Redux/Actions";
 import { removeItemFromFirebase } from '../firebase';
+import { FaTrash } from "react-icons/fa";
+import { IconContext } from 'react-icons/lib';
 
 export default function Cart() {
 
@@ -68,12 +70,16 @@ export default function Cart() {
             <br/>
             <br/>
             <div style={{display: "flex", gap: "5px"}}>
-              <button onClick={() => decrementQty(item.id, item.price, item.quantity)}>-</button>
+              <button className='btn btn-outline-secondary' onClick={() => decrementQty(item.id, item.price, item.quantity)}>-</button>
               <h4>{item.quantity}</h4>
-              <button onClick={() => incrementQty(item.id, item.price)}>+</button>
+              <button className='btn btn-outline-secondary' onClick={() => incrementQty(item.id, item.price)}>+</button>
             </div>
             <h4>Price: ${parseFloat(item.price).toFixed(2)}</h4>
-            <button onClick={() => removeItem(item.id)}>Remove Item</button>
+            <button style={{border: "none", backgroundColor: "#fff"}} onClick={() => removeItem(item.id)}>
+              <IconContext.Provider value={{ color: "red" }}>
+                <FaTrash/>
+              </IconContext.Provider>
+            </button>
           </div>
         );
       })}

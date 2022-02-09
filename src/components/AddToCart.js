@@ -52,7 +52,7 @@ export default function AddToCart( {initialPrice} ) {
   <div>
    {errorMessage && <h1>{errorMessage}</h1>}
    <div style={{display: "flex", gap: "100px"}}>
-    <button onClick={addToCart}>Add to Cart</button>
+    <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
    </div> 
    <br/>
    {added && <p>Added!</p>}
