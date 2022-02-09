@@ -4,11 +4,10 @@ import { FaBars } from "react-icons/fa";
 export default function NavBar() {
 
  const {user} = JSON.parse(localStorage.getItem("currentUser"));
- console.log(user);
 
  const logout = () => {
   localStorage.removeItem("currentUser");
-  window.location.reload();
+  window.location.href = "/login";
  }
 
  return (

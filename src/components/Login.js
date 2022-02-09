@@ -15,6 +15,7 @@ export default function Login() {
    toast.success("Logged in");
    window.location.href = '/';
   } catch (err) {
+   console.log(`Error: ${err}`);
    toast.error(`Login error: ${err}`);
   }
  }
