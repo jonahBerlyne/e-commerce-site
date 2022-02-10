@@ -40,17 +40,17 @@ export default function AddToCart( {initialPrice} ) {
  const [addedMsg, setAddedMsg] = useState(false);
 
  useEffect(() => {
-   let state = store.getState();
-   state = state.filter(i => i.id === item.id );
-   if (added) logItem(state);
+   let itemState = store.getState();
+   itemState = itemState.filter(i => i.id === item.id );
+   if (added) logItemToDB(itemState);
  }, [added]);
 
- const logItem = async state => {
+ const logItemToDB = async state => {
    try {
      let itemDoc = state[0];
      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${item.title}`);
      await setDoc(docRef, itemDoc);
-     console.log("item logged!");
+     alert("Item logged");
      setAdded(false);
    } catch (err) {
      alert(`Item logging error: ${err}`);

@@ -4,11 +4,16 @@ import store from '../Redux/Store';
 import { itemDecreased, itemIncreased, itemRemoved } from "../Redux/Actions";
 import { FaTrash } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
+import { setDoc, deleteDoc, doc } from "firebase/firestore";
+import fireDB from '../firebaseConfig';
 
 export default function Cart() {
 
   const [state, setState] = useState(store.getState());
   const [total, setTotal] = useState(0);
+  const {user} = JSON.parse(localStorage.getItem("currentUser"));
+  const [itemTitle, setItemTitle] = useState('');
+  const [itemId, setItemId] = useState('');
 
   useEffect(() => {
     let priceArr = [];
@@ -30,29 +35,73 @@ export default function Cart() {
   }
 
   const [refresh, setRefresh] = useState(false);
+  const [adjusted, setAdjusted] = useState(false);
 
-  const decrementQty = (id, price, quantity) => {
+  const decrementQty = (title, id, price, quantity) => {
     store.dispatch(itemDecreased(id, price));
-    console.log("decreased!");
-    console.log(store.getState());
     setState(store.getState());
-    if (quantity - 1 === 0) removeItem(id);
+    if (quantity - 1 === 0) {
+      removeItem(title, id);
+    } else {
+      if (id !== itemId) setItemId(id);
+      setItemTitle(title);
+      setAdjusted(true);
+    }
     setRefresh(!refresh);
   }
 
-  const incrementQty = (id, price) => {
-   store.dispatch(itemIncreased(id, price));
-   console.log("increased!");
-   console.log(store.getState());
-   setState(store.getState());
-   setRefresh(!refresh);
+  const incrementQty = (title, id, price) => {
+    store.dispatch(itemIncreased(id, price));
+    setState(store.getState());
+    console.log("state reached");
+    if (id !== itemId) setItemId(id);
+    setItemTitle(title);
+    setAdjusted(true);
+    setRefresh(!refresh);
   }
 
-  const removeItem = id => {
+  const [removed, setRemoved] = useState(false);
+
+  const removeItem = (title, id) => {
     store.dispatch(itemRemoved(id));
-    console.log("removed");
     setState(store.getState());
+    if (id !== itemId) setItemId(id);
+    setItemTitle(title);
+    setRemoved(true);
     setRefresh(!refresh);
+  }
+
+  useEffect(() => {
+    let itemState = state.filter(i => i.id === itemId);
+    console.log(`Adjusted is: ${adjusted}`);
+    if (adjusted) logItemToDB(itemState);
+    if (removed) deleteItemFromDB(itemState);
+  }, [adjusted, removed]);
+
+  const logItemToDB = async state => {
+    try {
+      const itemDoc = state[0];
+      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
+      await setDoc(docRef, itemDoc);
+      setAdjusted(false);
+      alert("Item logged");
+    } catch (err) {
+      alert(`Item logging error: ${err}`);
+      setAdjusted(false);
+    }
+  }
+
+  const deleteItemFromDB = async state => {
+    try {
+      const itemDoc = state[0];
+      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
+      await deleteDoc(docRef, itemDoc);
+      setRemoved(false);
+      alert("Item deleted");
+    } catch (err) {
+      alert(`Item deletion error: ${err}`);
+      setRemoved(false);      
+    }
   }
 
   return (
@@ -68,12 +117,12 @@ export default function Cart() {
             <br/>
             <br/>
             <div style={{display: "flex", gap: "5px"}}>
-              <button className='btn btn-outline-secondary' onClick={() => decrementQty(item.id, item.price, item.quantity)}>-</button>
+              <button className='btn btn-outline-secondary' onClick={() => decrementQty(item.title, item.id, item.price, item.quantity)}>-</button>
               <h4>{item.quantity}</h4>
-              <button className='btn btn-outline-secondary' onClick={() => incrementQty(item.id, item.price)}>+</button>
+              <button className='btn btn-outline-secondary' onClick={() => incrementQty(item.title, item.id, item.price)}>+</button>
             </div>
             <h4>Price: ${parseFloat(item.price).toFixed(2)}</h4>
-            <button style={{border: "none", backgroundColor: "#fff"}} onClick={() => removeItem(item.id)}>
+            <button style={{border: "none", backgroundColor: "#fff"}} onClick={() => removeItem(item.title, item.id)}>
               <IconContext.Provider value={{ color: "red" }}>
                 <FaTrash/>
               </IconContext.Provider>
