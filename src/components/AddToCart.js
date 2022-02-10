@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import store from '../Redux/Store';
 import { itemAdded } from '../Redux/Actions';
+import { collection, setDoc, getDocs, doc } from "firebase/firestore";
+import fireDB from '../firebaseConfig';
 
 export default function AddToCart( {initialPrice} ) {
 
@@ -10,12 +12,13 @@ export default function AddToCart( {initialPrice} ) {
  const [item, setItem] = useState([]);
  const [error, setError] = useState('');
  const [errorMessage, setErrorMessage] = useState('');
+ const {user} = JSON.parse(localStorage.getItem("currentUser"));
+
  
  const fetchItem = async () => {
   try {
    const itemData = await fetch(`https://fakestoreapi.com/products/${id}`);
    const item = await itemData.json();
-   console.log(item.image);
    setItem(item);
    setError('');
   } catch (err) {
@@ -34,13 +37,33 @@ export default function AddToCart( {initialPrice} ) {
 
  const [added, setAdded] = useState(false);
 
+ const [addedMsg, setAddedMsg] = useState(false);
+
+ useEffect(() => {
+   let state = store.getState();
+   state = state.filter(i => i.id === item.id );
+   if (added) logItem(state);
+ }, [added]);
+
+ const logItem = async state => {
+   try {
+     let itemDoc = state[0];
+     const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${item.title}`);
+     await setDoc(docRef, itemDoc);
+     console.log("item logged!");
+     setAdded(false);
+   } catch (err) {
+     alert(`Item logging error: ${err}`);
+     setAdded(false);
+   }
+ }
+
  const addToCart = () => {
    store.dispatch(itemAdded(item.id, item.title, item.image, initialPrice));
-   console.log("added!");
-   console.log(store.getState());
    setAdded(true);
+   setAddedMsg(true);
    setTimeout(() => {
-     setAdded(false);
+     setAddedMsg(false);
    }, 500);
  }
 
@@ -51,7 +74,7 @@ export default function AddToCart( {initialPrice} ) {
     <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
    </div> 
    <br/>
-   {added && <p>Added!</p>}
+   {addedMsg && <p>Added!</p>}
    <br/>
    <br/>
   </div>
