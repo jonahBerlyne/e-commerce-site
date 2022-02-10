@@ -73,34 +73,26 @@ export default function Cart() {
 
   useEffect(() => {
     let itemState = state.filter(i => i.id === itemId);
-    console.log(`Adjusted is: ${adjusted}`);
-    if (adjusted) logItemToDB(itemState);
-    if (removed) deleteItemFromDB(itemState);
+    if (adjusted || removed) handleItemFromDB(itemState);
   }, [adjusted, removed]);
 
-  const logItemToDB = async state => {
+  const handleItemFromDB = async state => {
     try {
       const itemDoc = state[0];
       const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
-      await setDoc(docRef, itemDoc);
-      setAdjusted(false);
-      alert("Item logged");
+      if (adjusted) {
+        await setDoc(docRef, itemDoc);
+        setAdjusted(false);
+        alert("Item logged");
+      }
+      if (removed) {
+        await deleteDoc(docRef, itemDoc);
+        setRemoved(false);
+        alert("Item deleted");
+      }
     } catch (err) {
       alert(`Item logging error: ${err}`);
       setAdjusted(false);
-    }
-  }
-
-  const deleteItemFromDB = async state => {
-    try {
-      const itemDoc = state[0];
-      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
-      await deleteDoc(docRef, itemDoc);
-      setRemoved(false);
-      alert("Item deleted");
-    } catch (err) {
-      alert(`Item deletion error: ${err}`);
-      setRemoved(false);      
     }
   }
 
