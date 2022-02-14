@@ -47,7 +47,7 @@ export default function ItemDetail () {
    {errorMessage && <h1>{errorMessage}</h1>}
    {!fetched && <h1>Loading...</h1>}
    <h2>{item.title}</h2>
-   {fetched && !errorMessage && <img src={item.image} alt={item.title} height="400px" width="400px"/>}
+   {fetched && !errorMessage && <img src={item.image} alt={item.title} height="400px" width="400px"/>} 
    <br/>
    <br/>
    <br/>
