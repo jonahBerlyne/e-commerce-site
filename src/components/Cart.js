@@ -43,7 +43,7 @@ export default function Cart() {
     if (quantity - 1 === 0) {
       removeItem(title, id);
     } else {
-      if (id !== itemId) setItemId(id);
+      setItemId(id);
       setItemTitle(title);
       setAdjusted(true);
     }
@@ -53,8 +53,7 @@ export default function Cart() {
   const incrementQty = (title, id, price) => {
     store.dispatch(itemIncreased(id, price));
     setState(store.getState());
-    console.log("state reached");
-    if (id !== itemId) setItemId(id);
+    setItemId(id);
     setItemTitle(title);
     setAdjusted(true);
     setRefresh(!refresh);
@@ -65,7 +64,7 @@ export default function Cart() {
   const removeItem = (title, id) => {
     store.dispatch(itemRemoved(id));
     setState(store.getState());
-    if (id !== itemId) setItemId(id);
+    setItemId(id);
     setItemTitle(title);
     setRemoved(true);
     setRefresh(!refresh);
@@ -91,7 +90,7 @@ export default function Cart() {
         alert("Item deleted");
       }
     } catch (err) {
-      alert(`Item logging error: ${err}`);
+      alert(`Item handling error: ${err}`);
       setAdjusted(false);
     }
   }
