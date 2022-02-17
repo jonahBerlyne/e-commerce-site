@@ -104,7 +104,7 @@ export default function Cart() {
         return (
           <div key={item.id}>
             <h3>{item.title}</h3>
-            <img src={item.image} alt={item.image} height="100px" width="100px"/>
+            <img src={item.image} alt={item.title} height="100px" width="100px"/>
             <br/>
             <br/>
             <div style={{display: "flex", gap: "5px"}}>

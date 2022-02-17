@@ -11,7 +11,7 @@ export default function AddToCart() {
  const { id } = useParams();
  
  const [item, setItem] = useState([]);
- const {user} = JSON.parse(localStorage.getItem("currentUser"));
+ const { user } = JSON.parse(localStorage.getItem("currentUser"));
 
  useEffect(() => {
    setItem(itemData[id - 1]);

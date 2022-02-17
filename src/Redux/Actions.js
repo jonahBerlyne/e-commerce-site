@@ -32,3 +32,14 @@ export const itemRemoved = id => ({
     id
   }
 });
+
+export const itemSet = (id, title, image, price, quantity) => ({
+  type: actions.ITEM_SET,
+  payload: {
+    id,
+    title,
+    image,
+    price,
+    quantity
+  }
+});

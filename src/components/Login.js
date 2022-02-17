@@ -15,10 +15,11 @@ export default function Login() {
    toast.success("Logged in");
    window.location.href = '/';
   } catch (err) {
-   console.log(`Error: ${err}`);
+   alert(`Error: ${err}`);
    toast.error(`Login error: ${err}`);
   }
  }
+
  return (
   <div>
    <h2>Login:</h2>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import { useParams } from 'react-router';
-import calculatePriceOf from './Price';
 import AddToCart from './AddToCart';
 import itemData from '../Data/ItemData';
 
