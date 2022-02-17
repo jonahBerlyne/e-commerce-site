@@ -1,16 +1,18 @@
 import React from 'react';
 
-export default function Categories( {onChange} ) {
+export default function Categories({ changeCategory }) {
 
   return (
    <div>
     <h4>Select a Category:</h4>
-    <select id="selectBox" onChange={onChange}>
+    <select id="selectBox" onChange={changeCategory}>
       <option defaultValue="All">All</option>
-      <option value="Electronics">Electronics</option>
-      <option value="Jewelry">Jewelry</option>
-      <option value="Men's Clothing">Men's Clothing</option>
-      <option value="Women's Clothing">Women's Clothing</option>
+      <option value="Books">Books</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Collection">Collection</option>
+      <option value="Food">Food</option>
+      <option value="Miscellaneous">Miscellaneous</option>
+      <option value="Trinkets">Trinkets</option>
     </select>
    </div>
   );
