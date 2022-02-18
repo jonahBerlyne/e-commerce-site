@@ -95,6 +95,10 @@ export default function Cart() {
     }
   }
 
+  const checkOutCart = () => {
+    console.log(store.getState());
+  }
+
   return (
     <div className="App">
       <NavBar/>
@@ -121,7 +125,12 @@ export default function Cart() {
           </div>
         );
       })}
-      {total !== 0 && <h2>Total Price: ${total}</h2>}
+      {total !== 0 && 
+        <div>
+          <h2>Total Price: ${total}</h2>
+          <button onClick={() => checkOutCart()}>Checkout</button>
+        </div>
+      }
     </div>
   );
 }
