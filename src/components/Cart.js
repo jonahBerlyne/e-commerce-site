@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "./NavBar";
 import store from '../Redux/Store';
-import { itemDecreased, itemIncreased, itemRemoved } from "../Redux/Actions";
+import { itemDecreased, itemIncreased, itemRemoved, itemSet } from "../Redux/Actions";
 import { FaTrash } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
@@ -9,11 +9,20 @@ import fireDB from '../firebaseConfig';
 
 export default function Cart() {
 
-  const [state, setState] = useState(store.getState());
+  const [state, setState] = useState([]);
   const [total, setTotal] = useState(0);
   const {user} = JSON.parse(localStorage.getItem("currentUser"));
   const [itemTitle, setItemTitle] = useState('');
   const [itemId, setItemId] = useState('');
+
+  useEffect(() => {
+    let cart = localStorage.getItem("cart");
+    cart = JSON.parse(cart);
+    cart.forEach(item => {
+      store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+    });
+    setState(store.getState());
+  }, []);
 
   useEffect(() => {
     let priceArr = [];
@@ -72,7 +81,10 @@ export default function Cart() {
 
   useEffect(() => {
     let itemState = state.filter(i => i.id === itemId);
-    if (adjusted || removed) handleItemFromDB(itemState);
+    if (adjusted || removed) {
+      localStorage.setItem("cart", JSON.stringify(state));
+      handleItemFromDB(itemState);
+    }
   }, [adjusted, removed]);
 
   const handleItemFromDB = async state => {
@@ -96,7 +108,9 @@ export default function Cart() {
   }
 
   const checkOutCart = () => {
-    console.log(store.getState());
+    // let cart = localStorage.getItem("cart");
+    // cart = JSON.parse(cart);
+    console.log("cart");
   }
 
   return (

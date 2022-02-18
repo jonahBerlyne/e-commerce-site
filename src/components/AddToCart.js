@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import store from '../Redux/Store';
-import { itemAdded } from '../Redux/Actions';
+import { itemAdded, itemSet } from '../Redux/Actions';
 import { collection, setDoc, getDocs, doc } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
 import itemData from '../Data/ItemData';
@@ -15,6 +15,12 @@ export default function AddToCart() {
 
  useEffect(() => {
    setItem(itemData[id - 1]);
+   let cart = localStorage.getItem("cart");
+   cart = JSON.parse(cart);
+   cart.forEach(item => {
+    store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+   });
+   console.log(store.getState());
  }, []);
 
  const [added, setAdded] = useState(false);
@@ -24,7 +30,10 @@ export default function AddToCart() {
  useEffect(() => {
    let itemState = store.getState();
    itemState = itemState.filter(i => i.id === item.id );
-   if (added) logItemToDB(itemState);
+   if (added) {
+     localStorage.setItem("cart", JSON.stringify(itemState));
+     logItemToDB(itemState);
+   }
  }, [added]);
 
  const logItemToDB = async state => {

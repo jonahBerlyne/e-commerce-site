@@ -23,6 +23,8 @@ export default function Home() {
       itemsArr.forEach(item => {
         store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
       });
+      const cart = store.getState();
+      localStorage.setItem("cart", JSON.stringify(cart));
     } catch (err) {
       alert(`Error: ${err}`);
     }
