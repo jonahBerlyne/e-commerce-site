@@ -28,10 +28,11 @@ export default function AddToCart() {
  const [addedMsg, setAddedMsg] = useState(false);
 
  useEffect(() => {
-   let itemState = store.getState();
-   itemState = itemState.filter(i => i.id === item.id );
+   const state = store.getState();
+   const itemState = state.filter(i => i.id === item.id );
    if (added) {
-     localStorage.setItem("cart", JSON.stringify(itemState));
+     setAdded(false);
+     localStorage.setItem("cart", JSON.stringify(state));
      logItemToDB(itemState);
    }
  }, [added]);
@@ -42,10 +43,8 @@ export default function AddToCart() {
      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${item.title}`);
      await setDoc(docRef, itemDoc);
      alert("Item logged");
-     setAdded(false);
    } catch (err) {
      alert(`Item logging error: ${err}`);
-     setAdded(false);
    }
  }
 
