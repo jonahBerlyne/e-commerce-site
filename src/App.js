@@ -14,8 +14,8 @@ export default function App() {
         <Route path="/shop" exact element={<ProtectedRoutes><Shop/></ProtectedRoutes>}/>
         <Route path="/shop/:id" exact element={<ProtectedRoutes><ItemDetail/></ProtectedRoutes>}/>
         <Route path="/cart" exact element={<ProtectedRoutes><Cart/></ProtectedRoutes>}/>
-        <Route path="/register" exact element={<Register/>}/>
-        <Route path="/login" exact element={<Login/>}/>
+        <Route path="/register" exact element={<AuthRoutes><Register/></AuthRoutes>}/>
+        <Route path="/login" exact element={<AuthRoutes><Login/></AuthRoutes>}/>
       </Routes>
     </Router>
   );
@@ -28,3 +28,12 @@ const ProtectedRoutes = ({children}) => {
     return <Navigate to="/login"/>;
   }
 }
+
+const AuthRoutes = ({children}) => {
+  if (!localStorage.getItem("currentUser")) {
+    return children;
+  } else {
+    return <Navigate to="/"/>;
+  }
+}
+
