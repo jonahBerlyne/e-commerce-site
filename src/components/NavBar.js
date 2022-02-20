@@ -8,6 +8,7 @@ export default function NavBar() {
  const logout = () => {
   localStorage.removeItem("currentUser");
   localStorage.removeItem("cart");
+  localStorage.removeItem("checkout");
   window.location.href = "/login";
  }
 

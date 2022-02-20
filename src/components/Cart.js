@@ -107,10 +107,9 @@ export default function Cart() {
     }
   }
 
-  const checkOutCart = () => {
-    // let cart = localStorage.getItem("cart");
-    // cart = JSON.parse(cart);
-    console.log("cart");
+  const goToCheckout = () => {
+    localStorage.setItem("checkout", true);
+    window.location.href = "/checkout";
   }
 
   return (
@@ -142,7 +141,7 @@ export default function Cart() {
       {total !== 0 && 
         <div>
           <h2>Total Price: ${total}</h2>
-          <button onClick={() => checkOutCart()}>Checkout</button>
+          <button onClick={goToCheckout}>Checkout</button>
         </div>
       }
     </div>
