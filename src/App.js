@@ -6,6 +6,7 @@ import Cart from "./Components/Cart";
 import CheckoutPage from "./Components/Checkout/CheckoutPage";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
+import NavBar from "./Components/NavBar";
 
 export default function App() {
   return (
@@ -26,7 +27,12 @@ export default function App() {
 const ProtectedRoutes = ({children}) => {
   if (localStorage.getItem("currentUser")) {
     localStorage.removeItem("checkout");
-    return children;
+    return (
+      <div>
+        <NavBar/>
+        {children}
+      </div>
+    );
   } else {
     return <Navigate to="/login"/>;
   }
@@ -34,7 +40,12 @@ const ProtectedRoutes = ({children}) => {
 
 const CheckoutRoute = ({children}) => {
   if (localStorage.getItem("checkout")) {
-    return children;
+    return (
+      <div>
+        <NavBar/>
+        {children}
+      </div>
+    );
   } else {
     return <Navigate to="/cart"/>;
   }

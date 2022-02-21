@@ -1,4 +1,3 @@
-import NavBar from "./NavBar";
 import fireDB from '../firebaseConfig';
 import { collection, query, getDocs} from "firebase/firestore";
 import store from '../Redux/Store';
@@ -32,7 +31,6 @@ export default function Home() {
 
   return (
     <div className="App">
-      <NavBar/>
       <h1>Home Page</h1>
     </div>
   );

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from "../NavBar";
 import BillingForm from './BillingForm';
+import ShippingForm from './ShippingForm';
 
 export default function CheckoutPage() {
 
   const { user } = JSON.parse(localStorage.getItem("currentUser"));
 
-  const initialValues = { id: user.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '' };
+  const initialValues = { id: user.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
   const [values, setValues] = useState(initialValues);
 
@@ -18,6 +18,18 @@ export default function CheckoutPage() {
   }
 
   const formProps = { values, handleChange };
+  const [billing, setBilling] = useState(true);
+  const [shipping, setShipping] = useState(false);
+
+  const goToShipping = () => {
+    setBilling(false);
+    setShipping(true);
+  }
+
+  const goToBilling = () => {
+    setShipping(false);
+    setBilling(true);
+  }
 
   const showInfo = () => {
     console.log(values);
@@ -25,9 +37,19 @@ export default function CheckoutPage() {
 
   return (
    <div>
-    <NavBar/>
-    <BillingForm {...formProps}/>
-    <button onClick={showInfo}>Show Info</button>
+    {billing && 
+      <div>
+        <BillingForm {...formProps}/>
+        <button onClick={goToShipping}>Proceed to Shipping</button>
+      </div> 
+    }
+    {shipping && 
+      <div>
+        <ShippingForm {...formProps}/>
+        <button onClick={goToBilling}>Back to Billing</button>
+        <button onClick={showInfo}>Show Info</button>
+      </div> 
+    }
    </div>
   )
 }

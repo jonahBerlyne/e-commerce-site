@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from "./NavBar";
 import Categories from './Categories';
 import itemData from '../Data/ItemData';
 
@@ -46,10 +45,6 @@ export default function Shop() {
 
  return (
   <div>
-   <NavBar/>
-   <br/>
-   <br/>
-   <br/>
    <h1>Buy:</h1>
    <br/>
    <Categories changeCategory={changeCategory}/>

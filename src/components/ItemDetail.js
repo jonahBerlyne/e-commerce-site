@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from './NavBar';
 import { useParams } from 'react-router';
 import AddToCart from './AddToCart';
 import itemData from '../Data/ItemData';
@@ -19,7 +18,6 @@ export default function ItemDetail () {
 
  return (
   <div>
-   <NavBar/>
    <br/>
    <h2>{item.title}</h2>
    <img src={item.image} alt={item.title} height="400px" width="400px"/>

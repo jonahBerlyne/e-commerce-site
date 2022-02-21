@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from "./NavBar";
 import store from '../Redux/Store';
 import { itemDecreased, itemIncreased, itemRemoved, itemSet } from "../Redux/Actions";
 import { FaTrash } from "react-icons/fa";
@@ -114,7 +113,6 @@ export default function Cart() {
 
   return (
     <div className="App">
-      <NavBar/>
       <h1>Cart Page</h1>
       {total === 0 && <h2>Your cart is empty.</h2>}
       {state.map(item => {
