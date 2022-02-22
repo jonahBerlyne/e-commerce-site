@@ -107,7 +107,7 @@ export default function Cart() {
   }
 
   const goToCheckout = () => {
-    localStorage.setItem("checkout", true);
+    localStorage.setItem("checkout", total);
     window.location.href = "/checkout";
   }
 
