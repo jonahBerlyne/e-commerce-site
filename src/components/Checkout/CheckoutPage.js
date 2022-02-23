@@ -66,9 +66,9 @@ export default function CheckoutPage() {
       const docRef = doc(fireDB, "users", `${user.uid}`, "orders", `${Date()}`);
       const order = 
         {
-          "Items ordered": store.getState(),
-          "Total": parseFloat(total.toFixed(2)),
-          "Order info": values
+          "itemsOrdered": store.getState(),
+          "total": parseFloat(total.toFixed(2)),
+          "orderInfo": values
         };
       await setDoc(docRef, order);
       alert(`Items ordered`);
