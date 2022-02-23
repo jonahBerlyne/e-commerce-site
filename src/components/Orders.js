@@ -17,6 +17,7 @@ export default function Orders() {
  }, []);
 
  const [orders, setOrders] = useState([]);
+ const [ordersRetrieved, setOrdersRetrieved] = useState(false);
 
  const retrieveOrders = async id => {
   try {
@@ -28,6 +29,7 @@ export default function Orders() {
     ordersArr.push(orderInfo);
    });
    setOrders(ordersArr);
+   setOrdersRetrieved(true);
   } catch (err) {
    alert(`Error: ${err}`);
   }
@@ -35,6 +37,7 @@ export default function Orders() {
 
  return (
   <div>
+   {ordersRetrieved && orders.length === 0 && <h2>You haven't ordered anything, yet.</h2>}
    {orders.map(order => {
     return (
      <div key={order.date}>
