@@ -7,6 +7,7 @@ import CheckoutPage from "./Components/Checkout/CheckoutPage";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
 import NavBar from "./Components/NavBar";
+import Orders from "./Components/Orders";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/shop" exact element={<ProtectedRoutes><Shop/></ProtectedRoutes>}/>
         <Route path="/shop/:id" exact element={<ProtectedRoutes><ItemDetail/></ProtectedRoutes>}/>
         <Route path="/cart" exact element={<ProtectedRoutes><Cart/></ProtectedRoutes>}/>
+        <Route path="/orders" exact element={<ProtectedRoutes><Orders/></ProtectedRoutes>}/>
         <Route path="/checkout" exact element={<CheckoutRoute><CheckoutPage/></CheckoutRoute>}/>
         <Route path="/register" exact element={<AuthRoutes><Register/></AuthRoutes>}/>
         <Route path="/login" exact element={<AuthRoutes><Login/></AuthRoutes>}/>
