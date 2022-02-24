@@ -8,6 +8,7 @@ import Register from "./Components/Register";
 import Login from "./Components/Login";
 import NavBar from "./Components/NavBar";
 import Orders from "./Components/Orders";
+import Audio from "./Components/Audio";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ const ProtectedRoutes = ({children}) => {
       <div>
         <NavBar/>
         {children}
+        <footer><Audio/></footer>
       </div>
     );
   } else {
