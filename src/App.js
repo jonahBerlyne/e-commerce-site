@@ -10,6 +10,7 @@ import NavBar from "./Components/NavBar";
 import Orders from "./Components/Orders";
 import AppRoute from "./Routes/AppRoute";
 import AuthRoute from "./Routes/AuthRoute";
+import CheckoutRoute from "./Routes/CheckoutRoute";
 
 export default function App() {
   return (
@@ -42,18 +43,18 @@ export default function App() {
 //   }
 // }
 
-const CheckoutRoute = ({children}) => {
-  if (localStorage.getItem("checkout")) {
-    return (
-      <div>
-        <NavBar/>
-        {children}
-      </div>
-    );
-  } else {
-    return <Navigate to="/cart"/>;
-  }
-}
+// const CheckoutRoute = ({children}) => {
+//   if (localStorage.getItem("checkout")) {
+//     return (
+//       <div>
+//         <NavBar/>
+//         {children}
+//       </div>
+//     );
+//   } else {
+//     return <Navigate to="/cart"/>;
+//   }
+// }
 
 // const AuthRoutes = ({children}) => {
 //   if (!localStorage.getItem("currentUser")) {
