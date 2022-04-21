@@ -12,6 +12,7 @@
     "react-audio-player": "^0.17.0",
     "react-bootstrap": "^2.1.2",
     "react-dom": "^17.0.2",
+    "react-event-observer": "^0.5.11",
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
