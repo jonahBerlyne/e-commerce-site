@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import { getAuth, signOut } from 'firebase/auth';
 
 export default function NavBar() {
 
- const {user} = JSON.parse(localStorage.getItem("currentUser"));
+ const { user } = JSON.parse(localStorage.getItem("currentUser"));
+ const auth = getAuth();
 
- const logout = () => {
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("cart");
-  localStorage.removeItem("checkout");
-  window.location.href = "/login";
+ const logout = async () => {
+  try {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkout");
+    await signOut(auth);
+  } catch (err) {
+    alert(`Logout error: ${err}`);
+  }
  }
 
  return (

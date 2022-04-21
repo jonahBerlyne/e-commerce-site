@@ -5,9 +5,11 @@ import { FaTrash } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
+import { useDispatch } from 'react-redux';
 
 export default function Cart() {
 
+  const dispatch = useDispatch();
   const [state, setState] = useState([]);
   const [total, setTotal] = useState(0);
   const {user} = JSON.parse(localStorage.getItem("currentUser"));
@@ -18,7 +20,7 @@ export default function Cart() {
     let cart = localStorage.getItem("cart");
     cart = JSON.parse(cart);
     cart.forEach(item => {
-      store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+      dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
     });
     setState(store.getState());
   }, []);
@@ -46,7 +48,7 @@ export default function Cart() {
   const [adjusted, setAdjusted] = useState(false);
 
   const decrementQty = (title, id, price, quantity) => {
-    store.dispatch(itemDecreased(id, price));
+    dispatch(itemDecreased(id, price));
     setState(store.getState());
     if (quantity - 1 === 0) {
       removeItem(title, id);
@@ -59,7 +61,7 @@ export default function Cart() {
   }
 
   const incrementQty = (title, id, price) => {
-    store.dispatch(itemIncreased(id, price));
+    dispatch(itemIncreased(id, price));
     setState(store.getState());
     setItemId(id);
     setItemTitle(title);
@@ -70,7 +72,7 @@ export default function Cart() {
   const [removed, setRemoved] = useState(false);
 
   const removeItem = (title, id) => {
-    store.dispatch(itemRemoved(id));
+    dispatch(itemRemoved(id));
     setState(store.getState());
     setItemId(id);
     setItemTitle(title);

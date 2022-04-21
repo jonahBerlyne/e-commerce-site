@@ -3,9 +3,11 @@ import { collection, query, getDocs} from "firebase/firestore";
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 
 export default function Home() {
   const { user } = JSON.parse(localStorage.getItem("currentUser"));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     retrieveCartItems(user.uid);
@@ -20,7 +22,7 @@ export default function Home() {
         itemsArr.push(doc.data());
       });
       itemsArr.forEach(item => {
-        store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+        dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
       });
       const cart = store.getState();
       localStorage.setItem("cart", JSON.stringify(cart));

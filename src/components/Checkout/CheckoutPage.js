@@ -6,9 +6,11 @@ import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import store from '../../Redux/Store';
 import { itemSet } from '../../Redux/Actions';
 import OrderingForm from './OrderingForm';
+import { useDispatch } from 'react-redux';
 
 export default function CheckoutPage() {
 
+  const dispatch = useDispatch();
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function CheckoutPage() {
   
   useEffect(() => {
     cart.forEach(item => {
-      store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+      dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
     });
     setState(store.getState());
   }, [cart]);

@@ -3,15 +3,17 @@ import fireDB from '../firebaseConfig';
 import { getDocs, query, collection } from 'firebase/firestore';
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
+import { useDispatch } from 'react-redux';
 
 export default function Orders() {
 
+ const dispatch = useDispatch();
  const { user } = JSON.parse(localStorage.getItem("currentUser"));
 
  useEffect(() => {
   const cart = JSON.parse(localStorage.getItem("cart"));
   cart.forEach(item => {
-   store.dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+   dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
   });
   retrieveOrders(user.uid);
  }, []);
