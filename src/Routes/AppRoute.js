@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
+import NavBar from '../Components/NavBar';
 
-export default function AppRoute (props) {
+export default function AppRoute ({children}) {
  const [pending, setPending] = useState(true);
  const [currentUser, setCurrentUser] = useState(null);
  const auth = getAuth();
@@ -26,7 +27,18 @@ export default function AppRoute (props) {
 
  if (pending) return null;
 
- return currentUser
-  ? <Route {...props} />
-  : <Navigate to="/login" />;
+//  return currentUser
+//   ? <Route {...props} />
+//   : <Navigate to="/login" />;
+ if (currentUser) {
+  localStorage.removeItem("checkout");
+  return (
+    <div>
+      <NavBar/>
+      {children}
+    </div>
+  );
+ } else {
+   <Navigate to="/login" />;
+ }
 }
