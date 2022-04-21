@@ -8,7 +8,7 @@ import Register from "./Components/Register";
 import Login from "./Components/Login";
 import NavBar from "./Components/NavBar";
 import Orders from "./Components/Orders";
-import { getAuth } from "firebase/auth";
+import AppRoute from "./Routes/AppRoute";
 
 export default function App() {
   return (

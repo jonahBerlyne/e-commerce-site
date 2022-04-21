@@ -3,7 +3,7 @@ import { Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 
-export default function PrivateRoute (props) {
+export default function AppRoute (props) {
  const [pending, setPending] = useState(true);
  const [currentUser, setCurrentUser] = useState(null);
  const auth = getAuth();
