@@ -16,50 +16,15 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" exact element={<AppRoute><Home/></AppRoute>}/>
-        <Route path="/shop" exact element={<AppRoute><Shop/></AppRoute>}/>
-        <Route path="/shop/:id" exact element={<AppRoute><ItemDetail/></AppRoute>}/>
-        <Route path="/cart" exact element={<AppRoute><Cart/></AppRoute>}/>
-        <Route path="/orders" exact element={<AppRoute><Orders/></AppRoute>}/>
-        <Route path="/checkout" exact element={<CheckoutRoute><CheckoutPage/></CheckoutRoute>}/>
-        <Route path="/register" exact element={<AuthRoute><Register/></AuthRoute>}/>
-        <Route path="/login" exact element={<AuthRoute><Login/></AuthRoute>}/>
+        <Route path="/" element={<AppRoute><Home/></AppRoute>}/>
+        <Route path="/shop" element={<AppRoute><Shop/></AppRoute>}/>
+        <Route path="/shop/:id" element={<AppRoute><ItemDetail/></AppRoute>}/>
+        <Route path="/cart" element={<AppRoute><Cart/></AppRoute>}/>
+        <Route path="/orders" element={<AppRoute><Orders/></AppRoute>}/>
+        <Route path="/checkout" element={<CheckoutRoute><CheckoutPage/></CheckoutRoute>}/>
+        <Route path="/register" element={<AuthRoute><Register/></AuthRoute>}/>
+        <Route path="/login" element={<AuthRoute><Login/></AuthRoute>}/>
       </Routes>
     </Router>
   );
 }
-
-// const ProtectedRoutes = ({children}) => {
-//   if (localStorage.getItem("currentUser")) {
-//     localStorage.removeItem("checkout");
-//     return (
-//       <div>
-//         <NavBar/>
-//         {children}
-//       </div>
-//     );
-//   } else {
-//     return <Navigate to="/login"/>;
-//   }
-// }
-
-// const CheckoutRoute = ({children}) => {
-//   if (localStorage.getItem("checkout")) {
-//     return (
-//       <div>
-//         <NavBar/>
-//         {children}
-//       </div>
-//     );
-//   } else {
-//     return <Navigate to="/cart"/>;
-//   }
-// }
-
-// const AuthRoutes = ({children}) => {
-//   if (!localStorage.getItem("currentUser")) {
-//     return children;
-//   } else {
-//     return <Navigate to="/"/>;
-//   }
-// }

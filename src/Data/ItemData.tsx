@@ -1,4 +1,13 @@
-const itemData = [
+interface Data {
+ category: string;
+ description: string;
+ id: number;
+ image: string;
+ price: number;
+ title: string;
+};
+
+const itemData: Data[] = [
  {
   category: "Trinkets",
   description: "Astronauts use this pen in space and it can write upside down. Nowadays, it's popular amongst senior citizens. If Jack Klompus insists that you have this pen, take it and don't look back!",
