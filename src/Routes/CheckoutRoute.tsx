@@ -4,9 +4,9 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
 
-export default function CheckoutRoute ({children}) {
- const [pending, setPending] = useState(true);
- const [currentUser, setCurrentUser] = useState(null);
+export default function CheckoutRoute ({children}: {children: any}) {
+ const [pending, setPending] = useState<boolean>(true);
+ const [currentUser, setCurrentUser] = useState<any>(null);
  const auth = getAuth();
 
  useEffect(() => {
