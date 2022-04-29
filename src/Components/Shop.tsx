@@ -13,14 +13,14 @@ export default function Shop() {
   } 
  }, []);
 
- const [items, setItems] = useState([]);
- const [refresh, setRefresh] = useState(false);
- const [selected, setSelected] = useState("All");
+ const [items, setItems] = useState<any[]>([]);
+ const [refresh, setRefresh] = useState<boolean>(false);
+ const [selected, setSelected] = useState<any>("All");
 
- const changeCategory = () => {
+ const changeCategory = (): void => {
   setItems(itemData);
-  let selectBox = document.getElementById("selectBox");
-  let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  const selectBox = document.getElementById("selectBox") as HTMLSelectElement;
+  const selectedValue: any = selectBox.options[selectBox.selectedIndex].value;
   setSelected(selectedValue);
  }
 
@@ -31,12 +31,12 @@ export default function Shop() {
    const food = items.filter(item => item.category === "Food");
    const miscellaneous = items.filter(item => item.category === "Miscellaneous");
    const trinkets = items.filter(item => item.category === "Trinkets");
-   if (selected == "Books") setItems(books);
-   if (selected == "Clothing") setItems(clothing);
-   if (selected == "Collection") setItems(collection);
-   if (selected == "Food") setItems(food);
-   if (selected == "Miscellaneous") setItems(miscellaneous);
-   if (selected == "Trinkets") setItems(trinkets);
+   if (selected === "Books") setItems(books);
+   if (selected === "Clothing") setItems(clothing);
+   if (selected === "Collection") setItems(collection);
+   if (selected === "Food") setItems(food);
+   if (selected === "Miscellaneous") setItems(miscellaneous);
+   if (selected === "Trinkets") setItems(trinkets);
  }, [selected]);
 
  useEffect(() => {
