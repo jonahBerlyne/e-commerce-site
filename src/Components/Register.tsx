@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
-import { toast } from 'react-toastify';
-import fireDB from '../firebaseConfig';
 
 export default function Register() {
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
- const [confirmPassword, setConfirmPassword] = useState('');
+ const [email, setEmail] = useState<string>('');
+ const [password, setPassword] = useState<string>('');
+ const [confirmPassword, setConfirmPassword] = useState<string>('');
  const auth = getAuth();
 
- const register = async () => {
+ const register = async (): Promise<any> => {
   if (password !== confirmPassword) return;
   try {
    const result = await createUserWithEmailAndPassword(auth, email, password);
    localStorage.setItem("currentUser", JSON.stringify(result));
-   toast.success("Registered");
-   window.location.href = '/';
   } catch (err) {
-   toast.error(`Registration error: ${err}`);
+   alert(`Registration error: ${err}`);
   }
  }
+
  return (
   <div>
    <h2>Register:</h2>
