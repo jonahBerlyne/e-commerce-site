@@ -9,25 +9,26 @@ import { useDispatch } from 'react-redux';
 
 export default function AddToCart() {
 
- const { id } = useParams();
+ const { id }: any = useParams();
  const dispatch = useDispatch();
  
- const [item, setItem] = useState([]);
- const { user } = JSON.parse(localStorage.getItem("currentUser"));
+ const [item, setItem] = useState<any>([]);
+ const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
  useEffect(() => {
-   setItem(itemData[id - 1]);
-   const cart = JSON.parse(localStorage.getItem("cart"));
+   const itemNeeded = itemData[id - 1];
+   setItem(itemNeeded);
+   const cart = JSON.parse(localStorage.getItem("cart") || "{}");
    if (!cart) return;
-   cart.forEach(item => {
+   cart.forEach((item: any) => {
     dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
    });
    console.log(store.getState());
  }, []);
 
- const [added, setAdded] = useState(false);
+ const [added, setAdded] = useState<boolean>(false);
 
- const [addedMsg, setAddedMsg] = useState(false);
+ const [addedMsg, setAddedMsg] = useState<boolean>(false);
 
  useEffect(() => {
    const state = store.getState();
@@ -39,7 +40,7 @@ export default function AddToCart() {
    }
  }, [added]);
 
- const logItemToDB = async state => {
+ const logItemToDB = async (state: any): Promise<any> => {
    try {
      let itemDoc = state[0];
      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${item.title}`);
@@ -50,7 +51,7 @@ export default function AddToCart() {
    }
  }
 
- const addToCart = () => {
+ const addToCart = (): void => {
    dispatch(itemAdded(item.id, item.title, item.image, item.price));
    setAdded(true);
    setAddedMsg(true);
