@@ -5,11 +5,12 @@ import itemData from '../Data/ItemData';
 
 export default function ItemDetail () {
 
- const { id } = useParams();
- const [item, setItem] = useState([]);
+ const { id }: any = useParams();
+ const [item, setItem] = useState<any>([]);
  
  useEffect(() => {
-  setItem(itemData[id - 1]);
+  const itemNeeded = itemData[id - 1];
+  setItem(itemNeeded);
   return () => {
     setItem([]);
   } 
