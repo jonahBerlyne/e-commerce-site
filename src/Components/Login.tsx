@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { toast } from 'react-toastify';
 
 export default function Login() {
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
+ const [email, setEmail] = useState<string>('');
+ const [password, setPassword] = useState<string>('');
  const auth = getAuth();
 
- const login = async () => {
+ const login = async (): Promise<any> => {
   try {
    const result = await signInWithEmailAndPassword(auth, email, password);
    localStorage.setItem("currentUser", JSON.stringify(result));
-   toast.success("Logged in");
-   window.location.href = '/';
   } catch (err) {
-   alert(`Error: ${err}`);
-   toast.error(`Login error: ${err}`);
+   alert(`Login error: ${err}`);
   }
  }
 
