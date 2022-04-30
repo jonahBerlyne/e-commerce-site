@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { InputForm } from './CheckoutPage';
 
-export default function BillingForm({ values, handleChange }) {
+export default function BillingForm({ values, handleChange }: InputForm) {
   return (
     <div>
       <h2>Billing Form:</h2>

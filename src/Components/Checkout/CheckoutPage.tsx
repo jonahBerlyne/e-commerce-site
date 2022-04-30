@@ -136,3 +136,8 @@ export default function CheckoutPage() {
    </div>
   )
 }
+
+export interface InputForm {
+  values: any;
+  handleChange: (e: any) => void;
+};

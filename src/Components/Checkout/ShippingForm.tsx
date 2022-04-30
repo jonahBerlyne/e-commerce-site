@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { InputForm } from './CheckoutPage';
 
-export default function ShippingForm({ values, handleChange }) {
+export default function ShippingForm({ values, handleChange }: InputForm) {
   return (
     <div>
       <h2>Shipping Form:</h2>
