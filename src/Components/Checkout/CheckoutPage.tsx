@@ -8,14 +8,37 @@ import { itemSet } from '../../Redux/Actions';
 import OrderingForm from './OrderingForm';
 import { useDispatch } from 'react-redux';
 
+interface Values {
+  id: any;
+  billingFirstName: string;
+  billingLastName: string;
+  billingPhone: string;
+  billingEmail: string;
+  billingAddress: string;
+  billingCity: string;
+  billingState: string;
+  billingZip: string;
+  billingCreditCardNum: string;
+  shippingFirstName: string;
+  shippingLastName: string;
+  shippingPhone: string;
+  shippingEmail: string;
+  shippingAddress: string;
+  shippingCity: string;
+  shippingState: string;
+  shippingZip: string;
+};
+
 export default function CheckoutPage() {
 
   const dispatch = useDispatch();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<any[]>([]);
 
   useEffect(() => {
-    setSubTotal(parseFloat(subTotal));
-    setCart(JSON.parse(localStorage.getItem("cart")));
+    const checkoutTotal: string | null = localStorage.getItem("checkout");
+    const parsedSubTotal: number = parseFloat(checkoutTotal!);
+    setSubTotal(parsedSubTotal);
+    setCart(JSON.parse(localStorage.getItem("cart") || "{}"));
   }, []);
   
   useEffect(() => {
@@ -26,14 +49,14 @@ export default function CheckoutPage() {
   }, [cart]);
 
   const [state, setState] = useState(store.getState());
-  const [subTotal, setSubTotal] = useState(localStorage.getItem("checkout"));
-  const { user } = JSON.parse(localStorage.getItem("currentUser"));
+  const [subTotal, setSubTotal] = useState<number>(0);
+  const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
   const initialValues = { id: user.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState<Values>(initialValues);
 
-  const handleChange = e => {
+  const handleChange = (e: any): void => {
    setValues({
     ...values,
     [e.target.name]: e.target.value,
@@ -42,27 +65,27 @@ export default function CheckoutPage() {
 
   const inputProps = { values, handleChange };
   const orderingProps = { values, state, subTotal };
-  const [billing, setBilling] = useState(true);
-  const [shipping, setShipping] = useState(false);
-  const [ordering, setOrdering] = useState(false);
+  const [billing, setBilling] = useState<boolean>(true);
+  const [shipping, setShipping] = useState<boolean>(false);
+  const [ordering, setOrdering] = useState<boolean>(false);
 
-  const goToShipping = () => {
+  const goToShipping = (): void => {
     setBilling(false);
     setOrdering(false);
     setShipping(true);
   }
 
-  const goToBilling = () => {
+  const goToBilling = (): void => {
     setShipping(false);
     setBilling(true);
   }
 
-  const goToOrdering = () => {
+  const goToOrdering = (): void => {
     setShipping(false);
     setOrdering(true);
   }
 
-  const placeOrder = async () => {
+  const placeOrder = async (): Promise<any> => {
     try {
       const total = subTotal + (subTotal * 0.0625) + 3;
       const docRef = doc(fireDB, "users", `${user.uid}`, "orders", `${Date()}`);
@@ -74,7 +97,7 @@ export default function CheckoutPage() {
         };
       await setDoc(docRef, order);
       alert(`Items ordered`);
-      let titleArr = [];
+      let titleArr: any[] = [];
       cart.forEach(item => {
         titleArr.push(item.title);
       });
