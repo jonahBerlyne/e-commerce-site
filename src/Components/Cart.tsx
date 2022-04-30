@@ -10,23 +10,22 @@ import { useDispatch } from 'react-redux';
 export default function Cart() {
 
   const dispatch = useDispatch();
-  const [state, setState] = useState([]);
-  const [total, setTotal] = useState(0);
-  const {user} = JSON.parse(localStorage.getItem("currentUser"));
-  const [itemTitle, setItemTitle] = useState('');
-  const [itemId, setItemId] = useState('');
+  const [state, setState] = useState<any[]>([]);
+  const [total, setTotal] = useState<number | string>(0);
+  const {user} = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const [itemTitle, setItemTitle] = useState<string>('');
+  const [itemId, setItemId] = useState<number>(NaN);
 
   useEffect(() => {
-    let cart = localStorage.getItem("cart");
-    cart = JSON.parse(cart);
-    cart.forEach(item => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+    cart.forEach((item: any) => {
       dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
     });
     setState(store.getState());
   }, []);
 
   useEffect(() => {
-    let priceArr = [];
+    let priceArr: any[] = [];
     if (state.length !== 0) {
       for (let i = 0; i < state.length; i++) {
         priceArr.push(state[i].price);
@@ -35,7 +34,7 @@ export default function Cart() {
     calculateTotal(priceArr);
   }, [state]);
   
-  const calculateTotal = prices => {
+  const calculateTotal = (prices: any[]): void => {
     if (prices.length !== 0) {
       setTotal(parseFloat(prices.reduce((a, b) => a + b)).toFixed(2));
     } else {
@@ -44,10 +43,10 @@ export default function Cart() {
     setRefresh(!refresh);
   }
 
-  const [refresh, setRefresh] = useState(false);
-  const [adjusted, setAdjusted] = useState(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const [adjusted, setAdjusted] = useState<boolean>(false);
 
-  const decrementQty = (title, id, price, quantity) => {
+  const decrementQty = (title: string, id: number, price: number, quantity: number): void => {
     dispatch(itemDecreased(id, price));
     setState(store.getState());
     if (quantity - 1 === 0) {
@@ -60,7 +59,7 @@ export default function Cart() {
     setRefresh(!refresh);
   }
 
-  const incrementQty = (title, id, price) => {
+  const incrementQty = (title: string, id: number, price: number): void => {
     dispatch(itemIncreased(id, price));
     setState(store.getState());
     setItemId(id);
@@ -69,9 +68,9 @@ export default function Cart() {
     setRefresh(!refresh);
   }
 
-  const [removed, setRemoved] = useState(false);
+  const [removed, setRemoved] = useState<boolean>(false);
 
-  const removeItem = (title, id) => {
+  const removeItem = (title: string, id: number): void => {
     dispatch(itemRemoved(id));
     setState(store.getState());
     setItemId(id);
@@ -88,17 +87,17 @@ export default function Cart() {
     }
   }, [adjusted, removed]);
 
-  const handleItemFromDB = async state => {
+  const handleItemFromDB = async (state: any): Promise<any> => {
     try {
-      const itemDoc = state[0];
       const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
       if (adjusted) {
+        const itemDoc = state[0];
         await setDoc(docRef, itemDoc);
         setAdjusted(false);
         alert("Item logged");
       }
       if (removed) {
-        await deleteDoc(docRef, itemDoc);
+        await deleteDoc(docRef);
         setRemoved(false);
         alert("Item deleted");
       }
@@ -108,8 +107,9 @@ export default function Cart() {
     }
   }
 
-  const goToCheckout = () => {
-    localStorage.setItem("checkout", total);
+  const goToCheckout = (): void => {
+    const checkoutTotal: string = `${total}`;
+    localStorage.setItem("checkout", checkoutTotal);
     window.location.href = "/checkout";
   }
 
