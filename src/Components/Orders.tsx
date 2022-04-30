@@ -8,24 +8,24 @@ import { useDispatch } from 'react-redux';
 export default function Orders() {
 
  const dispatch = useDispatch();
- const { user } = JSON.parse(localStorage.getItem("currentUser"));
+ const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
  useEffect(() => {
-  const cart = JSON.parse(localStorage.getItem("cart"));
-  cart.forEach(item => {
+  const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+  cart.forEach((item: any) => {
    dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
   });
   retrieveOrders(user.uid);
  }, []);
 
- const [orders, setOrders] = useState([]);
- const [ordersRetrieved, setOrdersRetrieved] = useState(false);
+ const [orders, setOrders] = useState<any[]>([]);
+ const [ordersRetrieved, setOrdersRetrieved] = useState<boolean>(false);
 
- const retrieveOrders = async id => {
+ const retrieveOrders = async (id: any): Promise<any> => {
   try {
    const q = query(collection(fireDB, "users", id, "orders"));
    const querySnapshot = await getDocs(q);
-   let ordersArr = [];
+   let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
     const orderInfo = {...doc.data(), date: doc.id};
     ordersArr.push(orderInfo);
@@ -46,7 +46,7 @@ export default function Orders() {
       <table>
        <thead><h2>Items ordered on {order.date}:</h2></thead>
        <tbody>
-        {order.itemsOrdered.map(item => {
+        {order.itemsOrdered.map((item: any) => {
          return (
           <tr key={item.id}>
            <td><h3>{item.title}</h3></td>
