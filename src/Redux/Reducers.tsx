@@ -1,6 +1,8 @@
 import * as actions from "./ActionTypes";
 
-export default function reducer(state = [], action) {
+const initialState: any[] = [];
+
+export default function reducer(state = initialState, action: any) {
  const isInCart = state.find(item => item.id === action.payload.id);
 
  switch (action.type) {
