@@ -1,4 +1,10 @@
-export default function OrderingForm({ values, state, subTotal }) {
+interface Order {
+ values: any;
+ state: any[];
+ subTotal: number;
+};
+
+export default function OrderingForm({ values, state, subTotal }: Order) {
  return (
   <div>
    <h2>Your order:</h2>
