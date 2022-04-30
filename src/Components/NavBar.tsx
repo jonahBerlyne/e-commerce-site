@@ -4,10 +4,10 @@ import { getAuth, signOut } from 'firebase/auth';
 
 export default function NavBar() {
 
- const { user } = JSON.parse(localStorage.getItem("currentUser"));
+ const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
  const auth = getAuth();
 
- const logout = async () => {
+ const logout = async (): Promise<any> => {
   try {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("cart");
