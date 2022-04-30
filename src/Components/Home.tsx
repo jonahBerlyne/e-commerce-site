@@ -6,18 +6,18 @@ import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 
 export default function Home() {
-  const { user } = JSON.parse(localStorage.getItem("currentUser"));
+  const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const dispatch = useDispatch();
 
   useEffect(() => {
     retrieveCartItems(user.uid);
   }, []);
 
-  const retrieveCartItems = async id => {
+  const retrieveCartItems = async (id: any): Promise<any> => {
     try {
       const q = query(collection(fireDB, "users", id, "items"));
       const querySnapshot = await getDocs(q);
-      let itemsArr = [];
+      let itemsArr: any[] = [];
       querySnapshot.forEach(doc => {
         itemsArr.push(doc.data());
       });
