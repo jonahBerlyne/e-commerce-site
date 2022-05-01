@@ -3,8 +3,7 @@ import { FaBars } from "react-icons/fa";
 import { getAuth, signOut } from 'firebase/auth';
 
 export default function NavBar() {
-
- const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  
  const auth = getAuth();
 
  const logout = async (): Promise<any> => {
@@ -22,7 +21,7 @@ export default function NavBar() {
     <div className='header'>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <h1 className="navbar-brand">Welcome {user.email}!</h1>
+            <h1 className="navbar-brand">Welcome {auth.currentUser?.email}!</h1>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span>
                 <FaBars size={25} color="gray"/>

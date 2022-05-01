@@ -6,15 +6,16 @@ import { IconContext } from 'react-icons/lib';
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
 import { useDispatch } from 'react-redux';
+import { getAuth } from 'firebase/auth';
 
 export default function Cart() {
 
   const dispatch = useDispatch();
   const [state, setState] = useState<any[]>([]);
   const [total, setTotal] = useState<number | string>(0);
-  const {user} = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const [itemTitle, setItemTitle] = useState<string>('');
   const [itemId, setItemId] = useState<number>(NaN);
+  const auth = getAuth();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "{}");
@@ -89,7 +90,7 @@ export default function Cart() {
 
   const handleItemFromDB = async (state: any): Promise<any> => {
     try {
-      const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${itemTitle}`);
+      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${itemTitle}`);
       if (adjusted) {
         const itemDoc = state[0];
         await setDoc(docRef, itemDoc);
