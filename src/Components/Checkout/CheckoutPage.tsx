@@ -7,6 +7,7 @@ import store from '../../Redux/Store';
 import { itemSet } from '../../Redux/Actions';
 import OrderingForm from './OrderingForm';
 import { useDispatch } from 'react-redux';
+import { getAuth } from 'firebase/auth';
 
 interface Values {
   id: any;
@@ -50,9 +51,9 @@ export default function CheckoutPage() {
 
   const [state, setState] = useState(store.getState());
   const [subTotal, setSubTotal] = useState<number>(0);
-  const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const auth = getAuth();
 
-  const initialValues = { id: user.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
+  const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
   const [values, setValues] = useState<Values>(initialValues);
 
@@ -88,7 +89,7 @@ export default function CheckoutPage() {
   const placeOrder = async (): Promise<any> => {
     try {
       const total = subTotal + (subTotal * 0.0625) + 3;
-      const docRef = doc(fireDB, "users", `${user.uid}`, "orders", `${Date()}`);
+      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "orders", `${Date()}`);
       const order = 
         {
           "itemsOrdered": store.getState(),
@@ -102,7 +103,7 @@ export default function CheckoutPage() {
         titleArr.push(item.title);
       });
       for (let i = 0; i < titleArr.length; i++) {
-        const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${titleArr[i]}`);
+        const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${titleArr[i]}`);
         await deleteDoc(docRef);
       }
       window.location.href = "/";
