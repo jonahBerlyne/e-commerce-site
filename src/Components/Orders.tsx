@@ -4,18 +4,19 @@ import { getDocs, query, collection } from 'firebase/firestore';
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import { useDispatch } from 'react-redux';
+import { getAuth } from 'firebase/auth';
 
 export default function Orders() {
 
  const dispatch = useDispatch();
- const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
+ const auth = getAuth();
 
  useEffect(() => {
   const cart = JSON.parse(localStorage.getItem("cart") || "{}");
   cart.forEach((item: any) => {
    dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
   });
-  retrieveOrders(user.uid);
+  retrieveOrders(auth.currentUser?.uid);
  }, []);
 
  const [orders, setOrders] = useState<any[]>([]);

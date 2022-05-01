@@ -8,7 +8,6 @@ export default function Shop() {
  useEffect(() => {
   setItems(itemData);
   return () => {
-    console.log("unmounted");
     setItems([]);
   } 
  }, []);
