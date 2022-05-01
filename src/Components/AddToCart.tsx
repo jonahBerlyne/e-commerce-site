@@ -6,6 +6,7 @@ import { collection, setDoc, getDocs, doc } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
 import itemData from '../Data/ItemData';
 import { useDispatch } from 'react-redux';
+import { getAuth } from 'firebase/auth';
 
 export default function AddToCart() {
 
@@ -13,7 +14,7 @@ export default function AddToCart() {
  const dispatch = useDispatch();
  
  const [item, setItem] = useState<any>([]);
- const { user } = JSON.parse(localStorage.getItem("currentUser") || "{}");
+ const auth = getAuth();
 
  useEffect(() => {
    const itemNeeded = itemData[id - 1];
@@ -43,7 +44,7 @@ export default function AddToCart() {
  const logItemToDB = async (state: any): Promise<any> => {
    try {
      let itemDoc = state[0];
-     const docRef = doc(fireDB, "users", `${user.uid}`, "items", `${item.title}`);
+     const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${item.title}`);
      await setDoc(docRef, itemDoc);
      alert("Item logged");
    } catch (err) {
