@@ -31,7 +31,7 @@ export default function CheckoutRoute ({children}: {children: any}) {
   if (localStorage.getItem("checkout")) {
    return (
      <div>
-       <NavBar/>
+       <NavBar />
        {children}
      </div>
    );

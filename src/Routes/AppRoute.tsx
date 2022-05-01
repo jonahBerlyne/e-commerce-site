@@ -3,6 +3,7 @@ import { Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
+import Audio from '../Components/Audio';
 
 export default function AppRoute ({children}: {children: any}) {
  const [pending, setPending] = useState<boolean>(true);
@@ -31,8 +32,9 @@ export default function AppRoute ({children}: {children: any}) {
   if (localStorage.getItem("checkout")) localStorage.removeItem("checkout");
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       {children}
+      <Audio />
     </div>
   );
  } else {
