@@ -9,8 +9,7 @@ export default function Login() {
 
  const login = async (): Promise<any> => {
   try {
-   const result = await signInWithEmailAndPassword(auth, email, password);
-   localStorage.setItem("currentUser", JSON.stringify(result));
+   await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
    alert(`Login error: ${err}`);
   }

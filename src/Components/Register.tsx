@@ -11,8 +11,7 @@ export default function Register() {
  const register = async (): Promise<any> => {
   if (password !== confirmPassword) return;
   try {
-   const result = await createUserWithEmailAndPassword(auth, email, password);
-   localStorage.setItem("currentUser", JSON.stringify(result));
+   await createUserWithEmailAndPassword(auth, email, password);
   } catch (err) {
    alert(`Registration error: ${err}`);
   }
