@@ -9,6 +9,8 @@ import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import { useDispatch } from 'react-redux';
 
+// App Route:
+
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<any>(null);
