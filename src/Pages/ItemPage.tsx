@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import AddToCart from './AddToCart';
+import AddToCart from '../Components/AddToCart';
 import itemData from '../Data/ItemData';
+import "../Styles/Item.css";
 
-export default function ItemDetail () {
+export default function ItemPage() {
 
  const { id }: any = useParams();
  const [item, setItem] = useState<any>([]);

@@ -5,6 +5,7 @@ import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import { useDispatch } from 'react-redux';
 import { getAuth } from 'firebase/auth';
+import "../Styles/Orders.css";
 
 export default function Orders() {
 

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { getAuth, signOut } from 'firebase/auth';
 
+
 export default function NavBar() {
   
  const auth = getAuth();
@@ -30,10 +31,7 @@ export default function NavBar() {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/shop">Shop</Link>
+                  <Link className="nav-link" to="/">Shop</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/orders">Orders</Link>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Categories from './Categories';
+import Categories from '../Components/Categories';
 import itemData from '../Data/ItemData';
+import "../Styles/Shop.css";
 
-export default function Shop() {
+export default function ShoppingPage() {
 
  useEffect(() => {
   setItems(itemData);
@@ -52,7 +53,7 @@ export default function Shop() {
    {items.map(item => { 
     return (<div key={item.id}>
      <h4>{item.title}</h4> 
-     <Link to={`/shop/${item.id}`}><img src={item.image} alt={item.title} height="150px" width="150px"/></Link>
+     <Link to={`/${item.id}`}><img src={item.image} alt={item.title} height="150px" width="150px"/></Link>
      <br/>
      <br/>
      <br/>

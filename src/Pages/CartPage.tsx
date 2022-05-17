@@ -7,8 +7,9 @@ import { setDoc, deleteDoc, doc } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
 import { useDispatch } from 'react-redux';
 import { getAuth } from 'firebase/auth';
+import "../Styles/Cart.css";
 
-export default function Cart() {
+export default function CartPage() {
 
   const dispatch = useDispatch();
   const [state, setState] = useState<any[]>([]);

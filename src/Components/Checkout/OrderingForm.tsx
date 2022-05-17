@@ -1,3 +1,5 @@
+import "../../Styles/CheckoutForm.css";
+
 interface Order {
  values: any;
  state: any[];

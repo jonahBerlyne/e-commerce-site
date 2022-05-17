@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import BillingForm from './BillingForm';
-import ShippingForm from './ShippingForm';
-import fireDB from '../../firebaseConfig';
-import { doc, setDoc, deleteDoc } from 'firebase/firestore';
-import store from '../../Redux/Store';
-import { itemSet } from '../../Redux/Actions';
-import OrderingForm from './OrderingForm';
+import BillingForm from '../Components/Checkout/BillingForm';
+import ShippingForm from '../Components/Checkout/ShippingForm';
+import fireDB from '../firebaseConfig';
+import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import store from '../Redux/Store';
+import { itemSet } from '../Redux/Actions';
+import OrderingForm from '../Components/Checkout/OrderingForm';
 import { useDispatch } from 'react-redux';
 import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import "../Styles/Checkout.css";
 
 interface Values {
   id: any;
@@ -86,15 +88,19 @@ export default function CheckoutPage() {
     setOrdering(true);
   }
 
+  const navigate = useNavigate();
+
   const placeOrder = async (): Promise<any> => {
+    const timestamp = serverTimestamp();
     try {
       const total = subTotal + (subTotal * 0.0625) + 3;
-      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "orders", `${Date()}`);
+      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "orders", `${timestamp}`);
       const order = 
         {
           "itemsOrdered": store.getState(),
-          "total": parseFloat(total.toFixed(2)),
-          "orderInfo": values
+          "orderInfo": values,
+          timestamp,
+          "total": parseFloat(total.toFixed(2))
         };
       await setDoc(docRef, order);
       alert(`Items ordered`);
@@ -106,7 +112,7 @@ export default function CheckoutPage() {
         const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${titleArr[i]}`);
         await deleteDoc(docRef);
       }
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       alert(`Ordering error: ${err}`);
     }

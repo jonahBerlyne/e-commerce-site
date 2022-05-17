@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InputForm } from './CheckoutPage';
+import { InputForm } from '../../Pages/CheckoutPage';
+import "../../Styles/CheckoutForm.css";
 
 export default function ShippingForm({ values, handleChange }: InputForm) {
   return (
