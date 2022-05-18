@@ -1,11 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ShoppingPage from "./Pages/ShoppingPage";
 import ItemPage from "./Pages/ItemPage";
 import CartPage from "./Pages/CartPage";
 import CheckoutPage from "./Pages/CheckoutPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
-import NavBar from "./Components/NavBar";
 import OrdersPage from "./Pages/OrdersPage";
 import AppRoute from "./Routes/AppRoute";
 import AuthRoute from "./Routes/AuthRoute";

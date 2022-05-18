@@ -4,9 +4,8 @@ import { itemDecreased, itemIncreased, itemRemoved, itemSet } from "../Redux/Act
 import { FaTrash } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
-import fireDB from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import { useDispatch } from 'react-redux';
-import { getAuth } from 'firebase/auth';
 import "../Styles/Cart.css";
 
 export default function CartPage() {
@@ -16,7 +15,6 @@ export default function CartPage() {
   const [total, setTotal] = useState<number | string>(0);
   const [itemTitle, setItemTitle] = useState<string>('');
   const [itemId, setItemId] = useState<number>(NaN);
-  const auth = getAuth();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "{}");

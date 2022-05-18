@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import fireDB from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import { getDocs, query, collection } from 'firebase/firestore';
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import { useDispatch } from 'react-redux';
-import { getAuth } from 'firebase/auth';
 import "../Styles/Orders.css";
 
 export default function Orders() {
 
  const dispatch = useDispatch();
- const auth = getAuth();
 
  useEffect(() => {
   const cart = JSON.parse(localStorage.getItem("cart") || "{}");

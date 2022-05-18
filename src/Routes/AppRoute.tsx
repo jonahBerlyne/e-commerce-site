@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Navigate } from 'react-router-dom';
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
 import Audio from '../Components/Audio';
-import fireDB from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import { collection, query, getDocs } from "firebase/firestore";
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const auth = getAuth();
   const dispatch = useDispatch();
 
   const retrieveCartItems = async (id: any): Promise<any> => {

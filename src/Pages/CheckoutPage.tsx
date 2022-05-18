@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import BillingForm from '../Components/Checkout/BillingForm';
 import ShippingForm from '../Components/Checkout/ShippingForm';
-import fireDB from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import store from '../Redux/Store';
 import { itemSet } from '../Redux/Actions';
 import OrderingForm from '../Components/Checkout/OrderingForm';
 import { useDispatch } from 'react-redux';
-import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
 
@@ -53,7 +52,6 @@ export default function CheckoutPage() {
 
   const [state, setState] = useState(store.getState());
   const [subTotal, setSubTotal] = useState<number>(0);
-  const auth = getAuth();
 
   const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 

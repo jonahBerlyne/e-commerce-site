@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import NavBar from '../Components/NavBar';
 
 export default function CheckoutRoute ({children}: {children: any}) {
  const [pending, setPending] = useState<boolean>(true);
  const [currentUser, setCurrentUser] = useState<any>(null);
- const auth = getAuth();
 
  useEffect(() => {
   const unsub = onAuthStateChanged(

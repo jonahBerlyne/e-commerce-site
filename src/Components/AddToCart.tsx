@@ -3,10 +3,9 @@ import { useParams } from 'react-router';
 import store from '../Redux/Store';
 import { itemAdded, itemSet } from '../Redux/Actions';
 import { collection, setDoc, getDocs, doc } from "firebase/firestore";
-import fireDB from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import itemData from '../Data/ItemData';
 import { useDispatch } from 'react-redux';
-import { getAuth } from 'firebase/auth';
 
 export default function AddToCart() {
 
@@ -14,7 +13,6 @@ export default function AddToCart() {
  const dispatch = useDispatch();
  
  const [item, setItem] = useState<any>([]);
- const auth = getAuth();
 
  useEffect(() => {
    const itemNeeded = itemData[id - 1];
