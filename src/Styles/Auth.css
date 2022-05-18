@@ -29,6 +29,7 @@
  width: 350px;
  margin-bottom: 15px;
  font-family: "Roboto", sans-serif;
+ background-color: rgb(255, 254, 255);
 }
 
 input:focus {

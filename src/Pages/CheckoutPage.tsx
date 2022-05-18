@@ -4,11 +4,12 @@ import ShippingForm from '../Components/Checkout/ShippingForm';
 import fireDB, { auth } from '../firebaseConfig';
 import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import store from '../Redux/Store';
-import { itemSet } from '../Redux/Actions';
+import { setItemToCart } from '../Redux/Cart/CartActions';
 import OrderingForm from '../Components/Checkout/OrderingForm';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../Redux/Hooks';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
+import { selectCart } from '../Redux/Slices/cartSlice';
 
 interface Values {
   id: any;
@@ -33,24 +34,25 @@ interface Values {
 
 export default function CheckoutPage() {
 
-  const dispatch = useDispatch();
-  const [cart, setCart] = useState<any[]>([]);
+  const cart = useAppSelector(selectCart);
+  const dispatch = useAppDispatch();
+  const [checkoutCart, setCheckoutCart] = useState<any[]>([]);
 
   useEffect(() => {
     const checkoutTotal: string | null = localStorage.getItem("checkout");
     const parsedSubTotal: number = parseFloat(checkoutTotal!);
     setSubTotal(parsedSubTotal);
-    setCart(JSON.parse(localStorage.getItem("cart") || "{}"));
+    setCheckoutCart(JSON.parse(localStorage.getItem("cart") || "{}"));
   }, []);
   
   useEffect(() => {
-    cart.forEach(item => {
-      dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+    checkoutCart.forEach(item => {
+      dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
     });
-    setState(store.getState());
-  }, [cart]);
+    setState(cart);
+  }, [checkoutCart]);
 
-  const [state, setState] = useState(store.getState());
+  const [state, setState] = useState<any[]>(cart);
   const [subTotal, setSubTotal] = useState<number>(0);
 
   const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
@@ -103,7 +105,7 @@ export default function CheckoutPage() {
       await setDoc(docRef, order);
       alert(`Items ordered`);
       let titleArr: any[] = [];
-      cart.forEach(item => {
+      checkoutCart.forEach(item => {
         titleArr.push(item.title);
       });
       for (let i = 0; i < titleArr.length; i++) {

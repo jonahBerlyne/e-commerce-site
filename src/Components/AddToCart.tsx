@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import store from '../Redux/Store';
-import { itemAdded, itemSet } from '../Redux/Actions';
+import { addItemToCart, setItemToCart } from '../Redux/Cart/CartActions';
 import { collection, setDoc, getDocs, doc } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
 import itemData from '../Data/ItemData';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../Redux/Hooks';
+import store from '../Redux/Store';
+import { selectCart } from '../Redux/Slices/cartSlice';
 
 export default function AddToCart() {
 
  const { id }: any = useParams();
- const dispatch = useDispatch();
+
+ const cart = useAppSelector(selectCart);
+ const dispatch = useAppDispatch();
  
  const [item, setItem] = useState<any>([]);
 
  useEffect(() => {
    const itemNeeded = itemData[id - 1];
    setItem(itemNeeded);
-   const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-   if (!cart) return;
-   cart.forEach((item: any) => {
-    dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+   const cartJSON = JSON.parse(localStorage.getItem("cart") || "{}");
+   if (!cartJSON) return;
+   cartJSON.forEach((item: any) => {
+    dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
    });
-   console.log(store.getState());
  }, []);
 
  const [added, setAdded] = useState<boolean>(false);
@@ -30,12 +32,11 @@ export default function AddToCart() {
  const [addedMsg, setAddedMsg] = useState<boolean>(false);
 
  useEffect(() => {
-   const state = store.getState();
-   const itemState = state.filter(i => i.id === item.id );
+   const state = cart.filter((i: any) => i.id === item.id );
    if (added) {
      setAdded(false);
-     localStorage.setItem("cart", JSON.stringify(state));
-     logItemToDB(itemState);
+     localStorage.setItem("cart", JSON.stringify(cart));
+     logItemToDB(state);
    }
  }, [added]);
 
@@ -51,7 +52,7 @@ export default function AddToCart() {
  }
 
  const addToCart = (): void => {
-   dispatch(itemAdded(item.id, item.title, item.image, item.price));
+   dispatch(addItemToCart(item.id, item.title, item.image, item.price));
    setAdded(true);
    setAddedMsg(true);
    setTimeout(() => {

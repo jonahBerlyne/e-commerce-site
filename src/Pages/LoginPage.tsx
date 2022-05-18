@@ -34,7 +34,13 @@ export default function LoginPage() {
      onChange={(e) => {setPassword(e.target.value)}}
     />
    </div>
-   <button className='my-3 btn btn-primary auth-btn' onClick={login}>Login</button>
+   <button 
+    className='my-3 btn btn-primary auth-btn' onClick={login}
+    disabled={
+     email === "" ||
+     password === ""
+    }>Login
+   </button>
    <hr/>
    <Link to="/register" className='register-link'>Click Here to Register</Link>
   </div>

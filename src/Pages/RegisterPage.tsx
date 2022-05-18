@@ -11,14 +11,10 @@ export default function RegisterPage() {
  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
  const register = async (): Promise<any> => {
-  if (password !== confirmPassword) {
-   alert("Please confirm your password.");
-   return;
-  }
   try {
    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
    await updateProfile(userCredential.user, {
-    displayName: name
+    displayName: name 
    });
   } catch (err) {
    alert(`Registration error: ${err}`);
@@ -59,7 +55,16 @@ export default function RegisterPage() {
      required
     />
    </div>
-   <button className='my-3 btn btn-primary auth-btn' onClick={register}>Register</button>
+   <button 
+    className='my-3 btn btn-primary auth-btn' onClick={register}
+    disabled={
+     name === "" ||
+     email === "" ||
+     password === "" ||
+     confirmPassword === "" ||
+     password !== confirmPassword
+    }>Register
+   </button>
    <Link to="/login" className='login-link'>Click Here to Login</Link>
   </div>
  );

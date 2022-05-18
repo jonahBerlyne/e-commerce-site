@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import store from '../Redux/Store';
-import { itemDecreased, itemIncreased, itemRemoved, itemSet } from "../Redux/Actions";
+import { decreaseItemInCart, increaseItemInCart, removeItemFromCart, setItemToCart } from "../Redux/Cart/CartActions";
 import { FaTrash } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../Redux/Hooks';
 import "../Styles/Cart.css";
+import { selectCart } from '../Redux/Slices/cartSlice';
 
 export default function CartPage() {
 
-  const dispatch = useDispatch();
+  const cart = useAppSelector(selectCart);
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<any[]>([]);
   const [total, setTotal] = useState<number | string>(0);
   const [itemTitle, setItemTitle] = useState<string>('');
   const [itemId, setItemId] = useState<number>(NaN);
 
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-    cart.forEach((item: any) => {
-      dispatch(itemSet(item.id, item.title, item.image, item.price, item.quantity));
+    const cartJSON = JSON.parse(localStorage.getItem("cart") || "{}");
+    cartJSON.forEach((item: any) => {
+      dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
     });
-    setState(store.getState());
+    setState(cart);
   }, []);
 
   useEffect(() => {
@@ -47,8 +49,8 @@ export default function CartPage() {
   const [adjusted, setAdjusted] = useState<boolean>(false);
 
   const decrementQty = (title: string, id: number, price: number, quantity: number): void => {
-    dispatch(itemDecreased(id, price));
-    setState(store.getState());
+    dispatch(decreaseItemInCart(id, price));
+    setState(cart);
     if (quantity - 1 === 0) {
       removeItem(title, id);
     } else {
@@ -60,8 +62,8 @@ export default function CartPage() {
   }
 
   const incrementQty = (title: string, id: number, price: number): void => {
-    dispatch(itemIncreased(id, price));
-    setState(store.getState());
+    dispatch(increaseItemInCart(id, price));
+    setState(cart);
     setItemId(id);
     setItemTitle(title);
     setAdjusted(true);
@@ -71,8 +73,8 @@ export default function CartPage() {
   const [removed, setRemoved] = useState<boolean>(false);
 
   const removeItem = (title: string, id: number): void => {
-    dispatch(itemRemoved(id));
-    setState(store.getState());
+    dispatch(removeItemFromCart(id));
+    setState(cart);
     setItemId(id);
     setItemTitle(title);
     setRemoved(true);
@@ -80,10 +82,10 @@ export default function CartPage() {
   }
 
   useEffect(() => {
-    let itemState = state.filter(i => i.id === itemId);
+    let state = cart.filter(i => i.id === itemId);
     if (adjusted || removed) {
-      localStorage.setItem("cart", JSON.stringify(state));
-      handleItemFromDB(itemState);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      handleItemFromDB(state);
     }
   }, [adjusted, removed]);
 

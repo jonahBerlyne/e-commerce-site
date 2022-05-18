@@ -2,14 +2,19 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { signOut } from 'firebase/auth';
 import { auth } from "../firebaseConfig";
+import { useAppDispatch } from "../Redux/Hooks";
+import { logout } from "../Redux/Slices/userSlice";
 
 export default function NavBar() {
 
- const logout = async (): Promise<any> => {
+ const dispatch = useAppDispatch(); 
+
+ const logOut = async (): Promise<any> => {
   try {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("cart");
     localStorage.removeItem("checkout");
+    dispatch(logout());
     await signOut(auth);
   } catch (err) {
     alert(`Logout error: ${err}`);
@@ -38,7 +43,7 @@ export default function NavBar() {
                   <Link className="nav-link" to="/cart">Cart</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login" onClick={logout}>Log Out</Link>
+                  <Link className="nav-link" to="/login" onClick={logOut}>Log Out</Link>
                 </li>
               </ul>
             </div>

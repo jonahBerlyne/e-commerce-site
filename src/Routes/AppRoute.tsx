@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Navigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, updateProfile } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
 import Audio from '../Components/Audio';
 import fireDB, { auth } from '../firebaseConfig';
 import { collection, query, getDocs } from "firebase/firestore";
 import store from '../Redux/Store';
-import { itemSet } from '../Redux/Actions';
+import { itemSet } from '../Redux/Cart/CartActions';
 import { useDispatch } from 'react-redux';
+import { reload } from 'firebase/auth';
 
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
@@ -32,13 +33,21 @@ export default function AppRoute ({children}: {children: any}) {
     }
   }
 
+  const waitForName = async (user: any): Promise<any> => {
+    await reload(user);
+    if (user?.displayName === null) waitForName(user);
+  }
+
  useEffect(() => {
   const unsub = onAuthStateChanged(
    auth,
    user => {
     if (user) {
+      (async () => {
+        if (user?.displayName === null) await waitForName(user);
+      })();
       setCurrentUser(user);
-      retrieveCartItems(user.uid);
+      retrieveCartItems(user?.uid);
     } else {
       setCurrentUser(null);
     }
