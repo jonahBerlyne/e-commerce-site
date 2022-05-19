@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { signOut } from 'firebase/auth';
 import { auth } from "../firebaseConfig";
-import { useAppDispatch } from "../Redux/Hooks";
-import { logout } from "../Redux/Slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
+import { logout, selectUser } from "../Redux/Slices/userSlice";
 
 export default function NavBar() {
 
+ const user = useAppSelector(selectUser);
  const dispatch = useAppDispatch(); 
 
  const logOut = async (): Promise<any> => {
@@ -18,6 +19,7 @@ export default function NavBar() {
     await signOut(auth);
   } catch (err) {
     alert(`Logout error: ${err}`);
+    console.log(err);
   }
  }
 
@@ -25,7 +27,7 @@ export default function NavBar() {
     <div className='header'>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <h1 className="navbar-brand">Welcome {auth.currentUser?.displayName}!</h1>
+            {user?.name && <h1 className="navbar-brand">Welcome {user?.name}!</h1>}
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span>
                 <FaBars size={25} color="gray"/>

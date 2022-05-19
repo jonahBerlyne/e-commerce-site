@@ -7,6 +7,8 @@ export default function cartReducer(state = initialState, action: any) {
 
  const isInCart = state.find(item => item.id === action.payload.id);
 
+ console.log(`isInCart: ${isInCart}`);
+
  switch (action.type) {
   case actions.ADD_ITEM_TO_CART:
    return isInCart ? state.map(item => item.id === action.payload.id ? {...item, quantity: item.quantity + 1, price: parseFloat((action.payload.price * (item.quantity + 1)).toFixed(2))} : item) : [...state, {...action.payload, quantity: 1}];

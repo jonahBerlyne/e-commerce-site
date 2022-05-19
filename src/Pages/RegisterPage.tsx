@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from '../firebaseConfig';
+import fireDB, { auth } from '../firebaseConfig';
 import "../Styles/Auth.css";
+import { login } from '../Redux/Slices/userSlice';
+import { useAppDispatch } from '../Redux/Hooks';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function RegisterPage() {
  const [name, setName] = useState<string>('');
@@ -10,12 +13,21 @@ export default function RegisterPage() {
  const [password, setPassword] = useState<string>('');
  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
+ const dispatch = useAppDispatch();
+
  const register = async (): Promise<any> => {
   try {
    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
    await updateProfile(userCredential.user, {
     displayName: name 
    });
+   const docRef = doc(fireDB, "users", `${userCredential.user.uid}`);
+   const userDoc = {
+    name,
+    email,
+    password
+   };
+   await setDoc(docRef, userDoc);
   } catch (err) {
    alert(`Registration error: ${err}`);
   }

@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseConfig';
 import "../Styles/Auth.css";
+import { login } from '../Redux/Slices/userSlice';
+import { useAppDispatch } from '../Redux/Hooks';
 
 export default function LoginPage() {
  const [email, setEmail] = useState<string>('');
  const [password, setPassword] = useState<string>('');
 
- const login = async (): Promise<any> => {
+ const dispatch = useAppDispatch();
+
+ const signIn = async (): Promise<any> => {
   try {
    await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
@@ -35,7 +39,7 @@ export default function LoginPage() {
     />
    </div>
    <button 
-    className='my-3 btn btn-primary auth-btn' onClick={login}
+    className='my-3 btn btn-primary auth-btn' onClick={signIn}
     disabled={
      email === "" ||
      password === ""
