@@ -30,9 +30,12 @@ interface Values {
 
 export default function CheckoutPage() {
 
+  const [billing, setBilling] = useState<boolean>(false);
   const [checkoutCart, setCheckoutCart] = useState<any[]>([]);
   const [items, setItems] = useState<any[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
+
+  const navigate = useNavigate();
 
   const getSubTotal = async (): Promise<any> => {
     try {
@@ -42,9 +45,14 @@ export default function CheckoutPage() {
       querySnapshot.forEach(doc => {
         itemsArr.push(doc.data());
       });
+      if (itemsArr.length === 0) {
+        navigate("/");
+        return;
+      }
       setItems(itemsArr);
       const _subTotal = itemsArr.reduce((a, b) => a.total + b.total);
       setSubTotal(_subTotal);
+      setBilling(true);
     } catch (err) {
       alert(`Subtotal retrieval error: ${err}`);
     }
@@ -52,6 +60,11 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     getSubTotal();
+    return () => {
+      setBilling(false);
+      setShipping(false);
+      setOrdering(false);
+    }
   }, []);
   
   const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
@@ -67,7 +80,6 @@ export default function CheckoutPage() {
 
   const inputProps = { values, handleChange };
   const orderingProps = { values, items, subTotal };
-  const [billing, setBilling] = useState<boolean>(true);
   const [shipping, setShipping] = useState<boolean>(false);
   const [ordering, setOrdering] = useState<boolean>(false);
 
@@ -86,8 +98,6 @@ export default function CheckoutPage() {
     setShipping(false);
     setOrdering(true);
   }
-
-  const navigate = useNavigate();
 
   const placeOrder = async (): Promise<any> => {
     const timestamp = serverTimestamp();

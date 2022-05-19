@@ -14,7 +14,10 @@ export default function Orders() {
    const querySnapshot = await getDocs(q);
    let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
-    const orderInfo = {...doc.data(), date: doc.id};
+    const orderInfo = {
+     ...doc.data(),
+     "timestamp": new Date(doc.data().timestamp?.seconds * 1000).toUTCString()
+    };
     ordersArr.push(orderInfo);
    });
    setOrders(ordersArr);
@@ -33,9 +36,9 @@ export default function Orders() {
    {ordersRetrieved && orders.length === 0 && <h2>You haven't ordered anything, yet.</h2>}
    {orders.map(order => {
     return (
-     <div key={order.date}>
+     <div key={order.timestamp}>
       <table>
-       <thead><h2>Items ordered on {order.date}:</h2></thead>
+       <thead><h2>Items ordered on {order.timestamp}:</h2></thead>
        <tbody>
         {order.itemsOrdered.map((item: any) => {
          return (

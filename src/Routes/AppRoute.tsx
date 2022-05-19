@@ -56,7 +56,7 @@ export default function AppRoute ({children}: {children: any}) {
     return unsub;
   }, []);
 
-  if (pending && !user.name) return null; // Add loading animation later
+  if (pending) return null;
 
   if (currentUser) {
     return (

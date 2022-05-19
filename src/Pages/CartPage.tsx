@@ -21,8 +21,17 @@ export default function CartPage() {
         };
         itemsArr.push(itemDoc);
       });
-      const _totalPrice = itemsArr.reduce((a, b) => a.total + b.total);
-      setTotalPrice(_totalPrice);
+      if (itemsArr.length === 0) {
+        setTotalPrice(0);
+        setItems([]);
+        return;
+      }
+      if (itemsArr.length === 1) {
+        setTotalPrice(itemsArr[0].total);
+      } else {
+        const _totalPrice = itemsArr.reduce((a, b) => a.total + b.total);
+        setTotalPrice(_totalPrice);
+      }
       setItems(itemsArr);
     });
     return unsub;
@@ -62,7 +71,7 @@ export default function CartPage() {
   return (
     <div className="App">
       <h1>Cart Page</h1>
-      {totalPrice === 0 && <h2>Your cart is empty.</h2>}
+      {items.length === 0 && <h2>Your cart is empty.</h2>}
       {items.map(item => {
         return (
           <div key={item.id}>
@@ -85,15 +94,15 @@ export default function CartPage() {
               </button>
             </div>
             <h4>Price: ${parseFloat(item.total).toFixed(2)}</h4>
-            <IconButton>
-              <Delete sx={{ color: "red" }} onClick={() => handleItem("removeItem", item.id)} />
+            <IconButton onClick={() => handleItem("removeItem", item.id)}>
+              <Delete sx={{ color: "red" }} />
             </IconButton>
           </div>
         );
       })}
-      {totalPrice !== 0 && 
+      {totalPrice > 0 && 
         <div>
-          <h2>Total Price: ${totalPrice}</h2>
+          <h2>Total Price: ${totalPrice.toFixed(2)}</h2>
           <button onClick={() => navigate("/checkout")}>Checkout</button>
         </div>
       }
