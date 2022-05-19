@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react';
 import BillingForm from '../Components/Checkout/BillingForm';
 import ShippingForm from '../Components/Checkout/ShippingForm';
 import fireDB, { auth } from '../firebaseConfig';
-import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
-import store from '../Redux/Store';
-import { setItemToCart } from '../Redux/Cart/CartActions';
+import { doc, deleteDoc, serverTimestamp, collection, addDoc, query, getDocs } from 'firebase/firestore';
 import OrderingForm from '../Components/Checkout/OrderingForm';
-import { useAppDispatch, useAppSelector } from '../Redux/Hooks';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
-import { selectCart } from '../Redux/Slices/cartSlice';
 
 interface Values {
   id: any;
@@ -34,27 +30,30 @@ interface Values {
 
 export default function CheckoutPage() {
 
-  const cart = useAppSelector(selectCart);
-  const dispatch = useAppDispatch();
   const [checkoutCart, setCheckoutCart] = useState<any[]>([]);
-
-  useEffect(() => {
-    const checkoutTotal: string | null = localStorage.getItem("checkout");
-    const parsedSubTotal: number = parseFloat(checkoutTotal!);
-    setSubTotal(parsedSubTotal);
-    setCheckoutCart(JSON.parse(localStorage.getItem("cart") || "{}"));
-  }, []);
-  
-  useEffect(() => {
-    checkoutCart.forEach(item => {
-      dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
-    });
-    setState(cart);
-  }, [checkoutCart]);
-
-  const [state, setState] = useState<any[]>(cart);
+  const [items, setItems] = useState<any[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
 
+  const getSubTotal = async (): Promise<any> => {
+    try {
+      const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"));
+      const querySnapshot = await getDocs(q);
+      let itemsArr: any[] = [];
+      querySnapshot.forEach(doc => {
+        itemsArr.push(doc.data());
+      });
+      setItems(itemsArr);
+      const _subTotal = itemsArr.reduce((a, b) => a.total + b.total);
+      setSubTotal(_subTotal);
+    } catch (err) {
+      alert(`Subtotal retrieval error: ${err}`);
+    }
+  }
+
+  useEffect(() => {
+    getSubTotal();
+  }, []);
+  
   const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
   const [values, setValues] = useState<Values>(initialValues);
@@ -67,7 +66,7 @@ export default function CheckoutPage() {
   }
 
   const inputProps = { values, handleChange };
-  const orderingProps = { values, state, subTotal };
+  const orderingProps = { values, items, subTotal };
   const [billing, setBilling] = useState<boolean>(true);
   const [shipping, setShipping] = useState<boolean>(false);
   const [ordering, setOrdering] = useState<boolean>(false);
@@ -94,22 +93,18 @@ export default function CheckoutPage() {
     const timestamp = serverTimestamp();
     try {
       const total = subTotal + (subTotal * 0.0625) + 3;
-      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "orders", `${timestamp}`);
+      const collectionRef = collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders");
       const order = 
         {
-          "itemsOrdered": store.getState(),
+          "itemsOrdered": items,
           "orderInfo": values,
           timestamp,
           "total": parseFloat(total.toFixed(2))
         };
-      await setDoc(docRef, order);
+      await addDoc(collectionRef, order);
       alert(`Items ordered`);
-      let titleArr: any[] = [];
-      checkoutCart.forEach(item => {
-        titleArr.push(item.title);
-      });
-      for (let i = 0; i < titleArr.length; i++) {
-        const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${titleArr[i]}`);
+      for (let i = 0; i < items.length; i++) {
+        const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${items[i].id}`);
         await deleteDoc(docRef);
       }
       navigate("/");

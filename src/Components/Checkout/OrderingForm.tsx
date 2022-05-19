@@ -2,11 +2,11 @@ import "../../Styles/CheckoutForm.css";
 
 interface Order {
  values: any;
- state: any[];
+ items: any[];
  subTotal: number;
 };
 
-export default function OrderingForm({ values, state, subTotal }: Order) {
+export default function OrderingForm({ values, items, subTotal }: Order) {
  return (
   <div>
    <h2>Your order:</h2>
@@ -33,13 +33,13 @@ export default function OrderingForm({ values, state, subTotal }: Order) {
    <h5>{values.shippingAddress}</h5>
    <h5>{values.shippingCity}, {values.shippingState} {values.shippingZip}</h5>
    <h3>Your total:</h3>
-   {state.map(item => {
+   {items.map(item => {
     return (
      <div key={item.id} style={{display: "flex", gap: "5px"}}>
       <h4>{item.title}</h4>
       <img src={item.image} alt={item.title} height="100px" width="100px"/>
       <h5>x{item.quantity}</h5>
-      <h4>{parseFloat(item.price).toFixed(2)}</h4>
+      <h4>{parseFloat(item.total).toFixed(2)}</h4>
      </div>
     );
    })}

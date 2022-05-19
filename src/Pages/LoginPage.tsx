@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseConfig';
 import "../Styles/Auth.css";
-import { login } from '../Redux/Slices/userSlice';
-import { useAppDispatch } from '../Redux/Hooks';
 
 export default function LoginPage() {
  const [email, setEmail] = useState<string>('');
  const [password, setPassword] = useState<string>('');
-
- const dispatch = useAppDispatch();
 
  const signIn = async (): Promise<any> => {
   try {

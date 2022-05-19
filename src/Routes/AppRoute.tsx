@@ -4,38 +4,17 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
 import Audio from '../Components/Audio';
 import fireDB, { auth } from '../firebaseConfig';
-import { collection, query, getDocs, doc, getDoc } from "firebase/firestore";
-import { setItemToCart } from '../Redux/Cart/CartActions';
+import { doc, getDoc } from "firebase/firestore";
 import { useAppSelector, useAppDispatch } from '../Redux/Hooks';
-import { selectCart } from '../Redux/Slices/cartSlice';
-import { login, selectUser } from '../Redux/Slices/userSlice';
-import store from '../Redux/Store';
+import { login, selectUser } from '../Redux/userSlice';
+import { store } from '../Redux/Store';
 
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const user = useAppSelector(selectUser);
-  const cart = useAppSelector(selectCart);
   const dispatch = useAppDispatch();
-
-  const retrieveCartItems = async (id: any): Promise<any> => {
-    try {
-      const q = query(collection(fireDB, "users", id, "items"));
-      const querySnapshot = await getDocs(q);
-      let itemsArr: any[] = [];
-      querySnapshot.forEach(doc => {
-        itemsArr.push(doc.data());
-      });
-      itemsArr.forEach(item => {
-        dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
-      });
-      console.log(`cart: ${cart}`);
-      localStorage.setItem("cart", JSON.stringify(cart));
-    } catch (err) {
-      alert(`Error: ${err}`);
-    }
-  }
 
   const getUserInfo = async (user: User): Promise<any> => {
     let storeLength = 0;
@@ -62,7 +41,6 @@ export default function AppRoute ({children}: {children: any}) {
       _user => {
         if (_user) {
           getUserInfo(_user);
-          retrieveCartItems(_user?.uid);
           setCurrentUser(_user);
         } else {
           setCurrentUser(null);
@@ -78,10 +56,9 @@ export default function AppRoute ({children}: {children: any}) {
     return unsub;
   }, []);
 
-  if (pending) return null;
+  if (pending && !user.name) return null; // Add loading animation later
 
   if (currentUser) {
-    if (localStorage.getItem("checkout")) localStorage.removeItem("checkout");
     return (
       <div>
         {user?.name &&

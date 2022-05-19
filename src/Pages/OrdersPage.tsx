@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import fireDB, { auth } from '../firebaseConfig';
 import { getDocs, query, collection } from 'firebase/firestore';
-import store from '../Redux/Store';
-import { setItemToCart } from '../Redux/Cart/CartActions';
-import { useAppDispatch } from '../Redux/Hooks';
 import "../Styles/Orders.css";
 
 export default function Orders() {
 
- const dispatch = useAppDispatch();
-
- useEffect(() => {
-  const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-  cart.forEach((item: any) => {
-   dispatch(setItemToCart(item.id, item.title, item.image, item.price, item.quantity));
-  });
-  retrieveOrders(auth.currentUser?.uid);
- }, []);
-
  const [orders, setOrders] = useState<any[]>([]);
  const [ordersRetrieved, setOrdersRetrieved] = useState<boolean>(false);
 
- const retrieveOrders = async (id: any): Promise<any> => {
+ const retrieveOrders = async (): Promise<any> => {
   try {
-   const q = query(collection(fireDB, "users", id, "orders"));
+   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders"));
    const querySnapshot = await getDocs(q);
    let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
@@ -36,6 +23,10 @@ export default function Orders() {
    alert(`Error: ${err}`);
   }
  }
+
+ useEffect(() => {
+  retrieveOrders();
+ }, []);
 
  return (
   <div>

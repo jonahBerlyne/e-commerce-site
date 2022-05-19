@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import fireDB, { auth } from '../firebaseConfig';
 import "../Styles/Auth.css";
-import { login } from '../Redux/Slices/userSlice';
 import { useAppDispatch } from '../Redux/Hooks';
 import { doc, setDoc } from 'firebase/firestore';
 
