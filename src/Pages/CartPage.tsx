@@ -28,14 +28,24 @@ export default function CartPage() {
       }
       if (itemsArr.length === 1) {
         setTotalPrice(itemsArr[0].total);
-      } else {
-        const _totalPrice = itemsArr.reduce((a, b) => a.total + b.total);
+      }
+      if (itemsArr.length > 1) {
+        let totalsArr: number[] = [];
+        for (let i = 0; i < itemsArr.length; i++) {
+          totalsArr.push(itemsArr[i].total);
+        }
+        const _totalPrice = totalsArr.reduce((a, b) => a + b);
+        console.log(_totalPrice);
         setTotalPrice(_totalPrice);
       }
       setItems(itemsArr);
     });
     return unsub;
   }, []);
+
+  useEffect(() => {
+    console.log(totalPrice);
+  }, [totalPrice]);
 
   const handleItem = async (action: string, id: number): Promise<any> => {
     try {
@@ -69,7 +79,7 @@ export default function CartPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="App">
+    <div className="cart-page">
       <h1>Cart Page</h1>
       {items.length === 0 && <h2>Your cart is empty.</h2>}
       {items.map(item => {

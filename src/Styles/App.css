@@ -5,6 +5,7 @@
 
 .app-body {
  padding-bottom: 2.5rem;
+ overflow-y: scroll;
 }
 
 .footer {
