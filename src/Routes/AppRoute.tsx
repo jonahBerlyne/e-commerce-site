@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import NavBar from '../Components/NavBar';
-import Audio from '../Components/Audio';
+import Footer from '../Components/Footer';
 import fireDB, { auth } from '../firebaseConfig';
 import { doc, getDoc } from "firebase/firestore";
 import { useAppSelector, useAppDispatch } from '../Redux/Hooks';
 import { login, selectUser } from '../Redux/userSlice';
 import { store } from '../Redux/Store';
+import "../Styles/App.css";
 
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
@@ -62,11 +63,13 @@ export default function AppRoute ({children}: {children: any}) {
     return (
       <div>
         {user?.name &&
-          <> 
-            <NavBar />
-            {children}
-            <Audio />
-          </>
+          <div className='app-container'> 
+            <div className="app-body">
+              <NavBar />
+              {children}
+              <Footer />
+            </div>
+          </div>
         }
       </div>
     );

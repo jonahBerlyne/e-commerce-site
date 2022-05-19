@@ -11,8 +11,13 @@ import AuthRoute from "./Routes/AuthRoute";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import fireDB, { auth } from "./firebaseConfig";
+import { useAppSelector } from "./Redux/Hooks";
+import { selectUser } from "./Redux/userSlice";
+import Footer from "./Components/Footer";
 
 export default function App() {
+
+  const user = useAppSelector(selectUser);
 
   return (
     <Router>
