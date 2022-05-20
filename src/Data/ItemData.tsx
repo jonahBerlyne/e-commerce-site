@@ -1,4 +1,4 @@
-interface Data {
+export interface Data {
  category: string;
  description: string;
  id: number;
