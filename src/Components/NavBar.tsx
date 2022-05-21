@@ -3,7 +3,7 @@ import { FaBars } from "react-icons/fa";
 import { signOut } from 'firebase/auth';
 import { auth } from "../firebaseConfig";
 import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
-import { logout, selectUser } from "../Redux/userSlice";
+import { logout, selectUser } from "../Redux/Slices/userSlice";
 
 export default function NavBar() {
 

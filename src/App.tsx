@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import fireDB, { auth } from "./firebaseConfig";
 import { useAppSelector } from "./Redux/Hooks";
-import { selectUser } from "./Redux/userSlice";
+import { selectUser } from "./Redux/Slices/userSlice";
 import Footer from "./Components/Footer";
 
 export default function App() {

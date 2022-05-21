@@ -6,7 +6,7 @@ import Footer from '../Components/Footer';
 import fireDB, { auth } from '../firebaseConfig';
 import { doc, getDoc } from "firebase/firestore";
 import { useAppSelector, useAppDispatch } from '../Redux/Hooks';
-import { login, selectUser } from '../Redux/userSlice';
+import { login, selectUser } from '../Redux/Slices/userSlice';
 import { store } from '../Redux/Store';
 import "../Styles/App.css";
 
