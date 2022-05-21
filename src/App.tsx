@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ShoppingPage from "./Pages/ShoppingPage";
 import ItemPage from "./Pages/ItemPage";
-import CartPage from "./Pages/CartPage";
 import CheckoutPage from "./Pages/CheckoutPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
@@ -14,22 +13,24 @@ import fireDB, { auth } from "./firebaseConfig";
 import { useAppSelector } from "./Redux/Hooks";
 import { selectUser } from "./Redux/Slices/userSlice";
 import Footer from "./Components/Footer";
+import Cart from "./Components/Cart";
+import { selectCart } from "./Redux/Slices/cartSlice";
 
 export default function App() {
 
-  const user = useAppSelector(selectUser);
+  const cart = useAppSelector(selectCart);
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<AppRoute><ShoppingPage/></AppRoute>}/>
         <Route path="/:id" element={<AppRoute><ItemPage/></AppRoute>}/>
-        <Route path="/cart" element={<AppRoute><CartPage/></AppRoute>}/>
         <Route path="/orders" element={<AppRoute><OrdersPage/></AppRoute>}/>
         <Route path="/checkout" element={<AppRoute><CheckoutPage/></AppRoute>}/>
         <Route path="/register" element={<AuthRoute><RegisterPage/></AuthRoute>}/>
         <Route path="/login" element={<AuthRoute><LoginPage/></AuthRoute>}/>
       </Routes>
+      {/* {cart && <Cart />} */}
     </Router>
   );
 }

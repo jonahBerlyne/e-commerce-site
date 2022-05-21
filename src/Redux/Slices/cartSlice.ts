@@ -24,6 +24,6 @@ export const cartSlice = createSlice({
 
 export const { openCart, closeCart } = cartSlice.actions;
 
-export const selectCartIsOpen = (state: RootState) => state.cart.cartIsOpen;
+export const selectCart = (state: RootState) => state.cart.cartIsOpen;
 
 export default cartSlice.reducer;

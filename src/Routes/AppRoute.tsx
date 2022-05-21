@@ -9,11 +9,14 @@ import { useAppSelector, useAppDispatch } from '../Redux/Hooks';
 import { login, selectUser } from '../Redux/Slices/userSlice';
 import { store } from '../Redux/Store';
 import "../Styles/App.css";
+import { selectCart } from '../Redux/Slices/cartSlice';
+import Cart from '../Components/Cart';
 
 export default function AppRoute ({children}: {children: any}) {
   const [pending, setPending] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
+  const cart = useAppSelector(selectCart);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
@@ -66,6 +69,7 @@ export default function AppRoute ({children}: {children: any}) {
           <div className='app-container'> 
             <div className="app-body">
               <NavBar />
+              {cart && <Cart />}
               {children}
               <Footer />
             </div>

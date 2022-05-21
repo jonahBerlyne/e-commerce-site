@@ -4,6 +4,9 @@ import { signOut } from 'firebase/auth';
 import { auth } from "../firebaseConfig";
 import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
 import { logout, selectUser } from "../Redux/Slices/userSlice";
+import { openCart } from "../Redux/Slices/cartSlice";
+import "../Styles/NavBar.css";
+import { store } from "../Redux/Store";
 
 export default function NavBar() {
 
@@ -38,8 +41,11 @@ export default function NavBar() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/orders">Orders</Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/cart">Cart</Link>
+                <li className="nav-item" onClick={() => {
+                  dispatch(openCart())
+                  console.log(store.getState())
+                }}>
+                  Cart
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/login" onClick={logOut}>Log Out</Link>
