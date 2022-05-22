@@ -3,6 +3,8 @@ import { useParams } from 'react-router';
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
 import itemData from '../Data/ItemData';
+import { openCart } from '../Redux/Slices/cartSlice';
+import { useAppDispatch } from '../Redux/Hooks';
 
 export default function AddToCart() {
 
@@ -15,7 +17,7 @@ export default function AddToCart() {
    setItem(_item);
  }, []);
 
- const [addedMsg, setAddedMsg] = useState<boolean>(false);
+ const dispatch = useAppDispatch();
 
  const addToCart = async (): Promise<any> => {
    try {
@@ -39,10 +41,7 @@ export default function AddToCart() {
        };
      }
      await setDoc(docRef, itemDoc);
-     setAddedMsg(true);
-     setTimeout(() => {
-       setAddedMsg(false);
-     }, 500);
+     dispatch(openCart());
    } catch (err) {
      alert(`Item logging error: ${err}`);
    }
@@ -53,8 +52,6 @@ export default function AddToCart() {
    <div style={{display: "flex", gap: "100px"}}>
     <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
    </div> 
-   <br/>
-   {addedMsg && <p>Added!</p>}
    <br/>
    <br/>
   </div>

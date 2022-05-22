@@ -1,14 +1,35 @@
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { signOut } from 'firebase/auth';
-import { auth } from "../firebaseConfig";
+import fireDB, { auth } from "../firebaseConfig";
 import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
 import { logout, selectUser } from "../Redux/Slices/userSlice";
 import { openCart } from "../Redux/Slices/cartSlice";
 import "../Styles/NavBar.css";
 import { store } from "../Redux/Store";
+import { collection, onSnapshot, query } from "firebase/firestore";
 
 export default function NavBar() {
+
+ const [quantity, setQuantity] = useState<number>(0);
+
+ useEffect(() => {
+   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"));
+   const unsub = onSnapshot(q, snapshot => {
+     let itemsArr: number[] = [];
+     snapshot.docs.forEach(doc => {
+       itemsArr.push(doc.data().quantity);
+     });
+     if (itemsArr.length > 0) {
+       const numItems = itemsArr.reduce((a, b) => a + b);
+       setQuantity(numItems);
+     } else {
+       setQuantity(0);
+     }
+   });
+   return unsub;
+ }, []);
 
  const user = useAppSelector(selectUser);
  const dispatch = useAppDispatch(); 
@@ -23,10 +44,12 @@ export default function NavBar() {
   }
  }
 
+ const navigate = useNavigate();
+
  return (
     <div className='header'>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
+          <div className="container-fluid navbar-container">
             {user?.name && <h1 className="navbar-brand">Welcome {user?.name}!</h1>}
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span>
@@ -34,21 +57,21 @@ export default function NavBar() {
               </span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Shop</Link>
+              <ul className="navbar-nav ms-auto nav-items">
+                <li className="nav-item" onClick={() => navigate("/")}>                 
+                  <p>Home</p>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/orders">Orders</Link>
+                <li className="nav-item" onClick={() => navigate("/orders")}>
+                  <p>Orders</p>
                 </li>
-                <li className="nav-item" onClick={() => {
-                  dispatch(openCart())
-                  console.log(store.getState())
-                }}>
-                  Cart
+                <li className="nav-item" onClick={() => dispatch(openCart())}>
+                  <p className="shopping-cart">
+                    Cart
+                    {quantity > 0 && <div className="quantity">({quantity})</div>}
+                  </p>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login" onClick={logOut}>Log Out</Link>
+                <li className="nav-item" onClick={() => logOut()}>
+                  <p>Sign Out</p>
                 </li>
               </ul>
             </div>

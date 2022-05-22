@@ -15,7 +15,7 @@ export default function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
-    const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"));
+    const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"), orderBy("id", "asc"));
     const unsub = onSnapshot(q, snapshot => {
       let itemsArr: any[] = [];
       snapshot.docs.forEach(doc => {
