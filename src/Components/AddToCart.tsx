@@ -5,10 +5,9 @@ import fireDB, { auth } from '../firebaseConfig';
 import itemData from '../Data/ItemData';
 import { openCart } from '../Redux/Slices/cartSlice';
 import { useAppDispatch } from '../Redux/Hooks';
+import "../Styles/Shop.css";
 
-export default function AddToCart() {
-
- const { id }: any = useParams();
+export default function AddToCart({ id }: { id: any }) {
  
  const [item, setItem] = useState<any>([]);
 
@@ -48,12 +47,8 @@ export default function AddToCart() {
  }
 
  return (
-  <div>
-   <div style={{display: "flex", gap: "100px"}}>
+  <>
     <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
-   </div> 
-   <br/>
-   <br/>
-  </div>
+  </>
  );
 }

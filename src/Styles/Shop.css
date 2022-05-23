@@ -40,7 +40,7 @@
  display: flex;
  flex-wrap: wrap;
  gap: 35px;
- margin: 35px 0px 35px 100px;
+ margin: 35px 0px 35px 150px;
 }
 
 .item-container {
@@ -53,11 +53,6 @@
  display: flex;
  flex-direction: column;
  align-items: center;
- cursor: pointer;
-}
-
-.item-container:hover {
- background-color: #f1eded;
 }
 
 .item-img {
@@ -68,11 +63,19 @@
  border-radius: 15px;
 }
 
-.item-info {
- margin-top: 30px;
+.item {
  display: flex;
  flex-direction: column;
  text-align: center;
  gap: 10px;
- color: #000;
+ color: #000000;
+}
+
+.item > button {
+ width: 300px;
+ border-radius: 15px;
+}
+
+.one-or-two-items {
+ margin-right: 140px;
 }

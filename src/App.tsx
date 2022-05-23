@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ShoppingPage from "./Pages/ShoppingPage";
-import ItemPage from "./Pages/ItemPage";
 import CheckoutPage from "./Pages/CheckoutPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
@@ -24,7 +23,6 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<AppRoute><ShoppingPage/></AppRoute>}/>
-        <Route path="/:id" element={<AppRoute><ItemPage/></AppRoute>}/>
         <Route path="/orders" element={<AppRoute><OrdersPage/></AppRoute>}/>
         <Route path="/checkout" element={<AppRoute><CheckoutPage/></AppRoute>}/>
         <Route path="/register" element={<AuthRoute><RegisterPage/></AuthRoute>}/>

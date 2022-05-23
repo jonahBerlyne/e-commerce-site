@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import itemData from '../Data/ItemData';
 import "../Styles/Shop.css";
 import { Search } from "@mui/icons-material";
+import AddToCart from "../Components/AddToCart";
 
 export default function ShoppingPage() {
 
@@ -45,14 +46,15 @@ export default function ShoppingPage() {
     {search !== "" && items.length > 0 &&
       <h3 className='results-msg'>Results have matched {items.length} {items.length === 1 ? "item" : "items"}.</h3>
     }
-    <div className="items-container">
+    <div className={`items-container ${(items.length === 1 || items.length === 2) && "one-or-two-items"}`}>
       {items.map(item => { 
         return (
-          <div key={item.id} className="item-container" onClick={() => navigate(`/${item.id}`)}>
+          <div key={item.id} className="item-container">
               <img src={item.image} alt={item.title} className='item-img' />
-              <div className="item-info">
+              <div className="item">
                 <h4 className='item-title'>{item.title}</h4> 
                 <h5 className='item-price'>${item.price}</h5>
+                <AddToCart id={item.id} />
               </div>
           </div>
         )}
