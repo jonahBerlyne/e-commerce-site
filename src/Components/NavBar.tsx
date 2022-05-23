@@ -65,10 +65,10 @@ export default function NavBar() {
                   <p>Orders</p>
                 </li>
                 <li className="nav-item" onClick={() => dispatch(openCart())}>
-                  <p className="shopping-cart">
-                    Cart
-                    {quantity > 0 && <div className="quantity">({quantity})</div>}
-                  </p>
+                  <div className="shopping-cart">
+                    <p>Cart</p>
+                    {quantity > 0 && <p className="quantity">({quantity})</p>}
+                  </div>
                 </li>
                 <li className="nav-item" onClick={() => logOut()}>
                   <p>Sign Out</p>

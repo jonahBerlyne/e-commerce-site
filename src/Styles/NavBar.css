@@ -22,14 +22,16 @@
  color: #949393;
 }
 
-.nav-item > p:hover {
+.nav-item > p:hover,
+.shopping-cart:hover {
  color: #000;
 }
 
 .shopping-cart {
  display: flex;
- align-items: center;
+ justify-content: center;
  gap: 5px;
+ color: #949393;
 }
 
 .quantity {
