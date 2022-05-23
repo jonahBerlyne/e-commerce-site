@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Categories from '../Components/Categories';
 import itemData from '../Data/ItemData';
 import "../Styles/Shop.css";
@@ -55,30 +55,33 @@ export default function ShoppingPage() {
   }
  }, [search, selected]);
 
+ const navigate = useNavigate();
+
  return (
-  <div>
-   <h1>Buy:</h1>
-   <br/>
-   <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
-   <br/>
-   <Categories changeCategory={changeCategory}/>
-   <br/>
-   <br/>
-   {items.map(item => { 
-    return (<div key={item.id}>
-     <h4>{item.title}</h4> 
-     <Link to={`/${item.id}`}><img src={item.image} alt={item.title} height="150px" width="150px"/></Link>
-     <br/>
-     <br/>
-     <br/>
-     <p><label>Price:</label> ${item.price}</p>
-   </div>)}
-   )}
+  <div className='shopping-page-container'>
+   <div className="item-filters">
+    <input type="search" placeholder='Search...' value={search} onChange={(e) => setSearch(e.target.value)} />
+    <Categories changeCategory={changeCategory}/>
+   </div>
+   <div className="items-container">
+    {items.map(item => { 
+      return (
+        <div key={item.id} className="item-container" onClick={() => navigate(`/${item.id}`)}>
+            <img src={item.image} alt={item.title} className='item-img' />
+            <div className="item-border"></div>
+            <div className="item-info">
+              <h4 className='item-title'>{item.title}</h4> 
+              <h5 className='item-price'>${item.price}</h5>
+            </div>
+        </div>
+      )}
+    )}
+   </div>
    {search !== "" && items.length === 0 &&
-    <h3>No results matched.</h3>
+    <h3 className='results-msg'>No results matched.</h3>
    }
    {search !== "" && items.length > 0 &&
-    <h3>Results have matched {items.length} {items.length === 1 ? "item" : "items"}.</h3>
+    <h3 className='results-msg'>Results have matched {items.length} {items.length === 1 ? "item" : "items"}.</h3>
    }
   </div>
  );

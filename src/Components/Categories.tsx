@@ -4,7 +4,6 @@ export default function Categories({ changeCategory }: { changeCategory: () => v
 
   return (
    <div>
-    <h4>Select a Category:</h4>
     <select id="selectBox" onChange={changeCategory}>
       <option defaultValue="All">All</option>
       <option value="Books">Books</option>
