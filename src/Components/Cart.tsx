@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Cart() {
 
   const [items, setItems] = useState<any[]>([]);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [subtotal, setSubtotal] = useState<number>(0);
 
   useEffect(() => {
     const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"), orderBy("id", "asc"));
@@ -25,30 +25,25 @@ export default function Cart() {
         itemsArr.push(itemDoc);
       });
       if (itemsArr.length === 0) {
-        setTotalPrice(0);
+        setSubtotal(0);
         setItems([]);
         return;
       }
       if (itemsArr.length === 1) {
-        setTotalPrice(itemsArr[0].total);
+        setSubtotal(itemsArr[0].total);
       }
       if (itemsArr.length > 1) {
         let totalsArr: number[] = [];
         for (let i = 0; i < itemsArr.length; i++) {
           totalsArr.push(itemsArr[i].total);
         }
-        const _totalPrice = totalsArr.reduce((a, b) => a + b);
-        console.log(_totalPrice);
-        setTotalPrice(_totalPrice);
+        const _subtotal = totalsArr.reduce((a, b) => a + b);
+        setSubtotal(_subtotal);
       }
       setItems(itemsArr);
     });
     return unsub;
   }, []);
-
-  useEffect(() => {
-    console.log(totalPrice);
-  }, [totalPrice]);
 
   const handleItem = async (action: string, id: number): Promise<any> => {
     try {
@@ -114,7 +109,7 @@ export default function Cart() {
             transition={{ ease: "easeOut", duration: 0.5 }}
             className="cart"
           >
-            <div className="container">
+            <div className="close-container">
               <button onClick={() => dispatch(closeCart())} className='close'>
                 <svg
                   className="svgClose"
@@ -128,41 +123,41 @@ export default function Cart() {
                 </svg>
               </button>
               <div className="cart-content-container">
-                <h1 className="title">Cart</h1>
+                <h1 className="cart-title">Cart</h1>
                 <div className="cart-list">
                   {items.length === 0 && <h4 className='empty-cart'>Your cart is empty.</h4>}
                   {items.map(item => {
                     return (
-                      <div key={item.id}>
-                        <h3>{item.title}</h3>
-                        <img src={item.image} alt={item.title} height="100px" width="100px"/>
-                        <br/>
-                        <br/>
-                        <div style={{display: "flex", gap: "5px"}}>
-                          <button 
-                            className='btn btn-outline-secondary' 
-                            onClick={() => handleItem("decreaseItem", item.id)} 
-                            disabled={item.quantity === 1}
-                          >-
-                          </button>
-                          <h4>{item.quantity}</h4>
-                          <button 
-                            className='btn btn-outline-secondary' 
-                            onClick={() => handleItem("increaseItem", item.id)}
-                          >+
-                          </button>
+                      <div key={item.id} className="cart-item-container">
+                        <div className="cart-item-header">
+                          <h3 className='cart-item-title'>{item.title}</h3>
+                          <Delete sx={{ color: "red" }} className="delete-item-btn"  onClick={() => handleItem("removeItem", item.id)} />
                         </div>
-                        <h4>Price: ${parseFloat(item.total).toFixed(2)}</h4>
-                        <IconButton onClick={() => handleItem("removeItem", item.id)}>
-                          <Delete sx={{ color: "red" }} />
-                        </IconButton>
+                        <img src={item.image} alt={item.title} className="cart-item-img" />
+                        <div className="cart-item-info-container">
+                          <h4 className='cart-item-price'>${parseFloat(item.total).toFixed(2)}</h4>
+                          <div className='cart-item-quantity-container'>
+                            <button 
+                              className='btn btn-outline-secondary decrease-item-btn' 
+                              onClick={() => handleItem("decreaseItem", item.id)} 
+                              disabled={item.quantity === 1}
+                            >-
+                            </button>
+                            <h4 className='cart-item-quantity'>{item.quantity}</h4>
+                            <button 
+                              className='btn btn-outline-secondary increase-item-btn' 
+                              onClick={() => handleItem("increaseItem", item.id)}
+                            >+
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
-                  {totalPrice > 0 && 
+                  {subtotal > 0 && 
                     <div>
-                      <h2 className='total-price'>Total Price: ${totalPrice.toFixed(2)}</h2>
-                      <button onClick={() => navigate("/checkout")}>Checkout</button>
+                      <h2 className='cart-item-subtotal'>Subtotal: ${subtotal.toFixed(2)}</h2>
+                      <button className='btn btn-success checkout-btn' onClick={() => navigate("/checkout")}>Checkout</button>
                     </div>
                   }
                 </div>
