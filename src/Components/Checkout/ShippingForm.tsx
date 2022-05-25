@@ -1,27 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { InputForm } from '../../Pages/CheckoutPage';
 import "../../Styles/CheckoutForm.css";
+import { Form, Button } from "react-bootstrap";
 
 export default function ShippingForm({ values, handleChange }: InputForm) {
   return (
-    <div>
-      <h2>Shipping Form:</h2>
-       <h4>First Name:</h4>
-       <input type="text" name="shippingFirstName" value={values.shippingFirstName} onChange={handleChange} placeholder='First Name' required/>
-       <h4>Last Name:</h4>
-       <input type="text" name="shippingLastName" value={values.shippingLastName} onChange={handleChange} placeholder='Last Name' required/>
-       <h4>Phone Number:</h4>
-       <input type="text" name="shippingPhone" value={values.shippingPhone} onChange={handleChange} placeholder='Phone Number' required/>
-       <h4>E-mail Address:</h4>
-       <input type="text" name="shippingEmail" value={values.shippingEmail} onChange={handleChange} placeholder='E-mail Address' required/>
-       <h4>Address:</h4>
-       <input type="text" name="shippingAddress" value={values.shippingAddress} onChange={handleChange} placeholder='Address' required/>
-       <h4>City:</h4>
-       <input type="text" name="shippingCity" value={values.shippingCity} onChange={handleChange} placeholder='City' required/>
-       <h4>State:</h4>
-       <input type="text" name="shippingState" value={values.shippingState} onChange={handleChange} placeholder='State' required/>
-       <h4>Zip Code:</h4>
-       <input type="text" name="shippingZip" value={values.shippingZip} onChange={handleChange} placeholder='Zip Code' required/>
-    </div>
+    <Form className="checkout-form">
+      <Form.Label className="checkout-form-header">Shipping:</Form.Label>
+      <Form.Group className='mb-3 checkout-inputs-container'>
+
+        <Form.Group className="mb-3 checkout-inputs-row" controlId="formBasicEmail">
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">First Name:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingFirstName" placeholder="First Name" value={values.shippingFirstName} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">Last Name:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingLastName" placeholder="Last Name" value={values.shippingLastName} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">Phone Number:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingPhone" placeholder="Phone Number" value={values.shippingPhone} onChange={handleChange} />
+          </Form.Group>
+        </Form.Group>
+
+        <Form.Group className="mb-3 checkout-inputs-row" controlId="formBasicEmail">
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">E-mail Address:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingEmail" placeholder="E-mail Address" value={values.shippingEmail} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">Address:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingAddress" placeholder="Address" value={values.shippingAddress} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">City:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingCity" placeholder="City" value={values.shippingCity} onChange={handleChange} />
+          </Form.Group>
+        </Form.Group>
+
+        <Form.Group className="mb-3 checkout-inputs-row" controlId="formBasicEmail">
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">State:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingState" placeholder="State" value={values.shippingState} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group className="mb-3 checkout-form-input">
+            <Form.Label className="checkout-form-input-label">Zip Code:</Form.Label>
+            <Form.Control className="checkout-input" type="text" name="shippingZip" placeholder="Zip Code" value={values.shippingZip} onChange={handleChange} />
+          </Form.Group>
+        </Form.Group>
+      </Form.Group>
+    </Form>
   );
 }

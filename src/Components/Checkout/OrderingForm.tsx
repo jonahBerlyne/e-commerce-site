@@ -1,3 +1,4 @@
+import { Form } from "react-bootstrap";
 import "../../Styles/CheckoutForm.css";
 
 interface Order {
@@ -8,45 +9,59 @@ interface Order {
 
 export default function OrderingForm({ values, items, subTotal }: Order) {
  return (
-  <div>
-   <h2>Your order:</h2>
-   <h3>Billing Info:</h3>
-   <h4>Name:</h4>
-   <h5>{values.billingFirstName} {values.billingLastName}</h5>
-   <h4>Phone:</h4>
-   <h5>{values.billingPhone}</h5>
-   <h4>E-mail Address:</h4>
-   <h5>{values.billingEmail}</h5>
-   <h4>Billing Address:</h4>
-   <h5>{values.billingAddress}</h5>
-   <h5>{values.billingCity}, {values.billingState} {values.billingZip}</h5>
-   <h4>Credit Card Number:</h4>
-   <h5>{values.billingCreditCardNum}</h5> {/* Come back to this */}
-   <h3>Shipping Info:</h3>
-   <h4>Name:</h4>
-   <h5>{values.shippingFirstName} {values.shippingLastName}</h5>
-   <h4>Phone:</h4>
-   <h5>{values.shippingPhone}</h5>
-   <h4>E-mail Address:</h4>
-   <h5>{values.shippingEmail}</h5>
-   <h4>Shipping Address:</h4>
-   <h5>{values.shippingAddress}</h5>
-   <h5>{values.shippingCity}, {values.shippingState} {values.shippingZip}</h5>
-   <h3>Your total:</h3>
-   {items.map(item => {
-    return (
-     <div key={item.id} style={{display: "flex", gap: "5px"}}>
-      <h4>{item.title}</h4>
-      <img src={item.image} alt={item.title} height="100px" width="100px"/>
-      <h5>x{item.quantity}</h5>
-      <h4>{parseFloat(item.total).toFixed(2)}</h4>
-     </div>
-    );
-   })}
-   <h4>Subtotal: {subTotal}</h4>
-   <h5>Sales Tax (6.25%): {(subTotal * 0.0625).toFixed(2)}</h5>
-   <h5>Shipping Fee: 3.00</h5>
-   <h2>Your total: ${(subTotal + (subTotal * 0.0625) + 3).toFixed(2)}</h2>
-  </div>
+  <Form>
+   <Form.Label className="checkout-form-header">Order Summary</Form.Label>
+   <Form.Group className="mb-3 checkout-form-info">
+    <Form.Group className="checkout-form-costs">
+     <Form.Label className="checkout-form-cost-label">Cart Subtotal:</Form.Label>
+     <Form.Text className="checkout-form-cost">${subTotal.toFixed(2)}</Form.Text>
+    </Form.Group>
+    <Form.Group className="checkout-form-costs">
+     <Form.Label className="checkout-form-cost-label">Sales Tax (6.25%):</Form.Label>
+     <Form.Text className="checkout-form-cost">${(subTotal * 0.0625).toFixed(2)}</Form.Text>
+    </Form.Group>
+    <Form.Group className="checkout-form-costs">
+     <Form.Label className="checkout-form-cost-label">Shipping Fee:</Form.Label>
+     <Form.Text className="checkout-form-cost">$3.00</Form.Text>
+    </Form.Group>
+    <Form.Group className="checkout-form-costs">
+     <Form.Label className="checkout-form-cost-label">Your total:</Form.Label>
+     <Form.Text className="checkout-form-cost">${(subTotal + (subTotal * 0.0625) + 3).toFixed(2)}</Form.Text>
+    </Form.Group>
+    {items.map(item => {
+     return (
+      <div key={item.id} style={{display: "flex", gap: "5px"}}>
+       <img src={item.image} alt={item.title} height="100px" width="100px" />
+       <div className="checkout-item-info">
+        <h4>{item.title}</h4>
+        <h5>Qty {item.quantity}</h5>
+        <h4>{parseFloat(item.total).toFixed(2)}</h4>
+       </div>
+      </div>
+     );
+    })}
+   </Form.Group>
+   <Form.Group className="mb-3 checkout-form-info">
+    <Form.Label className="checkout-form-info-container-label">Ship To:</Form.Label>
+    <Form.Group className="checkout-form-info">
+      <Form.Text>{values.shippingFirstName} {values.shippingLastName}</Form.Text>
+      <Form.Text>{values.shippingAddress}</Form.Text>
+      <Form.Text>{values.shippingCity}, {values.shippingState} {values.shippingZip}</Form.Text>
+      <Form.Text>{values.shippingEmail}</Form.Text>
+      <Form.Text>{values.shippingPhone}</Form.Text>
+    </Form.Group>
+   </Form.Group>
+   <Form.Group className="mb-3 checkout-form-info-container">
+    <Form.Label className="checkout-form-info-container-label">From:</Form.Label>
+    <Form.Group className="checkout-form-info">
+      <Form.Text>{values.billingFirstName} {values.billingLastName}</Form.Text>
+      <Form.Text>{values.billingAddress}</Form.Text>
+      <Form.Text>{values.billingCity}, {values.billingState} {values.billingZip}</Form.Text>
+      <Form.Text>{values.billingEmail}</Form.Text>
+      <Form.Text>{values.billingPhone}</Form.Text>
+      <Form.Text>{values.billingCreditCardNum}</Form.Text> {/* Come back to this */}
+    </Form.Group>
+   </Form.Group>
+  </Form>
  );
 }

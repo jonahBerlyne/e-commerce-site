@@ -78,6 +78,11 @@ export default function Cart() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const goToCheckout = (): void => {
+    navigate("/checkout");
+    dispatch(closeCart());
+  }
+
   const backdrop = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
@@ -157,7 +162,7 @@ export default function Cart() {
                   {subtotal > 0 && 
                     <div>
                       <h2 className='cart-item-subtotal'>Subtotal: ${subtotal.toFixed(2)}</h2>
-                      <button className='btn btn-success checkout-btn' onClick={() => navigate("/checkout")}>Checkout</button>
+                      <button className='btn btn-dark checkout-btn' onClick={goToCheckout}>Checkout</button>
                     </div>
                   }
                 </div>

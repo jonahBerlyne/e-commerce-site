@@ -6,6 +6,8 @@ import { doc, deleteDoc, serverTimestamp, collection, addDoc, query, getDocs } f
 import OrderingForm from '../Components/Checkout/OrderingForm';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
+import { useAppSelector } from "../Redux/Hooks";
+import { selectCart } from "../Redux/Slices/cartSlice";
 
 interface Values {
   id: any;
@@ -30,11 +32,11 @@ interface Values {
 
 export default function CheckoutPage() {
 
-  const [billing, setBilling] = useState<boolean>(false);
-  const [checkoutCart, setCheckoutCart] = useState<any[]>([]);
+  const [billing, setBilling] = useState<boolean>(true);
   const [items, setItems] = useState<any[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
 
+  const cart = useAppSelector(selectCart);
   const navigate = useNavigate();
 
   const getSubTotal = async (): Promise<any> => {
@@ -42,17 +44,18 @@ export default function CheckoutPage() {
       const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"));
       const querySnapshot = await getDocs(q);
       let itemsArr: any[] = [];
+      let totalsArr: number[] = [];
       querySnapshot.forEach(doc => {
         itemsArr.push(doc.data());
+        totalsArr.push(doc.data().total);
       });
       if (itemsArr.length === 0) {
         navigate("/");
         return;
       }
       setItems(itemsArr);
-      const _subTotal = itemsArr.reduce((a, b) => a.total + b.total);
+      const _subTotal = totalsArr.reduce((a, b) => a + b);
       setSubTotal(_subTotal);
-      setBilling(true);
     } catch (err) {
       alert(`Subtotal retrieval error: ${err}`);
     }
@@ -60,12 +63,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     getSubTotal();
-    return () => {
-      setBilling(false);
-      setShipping(false);
-      setOrdering(false);
-    }
-  }, []);
+  }, [cart]);
   
   const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
@@ -124,29 +122,67 @@ export default function CheckoutPage() {
   }
 
   return (
-   <div>
-    {billing && 
-      <div>
+   <div className='checkout-container'>
+    {billing && items.length > 0 && 
+      <div className='form-container'>
         <BillingForm {...inputProps}/>
-        <button onClick={goToShipping}>Proceed to Shipping</button>
+        <button 
+          onClick={goToShipping} 
+          className="btn btn-dark form-btn"
+          disabled={
+            values.billingFirstName === "" ||
+            values.billingLastName === "" ||
+            values.billingPhone === "" ||
+            values.billingEmail === "" ||
+            values.billingAddress === "" ||
+            values.billingCity === "" ||
+            values.billingState === "" ||
+            values.billingZip === "" ||
+            values.billingCreditCardNum === ""
+          }
+        >
+          Proceed to Shipping
+        </button>
       </div> 
     }
     {shipping && 
-      <div>
+      <div className='form-container'>
         <ShippingForm {...inputProps}/>
-        <button onClick={goToBilling}>Back to Billing</button>
-        <button onClick={goToOrdering}>Review Order</button>
+        <div className="shipping-form-btns">
+          <button 
+            onClick={goToBilling} 
+            className="btn btn-dark form-btn"
+          >
+            Back to Billing
+          </button>
+          <button 
+            onClick={goToOrdering} 
+            className="btn btn-dark form-btn"
+            disabled={
+              values.shippingFirstName === "" ||
+              values.shippingLastName === "" ||
+              values.shippingPhone === "" ||
+              values.shippingEmail === "" ||
+              values.shippingAddress === "" ||
+              values.shippingCity === "" ||
+              values.shippingState === "" ||
+              values.shippingZip === ""
+            }
+          >
+            Review Order
+          </button>
+        </div>
       </div> 
     }
     {ordering &&
-      <div>
+      <div className='ordering-container'>
         <OrderingForm {...orderingProps}/>
-        <button onClick={goToShipping}>Back to Shipping</button>
-        <button onClick={placeOrder}>Place Order</button>
+        <button onClick={goToShipping} className="btn btn-dark form-btn">Back to Shipping</button>
+        <button onClick={placeOrder} className="btn btn-success order-btn">Place Order</button>
       </div>
     }
    </div>
-  )
+  );
 }
 
 export interface InputForm {

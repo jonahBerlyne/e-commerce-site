@@ -1,0 +1,85 @@
+.checkout-form,
+.checkout-form-info-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin: 50px 150px 0px 150px;
+ box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.24);
+ padding: 20px 0px 40px 20px;
+ background-color: rgb(255, 255, 254);
+}
+
+.checkout-form-header {
+ margin-bottom: 50px;
+ margin-right: 30px;
+ font-weight: 500;
+ text-decoration: underline;
+ font-size: 25px;
+ text-align: center;
+}
+
+.checkout-inputs-container {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 5px;
+}
+
+.checkout-inputs-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 60px;
+}
+
+.checkout-input {
+ font-family: "Roboto", sans-serif;
+ background-color: rgb(255, 254, 255);
+}
+
+.form-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 30px;
+}
+
+.form-btn {
+ color: #fff !important;
+ font-weight: bold;
+ border-radius: 15px;
+ padding-left: 45px;
+ padding-right: 45px;
+}
+
+.shipping-form-btns {
+ display: flex;
+ gap: 10px;
+}
+
+.ordering-container {
+ text-align: center;
+}
+
+.checkout-form-info-container {
+ margin: 0px 500px 0px 500px;
+ padding-left: 75px;
+}
+
+.checkout-form-info-container-label {
+ margin-bottom: 40px;
+}
+
+.checkout-form-info {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 20px;
+}
+
+.checkout-form-info-piece {
+ display: flex;
+ flex-direction: column;
+}
+
+.order-btn {
+ font-weight: bold;
+}
