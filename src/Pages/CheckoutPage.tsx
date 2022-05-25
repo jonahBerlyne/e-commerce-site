@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BillingForm from '../Components/Checkout/BillingForm';
 import ShippingForm from '../Components/Checkout/ShippingForm';
 import fireDB, { auth } from '../firebaseConfig';
-import { doc, deleteDoc, serverTimestamp, collection, addDoc, query, getDocs } from 'firebase/firestore';
+import { doc, deleteDoc, serverTimestamp, collection, addDoc, query, getDocs, orderBy } from 'firebase/firestore';
 import OrderingForm from '../Components/Checkout/OrderingForm';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
@@ -34,6 +34,7 @@ export default function CheckoutPage() {
 
   const [billing, setBilling] = useState<boolean>(true);
   const [items, setItems] = useState<any[]>([]);
+  const [numItems, setNumItems] = useState<number>(0);
   const [subTotal, setSubTotal] = useState<number>(0);
 
   const cart = useAppSelector(selectCart);
@@ -41,12 +42,14 @@ export default function CheckoutPage() {
 
   const getSubTotal = async (): Promise<any> => {
     try {
-      const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"));
+      const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"), orderBy("id", "asc"));
       const querySnapshot = await getDocs(q);
       let itemsArr: any[] = [];
+      let qtyArr: number[] = [];
       let totalsArr: number[] = [];
       querySnapshot.forEach(doc => {
         itemsArr.push(doc.data());
+        qtyArr.push(doc.data().quantity);
         totalsArr.push(doc.data().total);
       });
       if (itemsArr.length === 0) {
@@ -54,6 +57,8 @@ export default function CheckoutPage() {
         return;
       }
       setItems(itemsArr);
+      const _numItems = qtyArr.reduce((a, b) => a + b);
+      setNumItems(_numItems);
       const _subTotal = totalsArr.reduce((a, b) => a + b);
       setSubTotal(_subTotal);
     } catch (err) {
@@ -77,7 +82,7 @@ export default function CheckoutPage() {
   }
 
   const inputProps = { values, handleChange };
-  const orderingProps = { values, items, subTotal };
+  const orderingProps = { values, items, numItems, subTotal };
   const [shipping, setShipping] = useState<boolean>(false);
   const [ordering, setOrdering] = useState<boolean>(false);
 
@@ -177,8 +182,10 @@ export default function CheckoutPage() {
     {ordering &&
       <div className='ordering-container'>
         <OrderingForm {...orderingProps}/>
-        <button onClick={goToShipping} className="btn btn-dark form-btn">Back to Shipping</button>
-        <button onClick={placeOrder} className="btn btn-success order-btn">Place Order</button>
+        <div className="ordering-form-btns">
+          <button onClick={goToShipping} className="btn btn-dark form-btn">Back to Shipping</button>
+          <button onClick={placeOrder} className="btn btn-success order-btn">Place Order</button>
+        </div>
       </div>
     }
    </div>
