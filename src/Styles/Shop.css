@@ -79,3 +79,9 @@
 .at-most-three-items {
  margin-right: 140px;
 }
+
+@media screen and (max-width: 550px) {
+ .items-container {
+  margin-right: 150px;
+ }
+}

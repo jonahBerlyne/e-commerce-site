@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import fireDB, { auth } from '../firebaseConfig';
-import { getDocs, query, collection } from 'firebase/firestore';
+import { getDocs, query, collection, orderBy } from 'firebase/firestore';
 import "../Styles/Orders.css";
+import { Table } from "react-bootstrap"; 
 
 export default function Orders() {
 
@@ -10,7 +11,7 @@ export default function Orders() {
 
  const retrieveOrders = async (): Promise<any> => {
   try {
-   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders"));
+   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders"), orderBy("timestamp", "asc"));
    const querySnapshot = await getDocs(q);
    let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
@@ -37,23 +38,35 @@ export default function Orders() {
    {orders.map(order => {
     return (
      <div key={order.timestamp}>
-      <table>
-       <thead><h2>Items ordered on {order.timestamp}:</h2></thead>
+      <Table responsive>
+       <thead>
+        <tr>
+         <td>
+          <h2 className="ordered-items-header">Items ordered on {order.timestamp}:</h2>
+         </td>
+        </tr>
+       </thead>
        <tbody>
         {order.itemsOrdered.map((item: any) => {
          return (
           <tr key={item.id}>
            <td><h3>{item.title}</h3></td>
-           <td><img src={item.image} alt={item.title} height="100px" width="100px"/></td>
+           <td><img src={item.image} alt={item.title} className="ordered-item-img" /></td>
            <td><h5>x{item.quantity}</h5></td>
            <td><h3>{item.price}</h3></td>
           </tr>
          )
         })}
        </tbody>
-       <tfoot><h2>Total (After Tax): ${order.total}</h2></tfoot>
-      </table>
-      {order !== orders[orders.length - 1] && <hr/>}
+       <tfoot>
+        <tr>
+         <td>
+          <h2 className='ordered-items-footer'>Total (After Tax): ${order.total}</h2>
+         </td>
+        </tr>
+       </tfoot>
+      </Table>
+      {/* {order !== orders[orders.length - 1] && <hr/>} */}
      </div>
     )
    })}

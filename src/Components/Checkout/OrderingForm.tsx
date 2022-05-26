@@ -39,7 +39,7 @@ export default function OrderingForm({ values, items, numItems, subTotal }: Orde
    <br />
    <div className="checkout-receipt-border"></div>
    <Form.Group className="mb-3 checkout-items">
-    <Form.Label className="checkout-items-label">{numItems} Item{numItems && "s"} in Cart</Form.Label>
+    <Form.Label className="checkout-items-label">{numItems} Item{numItems > 1 && "s"} in Cart</Form.Label>
     {items.map(item => {
      return (
       <div key={item.id} className="checkout-item">

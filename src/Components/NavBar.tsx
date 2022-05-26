@@ -50,7 +50,7 @@ export default function NavBar() {
     <div className='header'>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid navbar-container">
-            {user?.name && <h1 className="navbar-brand">Welcome {user?.name}!</h1>}
+            {user?.name && <h1 className="navbar-brand">{user?.name}, welcome to the <img src="/Images/Seinfeld_Logo.png" alt="Seinfeld" className="seinfeld-logo" /> store!</h1>}
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span>
                 <FaBars size={25} color="gray"/>

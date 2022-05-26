@@ -120,7 +120,7 @@ export default function CheckoutPage() {
         const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${items[i].id}`);
         await deleteDoc(docRef);
       }
-      navigate("/");
+      navigate("/orders");
     } catch (err) {
       alert(`Ordering error: ${err}`);
     }
