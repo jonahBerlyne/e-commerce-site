@@ -23,26 +23,29 @@ export default function LoginPage() {
    <div className="auth-inputs">
     <input 
      type="email" 
-     className='form-control auth-input' placeholder='Email' 
+     className='form-control auth-input' placeholder='Email'
+     data-testid="Email" 
      value={email} 
      onChange={(e) => {setEmail(e.target.value)}}
     />
     <input 
      type="password" 
      className='form-control auth-input' placeholder='Password' 
+     data-testid="Password" 
      value={password} 
      onChange={(e) => {setPassword(e.target.value)}}
     />
    </div>
-   <button 
-    className='my-3 btn btn-primary auth-btn' onClick={signIn}
+   <button  
+    className='my-3 btn btn-primary auth-btn' 
+    onClick={signIn}
     disabled={
      email === "" ||
      password === ""
     }>Login
    </button>
    <hr/>
-   <Link to="/register" className='register-link'>Click Here to Register</Link>
+   <Link to="/register" className='register-link' data-testid="register-link">Click Here to Register</Link>
   </div>
  );
 }

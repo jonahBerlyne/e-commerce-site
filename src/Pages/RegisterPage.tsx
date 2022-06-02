@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import fireDB, { auth } from '../firebaseConfig';
 import "../Styles/Auth.css";
-import { useAppDispatch } from '../Redux/Hooks';
 import { doc, setDoc } from 'firebase/firestore';
 
 export default function RegisterPage() {
@@ -11,8 +10,6 @@ export default function RegisterPage() {
  const [email, setEmail] = useState<string>('');
  const [password, setPassword] = useState<string>('');
  const [confirmPassword, setConfirmPassword] = useState<string>('');
-
- const dispatch = useAppDispatch();
 
  const register = async (): Promise<any> => {
   try {
@@ -46,21 +43,24 @@ export default function RegisterPage() {
     />
     <input 
      type="email" 
-     className='form-control auth-input' placeholder='Email' 
+     className='form-control auth-input' placeholder='Email'
+     data-testid="Email" 
      value={email} 
      onChange={(e) => {setEmail(e.target.value)}}
      required
     />
     <input 
      type="password" 
-     className='form-control auth-input' placeholder='Password' 
+     className='form-control auth-input' placeholder='Password'
+     data-testid="Password" 
      value={password} 
      onChange={(e) => {setPassword(e.target.value)}}
      required
     />
     <input 
      type="password" 
-     className='form-control auth-input' placeholder='Confirm Password' 
+     className='form-control auth-input' placeholder='Confirm Password'
+     data-testid="confirmPassword" 
      value={confirmPassword} 
      onChange={(e) => {setConfirmPassword(e.target.value)}}
      required
@@ -76,7 +76,7 @@ export default function RegisterPage() {
      password !== confirmPassword
     }>Register
    </button>
-   <Link to="/login" className='login-link'>Click Here to Login</Link>
+   <Link to="/login" className='login-link' data-testid="login-link">Click Here to Login</Link>
   </div>
  );
 }
