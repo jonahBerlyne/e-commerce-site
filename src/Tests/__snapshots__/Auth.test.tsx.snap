@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Page renders 1`] = `
+<div>
+  <div
+    class="auth"
+  >
+    <h2
+      class="auth-header"
+    >
+      Login:
+    </h2>
+    <div
+      class="auth-header-border"
+    />
+    <div
+      class="auth-inputs"
+    >
+      <input
+        class="form-control auth-input"
+        placeholder="Email"
+        type="email"
+        value=""
+      />
+      <input
+        class="form-control auth-input"
+        placeholder="Password"
+        type="password"
+        value=""
+      />
+    </div>
+    <button
+      class="my-3 btn btn-primary auth-btn"
+      disabled=""
+    >
+      Login
+    </button>
+    <hr />
+    <a
+      class="register-link"
+      href="/register"
+    >
+      Click Here to Register
+    </a>
+  </div>
+</div>
+`;
