@@ -17,6 +17,10 @@ jest.mock('firebase/auth');
 
 afterEach(cleanup);
 
+afterAll(done => {
+  done();
+});
+
 describe("Login Page", () => {
 
  afterEach(() => {

@@ -1,0 +1,616 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Shopping Page renders the shopping page 1`] = `
+<div>
+  <div
+    class="shopping-page-container"
+  >
+    <div
+      class="search-input-container"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="SearchIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+        />
+      </svg>
+      <input
+        class="search-input"
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="items-container false"
+      data-testid="Items"
+    >
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Astronaut Pen"
+          class="item-img"
+          src="/Images/Astronaut_Pen.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Astronaut Pen
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            119.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Big Salad"
+          class="item-img"
+          src="/Images/Big_Salad.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Big Salad
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            7.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Box of Cuban Cigars"
+          class="item-img"
+          src="/Images/Cuban_Cigars.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Box of Cuban Cigars
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            599.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Cadillac Fleetwood"
+          class="item-img"
+          src="/Images/Cadillac_Fleetwood.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Cadillac Fleetwood
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            74999.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Coffee Table Book"
+          class="item-img"
+          src="/Images/Coffee_Table_Book.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Coffee Table Book
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            19.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Eggplant Calzone"
+          class="item-img"
+          src="/Images/Eggplant_Calzone.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Eggplant Calzone
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            9.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Executive Raincoat"
+          class="item-img"
+          src="/Images/Raincoat.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Executive Raincoat
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            119.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Festivus Celebration Kit"
+          class="item-img"
+          src="/Images/Festivus_Kit.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Festivus Celebration Kit
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            49.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Junior Mints"
+          class="item-img"
+          src="/Images/Junior_Mints.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Junior Mints
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            3.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Kenny Rogers Chicken"
+          class="item-img"
+          src="/Images/Kenny_Rogers_Chicken.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Kenny Rogers Chicken
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            9.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Loaf of Marble Rye"
+          class="item-img"
+          src="/Images/Marble_Rye_Loaf.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Loaf of Marble Rye
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            5.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Mackinaw Peaches"
+          class="item-img"
+          src="/Images/Mackinaw_Peaches.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Mackinaw Peaches
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            2.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Manya's Pony"
+          class="item-img"
+          src="/Images/Pony.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Manya's Pony
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            349.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Muffin Tops"
+          class="item-img"
+          src="/Images/Muffin_Tops.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Muffin Tops
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            6.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Non-Fat Yogurt"
+          class="item-img"
+          src="/Images/Non_Fat_Yogurt.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Non-Fat Yogurt
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            5.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Puffy Shirt"
+          class="item-img"
+          src="/Images/Puffy_Shirt.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Puffy Shirt
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            3.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Reverse Peephole"
+          class="item-img"
+          src="/Images/Reverse_Peephole.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Reverse Peephole
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            12.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Titleist Golf Balls"
+          class="item-img"
+          src="/Images/Titleist_Golf_Balls.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Titleist Golf Balls
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            19.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="TV Guide"
+          class="item-img"
+          src="/Images/TV_Guide.png"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            TV Guide
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            11.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div
+        class="item-container"
+      >
+        <img
+          alt="Tweety Bird Pez Dispenser"
+          class="item-img"
+          src="/Images/Pez_Dispenser.jpeg"
+        />
+        <div
+          class="item"
+        >
+          <h4
+            class="item-title"
+          >
+            Tweety Bird Pez Dispenser
+          </h4>
+          <h5
+            class="item-price"
+          >
+            $
+            3.99
+          </h5>
+          <button
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

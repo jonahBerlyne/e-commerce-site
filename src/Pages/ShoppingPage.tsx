@@ -46,7 +46,7 @@ export default function ShoppingPage() {
     {search !== "" && items.length > 0 &&
       <h3 className='results-msg'>Results have matched {items.length} {items.length === 1 ? "item" : "items"}.</h3>
     }
-    <div className={`items-container ${items.length > 0 && items.length <= 3 && "at-most-three-items"}`}>
+    <div data-testid="Items" className={`items-container ${items.length > 0 && items.length <= 3 && "at-most-three-items"}`}>
       {items.map(item => { 
         return (
           <div key={item.id} className="item-container">
