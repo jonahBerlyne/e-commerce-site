@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../Redux/Hooks';
 import { closeCart, selectCart } from '../Redux/Slices/cartSlice';
 import { motion, AnimatePresence } from "framer-motion";
+import { getAuth } from "firebase/auth";
 
 export default function Cart() {
 
@@ -15,7 +16,7 @@ export default function Cart() {
   const [subtotal, setSubtotal] = useState<number>(0);
 
   useEffect(() => {
-    const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"), orderBy("id", "asc"));
+    const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "items"), orderBy("id", "asc"));
     const unsub = onSnapshot(q, snapshot => {
       let itemsArr: any[] = [];
       snapshot.docs.forEach(doc => {
@@ -128,7 +129,7 @@ export default function Cart() {
                 </svg>
               </button>
               <div className="cart-content-container">
-                <h1 className="cart-title">Cart</h1>
+                <h1 data-testid="cart-title" className="cart-title">Cart</h1>
                 <div className="cart-list">
                   {items.length === 0 && <h4 className='empty-cart'>Your cart is empty.</h4>}
                   {items.map(item => {

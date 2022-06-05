@@ -11,14 +11,29 @@ import Cart from '../Components/Cart';
 import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { mockFirebase } from 'firestore-jest-mock';
 import { auth } from '../firebaseConfig';
+import AppRoute from '../Routes/AppRoute';
+import * as redux from "react-redux";
+import configureMockStore from "redux-mock-store";
+import thunk from 'redux-thunk';
+import { openCart } from '../Redux/Slices/cartSlice';
+import renderer from 'react-test-renderer';
+import { configureStore } from '@reduxjs/toolkit';
+import OrdersPage from "../Pages/OrdersPage";
+import CheckoutPage from "../Pages/CheckoutPage";
 
 jest.mock("../firebaseConfig", () => {
   return {
-    apps: ["appTestId"]
+    apps: ["appTestId"],
   };
 });
 
-jest.mock('firebase/auth');
+jest.mock("firebase/auth", () => {
+  return {
+    getAuth: jest.fn()
+  };
+});
+
+jest.mock('firebase/firestore');
 
 afterEach(cleanup);
 
@@ -120,17 +135,39 @@ describe("Shopping Page", () => {
   expect(await screen.findAllByTestId("item")).toHaveLength(2);
  });
 
- 
  it("renders the cart", async () => {
-   await getLoggedInUser();
+   let store;
+
+   const mockStore = configureMockStore([thunk]);
+
+   store = mockStore({
+      cart: {
+        cartIsOpen: true
+      },
+      user: {
+        email: "example@example.com",
+        name: "example",
+        password: "example",
+        id: "f85niu5f"
+      }
+   });
+
+   const mockAuth = ({
+    currentUser: {
+        uid: jest.fn().mockReturnValue("abc"),
+    }
+   } as unknown) as Auth;
+   (getAuth as jest.Mock).mockReturnValue(mockAuth);
+   
    const {container} = render(
-    <Provider store={store}>
+    <Provider store={store}> 
       <Router>
         <Cart />
       </Router>
     </Provider>
    );
-  expect(container).toMatchSnapshot();
+   expect(container).toMatchSnapshot();
+   expect(screen.getByTestId("cart-title")).toHaveTextContent("Cart");
  });
 
 });
