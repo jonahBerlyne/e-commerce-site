@@ -48,7 +48,7 @@ export default function AddToCart({ id }: { id: any }) {
 
  return (
   <>
-    <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
+    <button data-testid="addToCart" className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
   </>
  );
 }

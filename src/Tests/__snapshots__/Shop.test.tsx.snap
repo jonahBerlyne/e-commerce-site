@@ -21,6 +21,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </svg>
       <input
         class="search-input"
+        data-testid="Search"
         placeholder="Search..."
         type="text"
         value=""
@@ -28,10 +29,11 @@ exports[`Shopping Page renders the shopping page 1`] = `
     </div>
     <div
       class="items-container false"
-      data-testid="Items"
+      data-testid="items"
     >
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Astronaut Pen"
@@ -43,17 +45,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Astronaut Pen
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             119.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -61,6 +66,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Big Salad"
@@ -72,17 +78,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Big Salad
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             7.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -90,6 +99,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Box of Cuban Cigars"
@@ -101,17 +111,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Box of Cuban Cigars
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             599.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -119,6 +132,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Cadillac Fleetwood"
@@ -130,17 +144,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Cadillac Fleetwood
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             74999.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -148,6 +165,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Coffee Table Book"
@@ -159,17 +177,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Coffee Table Book
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             19.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -177,6 +198,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Eggplant Calzone"
@@ -188,17 +210,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Eggplant Calzone
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             9.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -206,6 +231,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Executive Raincoat"
@@ -217,17 +243,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Executive Raincoat
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             119.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -235,6 +264,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Festivus Celebration Kit"
@@ -246,17 +276,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Festivus Celebration Kit
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             49.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -264,6 +297,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Junior Mints"
@@ -275,17 +309,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Junior Mints
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             3.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -293,6 +330,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Kenny Rogers Chicken"
@@ -304,17 +342,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Kenny Rogers Chicken
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             9.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -322,6 +363,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Loaf of Marble Rye"
@@ -333,17 +375,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Loaf of Marble Rye
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             5.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -351,6 +396,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Mackinaw Peaches"
@@ -362,17 +408,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Mackinaw Peaches
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             2.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -380,6 +429,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Manya's Pony"
@@ -391,17 +441,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Manya's Pony
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             349.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -409,6 +462,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Muffin Tops"
@@ -420,17 +474,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Muffin Tops
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             6.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -438,6 +495,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Non-Fat Yogurt"
@@ -449,17 +507,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Non-Fat Yogurt
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             5.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -467,6 +528,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Puffy Shirt"
@@ -478,17 +540,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Puffy Shirt
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             3.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -496,6 +561,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Reverse Peephole"
@@ -507,17 +573,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Reverse Peephole
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             12.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -525,6 +594,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Titleist Golf Balls"
@@ -536,17 +606,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Titleist Golf Balls
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             19.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -554,6 +627,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="TV Guide"
@@ -565,17 +639,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             TV Guide
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             11.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
@@ -583,6 +660,7 @@ exports[`Shopping Page renders the shopping page 1`] = `
       </div>
       <div
         class="item-container"
+        data-testid="item"
       >
         <img
           alt="Tweety Bird Pez Dispenser"
@@ -594,17 +672,20 @@ exports[`Shopping Page renders the shopping page 1`] = `
         >
           <h4
             class="item-title"
+            data-testid="item-title"
           >
             Tweety Bird Pez Dispenser
           </h4>
           <h5
             class="item-price"
+            data-testid="item-price"
           >
             $
             3.99
           </h5>
           <button
             class="btn btn-primary"
+            data-testid="addToCart"
           >
             Add to Cart
           </button>
