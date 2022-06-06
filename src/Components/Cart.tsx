@@ -48,7 +48,7 @@ export default function Cart() {
 
   const handleItem = async (action: string, id: number): Promise<any> => {
     try {
-      const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${id}`);
+      const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, "items", `${id}`);
       if (action === "removeItem") {
         await deleteDoc(docRef);
       } else {
@@ -136,7 +136,7 @@ export default function Cart() {
                     return (
                       <div key={item.id} className="cart-item-container">
                         <div className="cart-item-header">
-                          <h3 className='cart-item-title'>{item.title}</h3>
+                          <h3 data-testid='cart-item-title' className='cart-item-title'>{item.title}</h3>
                           <Delete sx={{ color: "red" }} className="delete-item-btn"  onClick={() => handleItem("removeItem", item.id)} />
                         </div>
                         <img src={item.image} alt={item.title} className="cart-item-img" />

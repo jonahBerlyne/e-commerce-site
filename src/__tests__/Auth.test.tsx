@@ -119,8 +119,7 @@ describe("Register Page", () => {
 
  it("should register user", async () => {
   const mockAuth = ({
-   createUserWithEmailAndPassword: jest.fn(),
-   updateProfile: jest.fn(),
+   createUserWithEmailAndPassword: jest.fn()
   } as unknown) as Auth;
   (getAuth as jest.MockedFunction<typeof getAuth>).mockReturnValue(mockAuth);
 
@@ -133,8 +132,8 @@ describe("Register Page", () => {
  it('navigates to login page', async () => {
   render(
    <Router>
-    <LoginPage />
     <RegisterPage />
+    <LoginPage />
    </Router>
   );
 

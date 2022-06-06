@@ -6,6 +6,8 @@ import itemData from '../Data/ItemData';
 import { openCart } from '../Redux/Slices/cartSlice';
 import { useAppDispatch } from '../Redux/Hooks';
 import "../Styles/Shop.css";
+import { getAuth } from 'firebase/auth';
+import { store } from '../Redux/Store';
 
 export default function AddToCart({ id }: { id: any }) {
  
@@ -20,10 +22,10 @@ export default function AddToCart({ id }: { id: any }) {
 
  const addToCart = async (): Promise<any> => {
    try {
-     const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${item.id}`);
+     const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, "items", `${item.id}`);
      const docSnap = await getDoc(docRef);
      let itemDoc = {};
-     if (docSnap.exists()) {
+     if (docSnap?.exists()) {
       itemDoc = {
         ...docSnap.data(),
         "quantity": docSnap.data().quantity + 1,
@@ -42,13 +44,13 @@ export default function AddToCart({ id }: { id: any }) {
      await setDoc(docRef, itemDoc);
      dispatch(openCart());
    } catch (err) {
-     alert(`Item logging error: ${err}`);
+     console.error(`Item logging error: ${err}`);
    }
  }
 
  return (
   <>
-    <button data-testid="addToCart" className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
+    <button data-testid="addToCartBtn" className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
   </>
  );
 }
