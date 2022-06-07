@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { render, screen, cleanup, waitFor, within, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
@@ -21,6 +21,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import OrdersPage from "../Pages/OrdersPage";
 import CheckoutPage from "../Pages/CheckoutPage";
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import itemData from '../Data/ItemData';
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -43,31 +44,6 @@ afterAll(done => {
 });
 
 describe("Shopping Page", () => {
-
-  // mockFirebase({
-  //   database: {
-  //     users: [
-  //       {
-  //         id: 'abc',
-  //         email: 'example@example.com',
-  //         name: 'example',
-  //         password: 'example',
-  //         _collections: {
-  //           items: [
-  //             {
-  //               id: '20',
-  //               image: '/Images/Pez_Dispenser',
-  //               price: 3.99,
-  //               quantity: 1,
-  //               title: 'Tweety Bird Pez Dispenser',
-  //               total: 3.99
-  //             },
-  //           ],
-  //         },
-  //       },
-  //     ]
-  //   }
-  // });
   
  afterEach(() => {
   jest.resetAllMocks();
@@ -112,12 +88,70 @@ describe("Shopping Page", () => {
   expect(await screen.findAllByTestId("item")).toHaveLength(2);
  });
 
- it("renders the cart", async () => {
-   let store;
+});
 
+describe("Cart Component", () => {
+
+ let cartItems: any[] = [];
+ 
+ const addToCart = (id: number): void => {
+  const [cartItem] = cartItems.filter(item => item.id === id);
+  let itemDoc = {};
+  if (cartItem) {
+    itemDoc = {
+      ...cartItem,
+      "quantity": cartItem.quantity + 1,
+      "total": cartItem.total + cartItem.price
+    };
+    cartItems.filter(item => item.id !== id);
+  } else {
+    const item = itemData[id - 1];
+    itemDoc = {
+      "id": item.id,
+      "image": item.image,
+      "price": item.price,
+      "quantity": 1,
+      "title": item.title,
+      "total": item.price
+    };
+  }
+  cartItems.push(itemDoc);
+ };
+
+ const handleItem = (action: string, id: number): void => {
+  if (action === "removeItem") {
+    cartItems = cartItems.filter(item => item.id !== id);
+  } else {
+    const [cartItem] = cartItems.filter(item => item.id === id);
+    let itemDoc = {};
+    if (action === "decreaseItem") {
+      if (cartItem.quantity === 1) return;
+      itemDoc = {
+        ...cartItem,
+        "quantity": cartItem.quantity - 1,
+        "total": cartItem.total - cartItem.price
+      };
+    }
+    if (action === "increaseItem") {
+      itemDoc = {
+        ...cartItem,
+        "quantity": cartItem.quantity + 1,
+        "total": cartItem.total + cartItem.price
+      };
+    }
+    cartItems = cartItems.filter(item => item.id !== id);
+    cartItems.push(itemDoc);
+  }
+ };
+  
+ afterEach(() => {
+  jest.resetAllMocks();
+ });
+
+ it("renders the cart component", async () => {
    const mockStore = configureMockStore([thunk]);
 
-   store = mockStore({
+   const store = mockStore({
       cart: {
         cartIsOpen: true
       },
@@ -147,40 +181,90 @@ describe("Shopping Page", () => {
    expect(screen.getByTestId("cart-title")).toHaveTextContent("Cart");
  });
 
- it("adds an item to the cart", async () => {
-   const mockAuth = ({
-    currentUser: {
-        uid: jest.fn().mockReturnValue("abc"),
-    }
-   } as unknown) as Auth;
-   (getAuth as jest.Mock).mockReturnValue(mockAuth);
+ it("adds an item to the cart", () => {
 
-   const mockStore = configureMockStore([thunk]);
+  const ShoppingItems = () => {
+    return (
+      <div>
+        {itemData.map(item => {
+          return (
+            <div key={item.id}>
+              <button data-testid={item.id} onClick={() => addToCart(item.id)}></button>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
-   const store = mockStore({
-      cart: {
-        cartIsOpen: true
-      },
-      user: {
-        email: "example@example.com",
-        name: "example",
-        password: "example",
-        id: "abc"
-      }
-   });
+  render(<ShoppingItems />);
 
-   render(
-    <Provider store={store}> 
-      <Router>
-        <AddToCart id={20} />
-        <Cart />
-      </Router>
-    </Provider>
-   );
-   userEvent.click(screen.getByTestId('addToCartBtn'));
-   await waitFor(() => {
-     expect(screen.getByTestId('cart-item-title')).toBeInTheDocument();
-   });
+  const addBtn = screen.getByTestId(20);
+  fireEvent.click(addBtn);
+  const [cartItem] = cartItems;
+
+  expect(cartItems).toHaveLength(1);
+  expect(cartItem.title).toEqual("Tweety Bird Pez Dispenser");
+ });
+
+ it("changes the item's quantity", async () => {
+
+   const CartItems = () => {
+    return (
+      <div>
+        {cartItems.map(item => {
+          return (
+            <div key={item.id}>
+              <button data-testid={`decrease_${item.id}`} onClick={() => handleItem("decreaseItem", item.id)}>-</button>
+              <button data-testid={`increase_${item.id}`} onClick={() => handleItem("increaseItem", item.id)}>+</button>
+            </div>
+          );
+        })}
+      </div>
+    );
+   }
+   
+   render(<CartItems />);
+
+   const increaseItem20 = screen.getByTestId("increase_20");
+   fireEvent.click(increaseItem20);
+   let [cartItem] = cartItems;
+   expect(cartItem.quantity).toEqual(2);
+
+   const decreaseItem20 = screen.getByTestId("decrease_20");
+   fireEvent.click(decreaseItem20);
+   [cartItem] = cartItems;
+   expect(cartItem.quantity).toEqual(1);
+
+   fireEvent.click(decreaseItem20);
+   expect(cartItem.quantity).toEqual(1);
+   expect(screen.queryByTestId("increase_19")).toBeNull();
+ });
+
+ it("deletes the item from the cart", () => {
+
+  const CartItems = () => {
+    return (
+      <div>
+        {cartItems.map(item => {
+          return (
+            <div key={item.id}>
+              <button data-testid={`remove_${item.id}`} onClick={() => handleItem("removeItem", item.id)}></button>
+            </div>
+          );
+        })}
+      </div>
+    );
+   }
+   
+   render(<CartItems />);
+
+   const removeItem20 = screen.getByTestId("remove_20");
+   fireEvent.click(removeItem20);
+   const [cartItem] = cartItems.filter(item => item.id === 20);
+   expect(cartItem).toBeFalsy();
+
+   expect(screen.queryByTestId("remove_19")).toBeNull();
  });
 
 });
