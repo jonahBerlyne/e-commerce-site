@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import "../Styles/Checkout.css";
 import { useAppSelector } from "../Redux/Hooks";
 import { selectCart } from "../Redux/Slices/cartSlice";
+import { getAuth } from 'firebase/auth';
 
 interface Values {
   id: any;
@@ -42,8 +43,12 @@ export default function CheckoutPage() {
 
   const getSubTotal = async (): Promise<any> => {
     try {
-      const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "items"), orderBy("id", "asc"));
+      const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "items"), orderBy("id", "asc"));
       const querySnapshot = await getDocs(q);
+      if (querySnapshot === undefined) {
+        navigate("/");
+        return;
+      }
       let itemsArr: any[] = [];
       let qtyArr: number[] = [];
       let totalsArr: number[] = [];
@@ -70,7 +75,7 @@ export default function CheckoutPage() {
     getSubTotal();
   }, [cart]);
   
-  const initialValues = { id: auth.currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
+  const initialValues = { id: getAuth().currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
   const [values, setValues] = useState<Values>(initialValues);
 
