@@ -1,26 +1,14 @@
-import React, { MouseEventHandler } from 'react';
-import { render, screen, cleanup, waitFor, within, fireEvent, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import React from 'react';
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import ShoppingPage from '../Pages/ShoppingPage';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../Redux/Store";
-import AddToCart from '../Components/AddToCart';
 import Cart from '../Components/Cart';
-import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { mockFirebase } from 'firestore-jest-mock';
-import fireDB, { auth } from '../firebaseConfig';
-import AppRoute from '../Routes/AppRoute';
-import * as redux from "react-redux";
+import { Auth, getAuth } from 'firebase/auth';
 import configureMockStore from "redux-mock-store";
 import thunk from 'redux-thunk';
-import { openCart } from '../Redux/Slices/cartSlice';
-import renderer from 'react-test-renderer';
-import { configureStore } from '@reduxjs/toolkit';
-import OrdersPage from "../Pages/OrdersPage";
-import CheckoutPage from "../Pages/CheckoutPage";
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import itemData from '../Data/ItemData';
 
 jest.mock("../firebaseConfig", () => {

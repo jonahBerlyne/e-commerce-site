@@ -3,6 +3,7 @@ import fireDB, { auth } from '../firebaseConfig';
 import { getDocs, query, collection, orderBy } from 'firebase/firestore';
 import "../Styles/Orders.css";
 import { Table } from "react-bootstrap"; 
+import { getAuth } from 'firebase/auth';
 
 export default function Orders() {
 
@@ -11,8 +12,12 @@ export default function Orders() {
 
  const retrieveOrders = async (): Promise<any> => {
   try {
-   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders"), orderBy("timestamp", "asc"));
+   const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "orders"), orderBy("timestamp", "asc"));
    const querySnapshot = await getDocs(q);
+   if (querySnapshot === undefined) {
+    setOrdersRetrieved(true);
+    return;
+   }
    let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
     const orderInfo = {
