@@ -24,20 +24,15 @@ jest.mock("firebase/auth", () => {
 
 jest.mock('firebase/firestore');
 
-afterEach(cleanup);
-
-let orders: any[] = [];
-
-afterAll(done => {
-  orders = [];
+afterEach(done => {
+  cleanup();
+  jest.resetAllMocks();
   done();
 });
 
-describe("Checkout Page", () => {
+let orders: any[] = [];
 
- afterEach(() => {
-  jest.resetAllMocks();
- });
+describe("Checkout Page", () => {
 
  const values = jest.mock;
  const handleChange = jest.fn();
@@ -224,10 +219,6 @@ describe("Checkout Page", () => {
 
 describe("Orders Page", () => {
 
- afterEach(() => {
-  jest.resetAllMocks();
- });
-
  it("renders the orders page", async () => {
   const mockAuth = ({
     currentUser: {
@@ -288,5 +279,7 @@ describe("Orders Page", () => {
    expect(item12Title).toHaveTextContent("Mackinaw Peaches");
    expect(item20Title).toHaveTextContent("Tweety Bird Pez Dispenser");
    expect(orderTotal).toHaveTextContent("Total (After Tax): $10.42");
+
+   orders = [];
  });
 });

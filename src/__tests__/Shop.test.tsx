@@ -25,18 +25,13 @@ jest.mock("firebase/auth", () => {
 
 jest.mock('firebase/firestore');
 
-afterEach(cleanup);
-
-afterAll(done => {
+afterEach(done => {
+  cleanup();
+  jest.resetAllMocks();
   done();
 });
 
 describe("Shopping Page", () => {
-  
- afterEach(() => {
-  jest.resetAllMocks();
- });
-
 
  it("renders the shopping page", () => {
   const { container } = render(
@@ -131,10 +126,6 @@ describe("Cart Component", () => {
     cartItems.push(itemDoc);
   }
  };
-  
- afterEach(() => {
-  jest.resetAllMocks();
- });
 
  it("renders the cart component", async () => {
    const mockStore = configureMockStore([thunk]);

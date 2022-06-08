@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, cleanup, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
 import LoginPage from "../Pages/LoginPage";
@@ -15,17 +15,13 @@ jest.mock("../firebaseConfig", () => {
 
 jest.mock('firebase/auth');
 
-afterEach(cleanup);
-
-afterAll(done => {
+afterEach(done => {
+  cleanup();
+  jest.resetAllMocks();
   done();
 });
 
 describe("Login Page", () => {
-
- afterEach(() => {
-  jest.resetAllMocks();
- })
 
  it("renders login page", () => {
   const { container } = render(
@@ -61,7 +57,22 @@ describe("Login Page", () => {
 
   const email = "example@example.com";
   const password = "example";
-  await signInWithEmailAndPassword(getAuth(), email, password);
+
+  const Login = () => {
+    return (
+      <div>
+        <button data-testid="loginBtn" onClick={() => loginUser()}></button>
+      </div>
+    );
+  }
+
+  const loginUser = async () => await signInWithEmailAndPassword(getAuth(), email, password);
+
+  render(<Login />);
+
+  const loginBtn = screen.getByTestId("loginBtn");
+  fireEvent.click(loginBtn);
+
   expect(getAuth).toBeCalledTimes(1);
  });
 
@@ -83,10 +94,6 @@ describe("Login Page", () => {
 });
 
 describe("Register Page", () => {
-
- afterEach(() => {
-  jest.resetAllMocks();
- })
 
  it("renders register page", () => {
   const { container } = render(
@@ -119,13 +126,28 @@ describe("Register Page", () => {
 
  it("should register user", async () => {
   const mockAuth = ({
-   createUserWithEmailAndPassword: jest.fn()
+   createUserWithEmailAndPassword: jest.fn(),
   } as unknown) as Auth;
   (getAuth as jest.MockedFunction<typeof getAuth>).mockReturnValue(mockAuth);
 
-  const email = "example2@example.com";
-  const password = "example2";
-  await createUserWithEmailAndPassword(getAuth(), email, password);
+  const email = "example@example.com";
+  const password = "example";
+
+  const Register = () => {
+    return (
+      <div>
+        <button data-testid="registerBtn" onClick={() => registerUser()}></button>
+      </div>
+    );
+  }
+
+  const registerUser = async () => await createUserWithEmailAndPassword(getAuth(), email, password);
+
+  render(<Register />);
+
+  const registerBtn = screen.getByTestId("registerBtn");
+  fireEvent.click(registerBtn);
+
   expect(getAuth).toBeCalledTimes(1);
  });
 
