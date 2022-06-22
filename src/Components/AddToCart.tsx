@@ -44,13 +44,13 @@ export default function AddToCart({ id }: { id: any }) {
      await setDoc(docRef, itemDoc);
      dispatch(openCart());
    } catch (err) {
-     console.error(`Item logging error: ${err}`);
+     alert(`Item logging error: ${err}`);
    }
  }
 
  return (
   <>
-    <button data-testid="addToCartBtn" className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
+    <button data-testid={`addItem${id}ToCart`} className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
   </>
  );
 }

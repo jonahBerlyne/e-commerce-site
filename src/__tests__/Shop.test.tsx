@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import ShoppingPage from '../Pages/ShoppingPage';
 import { BrowserRouter as Router } from "react-router-dom";
@@ -10,6 +10,7 @@ import { Auth, getAuth } from 'firebase/auth';
 import configureMockStore from "redux-mock-store";
 import thunk from 'redux-thunk';
 import itemData from '../Data/ItemData';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -71,35 +72,58 @@ describe("Shopping Page", () => {
   expect(await screen.findAllByTestId("item")).toHaveLength(2);
  });
 
+ it("adds an item to the cart", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockResolvedValue(mockAuth);
+  (doc as jest.Mock).mockReturnThis();
+  (getDoc as jest.Mock).mockResolvedValue(null);
+  (setDoc as jest.Mock).mockResolvedValue(this);
+
+  render(
+   <Provider store={store}>
+    <Router>
+      <ShoppingPage />
+    </Router>
+   </Provider>
+  );
+
+  fireEvent.click(screen.getByTestId("addItem20ToCart"));
+
+  await waitFor(() => {
+    expect(getDoc).toBeCalled();
+  });
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
+ });
+
 });
 
 describe("Cart Component", () => {
 
- let cartItems: any[] = [];
- 
- const addToCart = (id: number): void => {
-  const [cartItem] = cartItems.filter(item => item.id === id);
-  let itemDoc = {};
-  if (cartItem) {
-    itemDoc = {
-      ...cartItem,
-      "quantity": cartItem.quantity + 1,
-      "total": cartItem.total + cartItem.price
-    };
-    cartItems.filter(item => item.id !== id);
-  } else {
-    const item = itemData[id - 1];
-    itemDoc = {
-      "id": item.id,
-      "image": item.image,
-      "price": item.price,
-      "quantity": 1,
-      "title": item.title,
-      "total": item.price
-    };
-  }
-  cartItems.push(itemDoc);
- };
+ let cartItems: any[] = [
+    {
+        "id": 7,
+        "image": "item7.png",
+        "price": 2.00,
+        "quantity": 5,
+        "title": "Item 7",
+        "total": 10.00
+    },
+    {
+        "id": 20,
+        "image": "item20.png",
+        "price": 3.00,
+        "quantity": 1,
+        "title": "Item 20",
+        "total": 3.00
+    }
+ ];
 
  const handleItem = (action: string, id: number): void => {
   if (action === "removeItem") {
@@ -144,7 +168,7 @@ describe("Cart Component", () => {
 
    const mockAuth = ({
     currentUser: {
-        uid: jest.fn().mockReturnValue("abc"),
+        uid: "abc",
     }
    } as unknown) as Auth;
    (getAuth as jest.Mock).mockReturnValue(mockAuth);
@@ -158,32 +182,6 @@ describe("Cart Component", () => {
    );
    expect(container).toMatchSnapshot();
    expect(screen.getByTestId("cart-title")).toHaveTextContent("Cart");
- });
-
- it("adds an item to the cart", () => {
-
-  const ShoppingItems = () => {
-    return (
-      <div>
-        {itemData.map(item => {
-          return (
-            <div key={item.id}>
-              <button data-testid={item.id} onClick={() => addToCart(item.id)}></button>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
-  render(<ShoppingItems />);
-
-  const addBtn = screen.getByTestId(20);
-  fireEvent.click(addBtn);
-  const [cartItem] = cartItems;
-
-  expect(cartItems).toHaveLength(1);
-  expect(cartItem.title).toEqual("Tweety Bird Pez Dispenser");
  });
 
  it("changes the item's quantity", async () => {
@@ -207,16 +205,15 @@ describe("Cart Component", () => {
 
    const increaseItem20 = screen.getByTestId("increase_20");
    fireEvent.click(increaseItem20);
-   let [cartItem] = cartItems;
-   expect(cartItem.quantity).toEqual(2);
+   expect(cartItems[1].quantity).toEqual(2);
 
    const decreaseItem20 = screen.getByTestId("decrease_20");
    fireEvent.click(decreaseItem20);
-   [cartItem] = cartItems;
-   expect(cartItem.quantity).toEqual(1);
+   expect(cartItems[1].quantity).toEqual(1);
 
    fireEvent.click(decreaseItem20);
-   expect(cartItem.quantity).toEqual(1);
+   expect(cartItems[1].quantity).toEqual(1);
+
    expect(screen.queryByTestId("increase_19")).toBeNull();
  });
 
