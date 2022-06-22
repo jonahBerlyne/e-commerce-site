@@ -37,6 +37,7 @@ export default function RegisterPage() {
     <input 
      type="text" 
      className='form-control auth-input' placeholder='Name' 
+     data-testid="Name"
      value={name} 
      onChange={(e) => {setName(e.target.value)}}
      required
@@ -66,7 +67,8 @@ export default function RegisterPage() {
      required
     />
    </div>
-   <button 
+   <button
+    data-testid="registerBtn" 
     className='my-3 btn btn-primary auth-btn' onClick={register}
     disabled={
      name === "" ||

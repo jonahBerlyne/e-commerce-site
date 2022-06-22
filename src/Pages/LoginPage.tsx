@@ -36,7 +36,8 @@ export default function LoginPage() {
      onChange={(e) => {setPassword(e.target.value)}}
     />
    </div>
-   <button  
+   <button 
+    data-testid="loginBtn" 
     className='my-3 btn btn-primary auth-btn' 
     onClick={signIn}
     disabled={

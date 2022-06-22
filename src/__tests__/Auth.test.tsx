@@ -5,7 +5,8 @@ import "@testing-library/jest-dom/extend-expect";
 import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Auth, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Auth, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile, UserCredential } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -14,6 +15,8 @@ jest.mock("../firebaseConfig", () => {
 });
 
 jest.mock('firebase/auth');
+
+jest.mock('firebase/firestore');
 
 afterEach(done => {
   cleanup();
@@ -50,30 +53,25 @@ describe("Login Page", () => {
  });
 
  it("should login user", async () => {
-  const mockAuth = ({
-   signInWithEmailAndPassword: jest.fn(),
-  } as unknown) as Auth;
-  (getAuth as jest.MockedFunction<typeof getAuth>).mockReturnValue(mockAuth);
+  (signInWithEmailAndPassword as jest.Mock).mockResolvedValue(this);
 
-  const email = "example@example.com";
-  const password = "example";
+  render(
+   <Router>
+    <LoginPage />
+   </Router>
+  );
 
-  const Login = () => {
-    return (
-      <div>
-        <button data-testid="loginBtn" onClick={() => loginUser()}></button>
-      </div>
-    );
-  }
+  const emailInput = screen.getByTestId("Email");
+  const passwordInput = screen.getByTestId("Password");
 
-  const loginUser = async () => await signInWithEmailAndPassword(getAuth(), email, password);
+  userEvent.type(emailInput, "example@example.com");
+  userEvent.type(passwordInput, "example");
 
-  render(<Login />);
+  fireEvent.click(screen.getByTestId("loginBtn"));
 
-  const loginBtn = screen.getByTestId("loginBtn");
-  fireEvent.click(loginBtn);
-
-  expect(getAuth).toBeCalledTimes(1);
+  await waitFor(() => {
+    expect(signInWithEmailAndPassword).toBeCalled();
+  });
  });
 
  it('navigates to register page', async () => {
@@ -111,44 +109,63 @@ describe("Register Page", () => {
    </Router>
   );
 
+  const nameInput = screen.getByTestId("Name");
   const emailInput = screen.getByTestId("Email");
   const passwordInput = screen.getByTestId("Password");
   const confirmPasswordInput = screen.getByTestId("confirmPassword");
 
+  userEvent.type(nameInput, "example");
   userEvent.type(emailInput, "example@example.com");
   userEvent.type(passwordInput, "example");
   userEvent.type(confirmPasswordInput, "example");
 
+  expect(nameInput).toHaveValue("example");
   expect(emailInput).toHaveValue("example@example.com");
   expect(passwordInput).toHaveValue("example");
   expect(confirmPasswordInput).toHaveValue("example");
  });
 
  it("should register user", async () => {
-  const mockAuth = ({
-   createUserWithEmailAndPassword: jest.fn(),
-  } as unknown) as Auth;
-  (getAuth as jest.MockedFunction<typeof getAuth>).mockReturnValue(mockAuth);
+  const mockCredential = ({
+   user: {
+    uid: "abc"
+   }
+  } as unknown) as UserCredential;
+  (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue(mockCredential);
+  (updateProfile as jest.Mock).mockResolvedValue(this);
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  const email = "example@example.com";
-  const password = "example";
+  render(
+   <Router>
+    <RegisterPage />
+   </Router>
+  );
 
-  const Register = () => {
-    return (
-      <div>
-        <button data-testid="registerBtn" onClick={() => registerUser()}></button>
-      </div>
-    );
-  }
+  const nameInput = screen.getByTestId("Name");
+  const emailInput = screen.getByTestId("Email");
+  const passwordInput = screen.getByTestId("Password");
+  const confirmPasswordInput = screen.getByTestId("confirmPassword");
 
-  const registerUser = async () => await createUserWithEmailAndPassword(getAuth(), email, password);
+  userEvent.type(nameInput, "example");
+  userEvent.type(emailInput, "example@example.com");
+  userEvent.type(passwordInput, "example");
+  userEvent.type(confirmPasswordInput, "example");
 
-  render(<Register />);
+  fireEvent.click(screen.getByTestId("registerBtn"));
 
-  const registerBtn = screen.getByTestId("registerBtn");
-  fireEvent.click(registerBtn);
+  await waitFor(() => {
+    expect(createUserWithEmailAndPassword).toBeCalled();
+  });
 
-  expect(getAuth).toBeCalledTimes(1);
+  await waitFor(() => {
+    expect(updateProfile).toBeCalled();
+  });
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
+
  });
 
  it('navigates to login page', async () => {
