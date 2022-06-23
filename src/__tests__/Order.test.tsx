@@ -35,6 +35,23 @@ afterEach(done => {
   done();
 });
 
+const orderValues = { id: "example", billingFirstName: 'Jerry', billingLastName: 'Seinfeld', billingPhone: '1234567890', billingEmail: 'jerry@seinfeld.com', billingAddress: '100 Park Ave. Apt. 5A', billingCity: 'New York', billingState: 'NY', billingZip: '10001', billingCreditCardNum: '1234123412345678', shippingFirstName: 'George', shippingLastName: 'Costanza', shippingPhone: '0987654321', shippingEmail: 'george@costanza.com', shippingAddress: '100 Queens Ave. Apt. 5C', shippingCity: 'Queens', shippingState: 'NY', shippingZip: '11426' };
+
+const item11 = {
+  ...itemData[11], 
+  quantity: 2, 
+  total: "5.98"
+};
+const item19 = {
+  ...itemData[19],
+  quantity: 1, 
+  total: "3.99"
+};
+
+const items = [item11, item19];
+const numItems = 2;
+const subTotal = 6.98;
+
 describe("Checkout Page", () => {
 
  const values = jest.mock;
@@ -137,15 +154,6 @@ describe("Checkout Page", () => {
    expect(shippingState).toHaveValue("NY");
    expect(shippingZip).toHaveValue("11426");
  });
-
- const orderValues = { id: "example", billingFirstName: 'Jerry', billingLastName: 'Seinfeld', billingPhone: '1234567890', billingEmail: 'jerry@seinfeld.com', billingAddress: '100 Park Ave. Apt. 5A', billingCity: 'New York', billingState: 'NY', billingZip: '10001', billingCreditCardNum: '1234123412345678', shippingFirstName: 'George', shippingLastName: 'Costanza', shippingPhone: '0987654321', shippingEmail: 'george@costanza.com', shippingAddress: '100 Queens Ave. Apt. 5C', shippingCity: 'Queens', shippingState: 'NY', shippingZip: '11426' };
-
- const item11 = {...itemData[11], total: "2.99"};
- const item19 = {...itemData[19], total: "3.99"};
-
- const items = [item11, item19];
- const numItems = 2;
- const subTotal = 6.98;
 
  it("renders the ordering form", () => {
 
@@ -309,72 +317,96 @@ describe("Checkout Page", () => {
  });
 });
 
+describe("Orders Page", () => {
 
-// describe("Orders Page", () => {
+ it("renders the orders page", async () => {
+  const mockAuth = ({
+    currentUser: {
+        uid: "abc",
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
 
-//  it("renders the orders page", async () => {
-//   const mockAuth = ({
-//     currentUser: {
-//         uid: jest.fn().mockReturnValue("abc"),
-//     }
-//   } as unknown) as Auth;
-//   (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  const { container } = render(
+   <Router>
+    <OrdersPage />
+   </Router>
+  );
 
-//   const { container } = render(
-//    <Router>
-//     <OrdersPage />
-//    </Router>
-//   );
+  const promise = Promise.resolve();
+  await act(async () => {
+   await promise;
+  });
 
-//   const promise = Promise.resolve();
-//   await act(async () => {
-//    await promise;
-//   });
+  expect(container).toMatchSnapshot();
+ });
 
-//   expect(container).toMatchSnapshot();
-//  });
+ it("displays the orders", async () => {
 
-//  it("displays the orders", () => {
+  const mockAuth = ({
+    currentUser: {
+        uid: "abc",
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (orderBy as jest.Mock).mockReturnThis();
+  (collection as jest.Mock).mockReturnThis();
+  (query as jest.Mock).mockReturnThis();
 
-//    let orders: any[] = [];
+  const secondOrder = [{
+    ...items[0],
+    quantity: 1,
+    total: 2.99
+  }];
 
-//    const Orders = () => {
-//      return (
-//        <div>
-//          {orders.map(order => {
-//           return (
-//             <div key={order.timestamp}>
-//              <h2 data-testid="orderTimestamp">Items ordered on {order.timestamp}:</h2>
-//              {order.itemsOrdered.map((item: any) => {
-//                   return (
-//                     <div key={item.id}>
-//                       <h3 data-testid={`item${item.id}Title`}>{item.title}</h3>
-//                       <img src={item.image} alt={item.title} className="ordered-item-img" />
-//                       <h5>x{item.quantity}</h5>
-//                       <h3>{item.price}</h3>
-//                     </div>
-//                   )
-//              })}
-//              <h2 data-testid="orderTotal">Total (After Tax): ${order.total}</h2>
-//             </div>
-//           )
-//         })}
-//        </div>
-//      );
-//    }
+  const mockData = ([
+   {
+    data: () => ({
+        itemsOrdered: items,
+        orderInfo: orderValues,
+        timestamp: 1648052300000,
+        total: 8.98
+    })
+   },
+   {
+    data: () => ({
+        itemsOrdered: secondOrder,
+        orderInfo: orderValues,
+        timestamp: 1648423100000,
+        total: 5.99
+    })
+   }
+  ]);
+  (getDocs as jest.Mock).mockResolvedValue(mockData);
 
-//    render(<Orders />);
+  render(
+   <Router>
+    <OrdersPage />
+   </Router>
+  );
 
-//    const orderTimestamp = screen.getByTestId("orderTimestamp");
-//    const item12Title = screen.getByTestId("item12Title");
-//    const item20Title = screen.getByTestId("item20Title");
-//    const orderTotal = screen.getByTestId("orderTotal");
+  const promise = Promise.resolve();
+  await act(async () => {
+   await promise;
+  });
 
-//    expect(orderTimestamp).toHaveTextContent(/^Items ordered on June 08, 2022:$/);
-//    expect(item12Title).toHaveTextContent("Mackinaw Peaches");
-//    expect(item20Title).toHaveTextContent("Tweety Bird Pez Dispenser");
-//    expect(orderTotal).toHaveTextContent("Total (After Tax): $10.42");
+  await waitFor(() => {
+    expect(getDocs).toBeCalled();
+  });
 
-//    orders = [];
-//  });
-// });
+  expect(screen.getByTestId("order1Header")).toHaveTextContent("Order #1:");
+  expect(screen.getByTestId("order2Header")).toHaveTextContent("Order #2:");
+  expect(screen.getByTestId("itemTitle12-1")).toHaveTextContent("Mackinaw Peaches");
+  expect(screen.getByTestId("itemTitle20-1")).toHaveTextContent("Tweety Bird Pez Dispenser");
+  expect(screen.getByTestId("itemImage12-1")).toHaveAttribute("src", "/Images/Mackinaw_Peaches.jpeg");
+  expect(screen.getByTestId("itemImage20-1")).toHaveAttribute("src", "/Images/Pez_Dispenser.jpeg");
+  expect(screen.getByTestId("itemQuantity12-1")).toHaveTextContent("x2");
+  expect(screen.getByTestId("itemQuantity20-1")).toHaveTextContent("x1");
+  expect(screen.getByTestId("itemQuantity12-2")).toHaveTextContent("x1");
+  expect(screen.getByTestId("itemPrice12-1")).toHaveTextContent("2.99");
+  expect(screen.getByTestId("itemPrice20-1")).toHaveTextContent("3.99");
+  expect(screen.getByTestId("order1Total")).toHaveTextContent("Total (After Tax): $8.98");
+  expect(screen.getByTestId("order2Total")).toHaveTextContent("Total (After Tax): $5.99");
+  
+ });
+});

@@ -20,11 +20,7 @@ export default function Orders() {
    }
    let ordersArr: any[] = [];
    querySnapshot.forEach(doc => {
-    const orderInfo = {
-     ...doc.data(),
-     "timestamp": new Date(doc.data().timestamp?.seconds * 1000).toUTCString()
-    };
-    ordersArr.push(orderInfo);
+    ordersArr.push(doc.data());
    });
    setOrders(ordersArr);
    setOrdersRetrieved(true);
@@ -40,14 +36,14 @@ export default function Orders() {
  return (
   <div>
    {ordersRetrieved && orders.length === 0 && <h2>You haven't ordered anything, yet.</h2>}
-   {orders.map(order => {
+   {ordersRetrieved && orders.length > 0 && orders.map((order, index) => {
     return (
-     <div key={order.timestamp}>
+     <div key={index}>
       <Table responsive>
        <thead>
         <tr>
          <td>
-          <h2 className="ordered-items-header">Items ordered on {order.timestamp}:</h2>
+          <h2 data-testid={`order${index + 1}Header`} className="ordered-items-header">Order #{index + 1}:</h2>
          </td>
         </tr>
        </thead>
@@ -55,10 +51,10 @@ export default function Orders() {
         {order.itemsOrdered.map((item: any) => {
          return (
           <tr key={item.id}>
-           <td><h3>{item.title}</h3></td>
-           <td><img src={item.image} alt={item.title} className="ordered-item-img" /></td>
-           <td><h5>x{item.quantity}</h5></td>
-           <td><h3>{item.price}</h3></td>
+           <td><h3 data-testid={`itemTitle${item.id}-${index + 1}`}>{item.title}</h3></td>
+           <td><img data-testid={`itemImage${item.id}-${index + 1}`} src={item.image} alt={item.title} className="ordered-item-img" /></td>
+           <td><h5 data-testid={`itemQuantity${item.id}-${index + 1}`}>x{item.quantity}</h5></td>
+           <td><h3 data-testid={`itemPrice${item.id}-${index + 1}`}>{item.price}</h3></td>
           </tr>
          )
         })}
@@ -66,12 +62,11 @@ export default function Orders() {
        <tfoot>
         <tr>
          <td>
-          <h2 className='ordered-items-footer'>Total (After Tax): ${order.total}</h2>
+          <h2 data-testid={`order${index + 1}Total`} className='ordered-items-footer'>Total (After Tax): ${order.total}</h2>
          </td>
         </tr>
        </tfoot>
       </Table>
-      {/* {order !== orders[orders.length - 1] && <hr/>} */}
      </div>
     )
    })}
