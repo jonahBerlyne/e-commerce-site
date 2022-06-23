@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, cleanup, fireEvent, act } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent, act, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter as Router } from "react-router-dom";
 import OrdersPage from "../Pages/OrdersPage";
@@ -9,6 +9,11 @@ import ShippingForm from "../Components/Checkout/ShippingForm";
 import OrderingForm from "../Components/Checkout/OrderingForm";
 import userEvent from "@testing-library/user-event";
 import itemData from "../Data/ItemData";
+import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query, serverTimestamp } from "firebase/firestore";
+import CheckoutPage from "../Pages/CheckoutPage";
+import configureMockStore from "redux-mock-store";
+import thunk from 'redux-thunk';
+import { Provider } from "react-redux";
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -29,8 +34,6 @@ afterEach(done => {
   jest.resetAllMocks();
   done();
 });
-
-let orders: any[] = [];
 
 describe("Checkout Page", () => {
 
@@ -187,99 +190,191 @@ describe("Checkout Page", () => {
   expect(creditCardNumText).toHaveTextContent(/^xxxxxxxxxxxx5678$/);
  });
 
- it("orders the items", () => {
+ it("orders the items", async () => {
+  const mockStore = configureMockStore([thunk]);
 
-   const placeOrder = (): void => {
-     const orderDoc = {
-       "itemsOrdered": items,
-       "orderInfo": orderValues,
-       "timestamp": "June 08, 2022",
-       "total": "10.42",
-     };
-     orders.push(orderDoc);
-   }
+  const store = mockStore({
+      cart: {
+        cart: true
+      }
+  });
 
-   const Order = () => {
-     return (
-      <>
-        <button data-testid="orderBtn" onClick={() => placeOrder()}></button>
-      </>
-     );
-   }
-
-   render(<Order />);
-
-   const orderBtn = screen.getByTestId("orderBtn");
-   fireEvent.click(orderBtn);
-
-   expect(orders).toHaveLength(1);
- });
-});
-
-
-describe("Orders Page", () => {
-
- it("renders the orders page", async () => {
   const mockAuth = ({
     currentUser: {
-        uid: jest.fn().mockReturnValue("abc"),
+      uid: "abc"
     }
   } as unknown) as Auth;
+  (query as jest.Mock).mockReturnThis();
   (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (orderBy as jest.Mock).mockReturnThis();
 
-  const { container } = render(
-   <Router>
-    <OrdersPage />
-   </Router>
+  (getDocs as jest.Mock).mockResolvedValue([
+   {
+    data: () => ({
+        "id": 7,
+        "image": "item7.png",
+        "price": 2.00,
+        "quantity": 5,
+        "title": "Item 7",
+        "total": 10.00
+    })
+   },
+   {
+    data: () => ({
+        "id": 20,
+        "image": "item20.png",
+        "price": 3.00,
+        "quantity": 1,
+        "title": "Item 20",
+        "total": 3.00
+    })
+   }
+  ]);
+
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (collection as jest.Mock).mockReturnThis();
+  (addDoc as jest.Mock).mockResolvedValue(this);
+  (doc as jest.Mock).mockReturnThis();
+  (deleteDoc as jest.Mock).mockResolvedValue(this);
+
+  render(
+    <Provider store={store}>
+      <Router>
+        <CheckoutPage />
+      </Router>
+    </Provider>
   );
 
   const promise = Promise.resolve();
   await act(async () => {
-   await promise;
+    await promise;
   });
 
-  expect(container).toMatchSnapshot();
- });
+  const billingFirstName = screen.getByTestId("billingFirstName");
+  const billingLastName = screen.getByTestId("billingLastName");
+  const billingPhone = screen.getByTestId("billingPhone");
+  const billingEmail = screen.getByTestId("billingEmail");
+  const billingAddress = screen.getByTestId("billingAddress");
+  const billingCity = screen.getByTestId("billingCity");
+  const billingState = screen.getByTestId("billingState");
+  const billingZip = screen.getByTestId("billingZip");
+  const billingCreditCardNum = screen.getByTestId("billingCreditCardNum");
 
- it("displays the orders", () => {
+  userEvent.type(billingFirstName, "Jerry");
+  userEvent.type(billingLastName, "Seinfeld");
+  userEvent.type(billingPhone, "1234567890");
+  userEvent.type(billingEmail, "jerry@seinfeld.com");
+  userEvent.type(billingAddress, "100 Park Ave. Apt. 5A");
+  userEvent.type(billingCity, "New York");
+  userEvent.type(billingState, "NY");
+  userEvent.type(billingZip, "10001");
+  userEvent.type(billingCreditCardNum, "1234123412345678");
 
-   const Orders = () => {
-     return (
-       <div>
-         {orders.map(order => {
-          return (
-            <div key={order.timestamp}>
-             <h2 data-testid="orderTimestamp">Items ordered on {order.timestamp}:</h2>
-             {order.itemsOrdered.map((item: any) => {
-                  return (
-                    <div key={item.id}>
-                      <h3 data-testid={`item${item.id}Title`}>{item.title}</h3>
-                      <img src={item.image} alt={item.title} className="ordered-item-img" />
-                      <h5>x{item.quantity}</h5>
-                      <h3>{item.price}</h3>
-                    </div>
-                  )
-             })}
-             <h2 data-testid="orderTotal">Total (After Tax): ${order.total}</h2>
-            </div>
-          )
-        })}
-       </div>
-     );
-   }
+  fireEvent.click(screen.getByTestId("goToShippingBtn"));
 
-   render(<Orders />);
+  const shippingFirstName = screen.getByTestId("shippingFirstName");
+  const shippingLastName = screen.getByTestId("shippingLastName");
+  const shippingPhone = screen.getByTestId("shippingPhone");
+  const shippingEmail = screen.getByTestId("shippingEmail");
+  const shippingAddress = screen.getByTestId("shippingAddress");
+  const shippingCity = screen.getByTestId("shippingCity");
+  const shippingState = screen.getByTestId("shippingState");
+  const shippingZip = screen.getByTestId("shippingZip");
 
-   const orderTimestamp = screen.getByTestId("orderTimestamp");
-   const item12Title = screen.getByTestId("item12Title");
-   const item20Title = screen.getByTestId("item20Title");
-   const orderTotal = screen.getByTestId("orderTotal");
+  userEvent.type(shippingFirstName, "George");
+  userEvent.type(shippingLastName, "Costanza");
+  userEvent.type(shippingPhone, "0987654321");
+  userEvent.type(shippingEmail, "george@costanza.com");
+  userEvent.type(shippingAddress, "100 Queens Ave Apt. 5C");
+  userEvent.type(shippingCity, "Queens");
+  userEvent.type(shippingState, "NY");
+  userEvent.type(shippingZip, "11426");
 
-   expect(orderTimestamp).toHaveTextContent(/^Items ordered on June 08, 2022:$/);
-   expect(item12Title).toHaveTextContent("Mackinaw Peaches");
-   expect(item20Title).toHaveTextContent("Tweety Bird Pez Dispenser");
-   expect(orderTotal).toHaveTextContent("Total (After Tax): $10.42");
+  fireEvent.click(screen.getByTestId("goToOrderingBtn"));
 
-   orders = [];
+  const jsdom = window.alert;
+  window.alert = () => {};
+
+  fireEvent.click(screen.getByTestId("placeOrderBtn"));
+
+  await waitFor(() => {
+    expect(addDoc).toBeCalled();
+  });
+
+  await waitFor(() => {
+    expect(deleteDoc).toBeCalledTimes(2);
+  });
+
+  window.alert = jsdom;
  });
 });
+
+
+// describe("Orders Page", () => {
+
+//  it("renders the orders page", async () => {
+//   const mockAuth = ({
+//     currentUser: {
+//         uid: jest.fn().mockReturnValue("abc"),
+//     }
+//   } as unknown) as Auth;
+//   (getAuth as jest.Mock).mockReturnValue(mockAuth);
+
+//   const { container } = render(
+//    <Router>
+//     <OrdersPage />
+//    </Router>
+//   );
+
+//   const promise = Promise.resolve();
+//   await act(async () => {
+//    await promise;
+//   });
+
+//   expect(container).toMatchSnapshot();
+//  });
+
+//  it("displays the orders", () => {
+
+//    let orders: any[] = [];
+
+//    const Orders = () => {
+//      return (
+//        <div>
+//          {orders.map(order => {
+//           return (
+//             <div key={order.timestamp}>
+//              <h2 data-testid="orderTimestamp">Items ordered on {order.timestamp}:</h2>
+//              {order.itemsOrdered.map((item: any) => {
+//                   return (
+//                     <div key={item.id}>
+//                       <h3 data-testid={`item${item.id}Title`}>{item.title}</h3>
+//                       <img src={item.image} alt={item.title} className="ordered-item-img" />
+//                       <h5>x{item.quantity}</h5>
+//                       <h3>{item.price}</h3>
+//                     </div>
+//                   )
+//              })}
+//              <h2 data-testid="orderTotal">Total (After Tax): ${order.total}</h2>
+//             </div>
+//           )
+//         })}
+//        </div>
+//      );
+//    }
+
+//    render(<Orders />);
+
+//    const orderTimestamp = screen.getByTestId("orderTimestamp");
+//    const item12Title = screen.getByTestId("item12Title");
+//    const item20Title = screen.getByTestId("item20Title");
+//    const orderTotal = screen.getByTestId("orderTotal");
+
+//    expect(orderTimestamp).toHaveTextContent(/^Items ordered on June 08, 2022:$/);
+//    expect(item12Title).toHaveTextContent("Mackinaw Peaches");
+//    expect(item20Title).toHaveTextContent("Tweety Bird Pez Dispenser");
+//    expect(orderTotal).toHaveTextContent("Total (After Tax): $10.42");
+
+//    orders = [];
+//  });
+// });

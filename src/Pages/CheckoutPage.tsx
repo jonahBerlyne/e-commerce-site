@@ -111,7 +111,7 @@ export default function CheckoutPage() {
     const timestamp = serverTimestamp();
     try {
       const total = subTotal + (subTotal * 0.0625) + 3;
-      const collectionRef = collection(fireDB, "users", `${auth.currentUser?.uid}`, "orders");
+      const collectionRef = collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "orders");
       const order = 
         {
           "itemsOrdered": items,
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
       await addDoc(collectionRef, order);
       alert(`Items ordered`);
       for (let i = 0; i < items.length; i++) {
-        const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, "items", `${items[i].id}`);
+        const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, "items", `${items[i].id}`);
         await deleteDoc(docRef);
       }
       navigate("/orders");
@@ -136,7 +136,8 @@ export default function CheckoutPage() {
     {billing && items.length > 0 && 
       <div className='form-container'>
         <BillingForm {...inputProps}/>
-        <button 
+        <button
+          data-testid="goToShippingBtn" 
           onClick={goToShipping} 
           className="btn btn-dark form-btn"
           disabled={
@@ -166,6 +167,7 @@ export default function CheckoutPage() {
             Back to Billing
           </button>
           <button 
+            data-testid="goToOrderingBtn"
             onClick={goToOrdering} 
             className="btn btn-dark form-btn"
             disabled={
@@ -189,7 +191,7 @@ export default function CheckoutPage() {
         <OrderingForm {...orderingProps}/>
         <div className="ordering-form-btns">
           <button onClick={goToShipping} className="btn btn-dark form-btn">Back to Shipping</button>
-          <button onClick={placeOrder} className="btn btn-success order-btn">Place Order</button>
+          <button data-testid="placeOrderBtn" onClick={placeOrder} className="btn btn-success order-btn">Place Order</button>
         </div>
       </div>
     }
