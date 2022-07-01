@@ -80,8 +80,38 @@
  margin-right: 140px;
 }
 
+@media screen and (max-width: 884px) {
+ .items-container {
+  margin-left: 20px;
+ }
+}
+
+@media screen and (max-width: 754px) {
+ .items-container {
+  margin-left: 150px;
+ }
+}
+
 @media screen and (max-width: 550px) {
  .items-container {
   margin-right: 150px;
+ }
+}
+
+@media screen and (max-width: 425px) {
+ .search-input-container {
+  width: 80%;
+ }
+
+ .item-container {
+  width: 250px;
+ }
+
+ .item > button {
+  width: 200px;
+ }
+
+ .results-msg {
+  text-align: center;
  }
 }

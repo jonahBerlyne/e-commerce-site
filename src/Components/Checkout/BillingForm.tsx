@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { InputForm } from '../../Pages/CheckoutPage';
-import "../../Styles/CheckoutForm.css";
 import { Form, Button } from "react-bootstrap";
 
 export default function BillingForm({ values, handleChange }: InputForm) {

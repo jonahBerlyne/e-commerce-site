@@ -1,5 +1,4 @@
 import { Form } from "react-bootstrap";
-import "../../Styles/CheckoutForm.css";
 
 interface Order {
  values: any;
