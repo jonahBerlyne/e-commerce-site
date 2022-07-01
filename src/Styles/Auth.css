@@ -19,7 +19,7 @@
 }
 
 .auth-inputs {
- padding: 25px;
+ padding: 32.5px 25px 25px 25px;
  background-color: rgb(255, 254, 255);
  margin-bottom: 20px;
  box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.24);
@@ -55,4 +55,22 @@ input:focus {
 
 .register-link {
  margin-top: -20px;
+}
+
+@media screen and (max-width: 425px) {
+ .auth {
+  margin-top: 135px;
+ }
+ 
+ .auth-inputs {
+  padding: 22.5px 15px 15px 15px;
+ }
+
+ .auth-input {
+  width: 250px;
+ }
+
+ .register-mobile {
+  margin-top: 75px;
+ }
 }

@@ -30,7 +30,7 @@ export default function RegisterPage() {
  }
 
  return (
-  <div className='auth'>
+  <div className='auth register-mobile'>
    <h2 className='auth-header'>Register:</h2>
    <div className="auth-header-border"></div>
    <div className="auth-inputs">
