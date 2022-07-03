@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { InputForm } from '../../Pages/CheckoutPage';
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 export default function BillingForm({ values, handleChange }: InputForm) {
   return (

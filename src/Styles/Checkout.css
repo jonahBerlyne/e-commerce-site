@@ -106,7 +106,6 @@
 
 .checkout-item {
  display: flex;
- flex-wrap: wrap;
  justify-content: space-between;
  margin-bottom: 10px;
 }
@@ -155,9 +154,7 @@
  align-items: center;
 }
 
-
 @media screen and (max-width: 1154px) {
-
  .checkout-form {
   padding-right: 20px;
  }
@@ -188,5 +185,145 @@
  .checkout-form-info {
   font-size: 9px;
   font-weight: bold;
+ }
+}
+
+@media screen and (max-width: 799px) {
+ .checkout-item {
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 5px;
+  word-wrap: break-word;
+ }
+
+ .checkout-img {
+  margin-bottom: 10px;
+ }
+
+ .checkout-item-info {
+  text-align: end;
+ }
+}
+
+@media screen and (max-width: 785px) {
+ .checkout-form {
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-bottom: 10px;
+ }
+
+ .checkout-inputs-container,
+ .checkout-inputs-row {
+  flex-wrap: nowrap;
+  flex-direction: column;
+ }
+
+ .checkout-inputs-container {
+  gap: 0px;
+ }
+ 
+ .checkout-inputs-row {
+  gap: 5px;
+  margin-top: -5px;
+ }
+
+ .checkout-form-header {
+  margin-right: 10px;
+ }
+
+ .checkout-form-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .checkout-form-input-label {
+  margin-bottom: 10px;
+ }
+
+ .checkout-input {
+  width: 250px;
+ }
+
+ .checkout-receipt {
+  width: 100%;
+  margin-top: 0px;
+ }
+
+ .checkout-item-info {
+  margin-right: 0px;
+ }
+}
+
+@media screen and (max-width: 564px) {
+ .checkout-form {
+  padding: 20px 80px;
+ }
+
+ .checkout-form-header {
+  font-size: 20px;
+ }
+
+ .checkout-form-costs {
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .checkout-form-cost-label {
+  margin-left: 0px;
+ }
+
+ .checkout-form-cost {
+  margin-left: 0px;
+  margin-right: 0px;
+ }
+}
+
+@media screen and (max-width: 425px) {
+ .checkout-form {
+  padding: 20px 35px;
+ }
+
+ .checkout-form-header {
+  margin-bottom: 30px;
+  padding-top: 10px;
+ }
+
+ .checkout-input {
+  width: 200px;
+ }
+
+ .shipping-form-btns,
+ .ordering-form-btns {
+  flex-direction: column;
+  gap: 15px;
+ }
+
+ .checkout-item {
+  align-items: center;
+  margin-right: 0px;
+ }
+
+ .checkout-item-info {
+  align-items: center;
+  text-align: center;
+ }
+
+ .checkout-form-info-container {
+  align-items: center;
+  padding-left: 0px;
+ }
+
+ .checkout-form-info {
+  padding-right: 0px;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+ }
+
+ .ordering-form-btns > button {
+  width: 50%;
+  padding: 10px;
  }
 }
