@@ -75,6 +75,7 @@ export default function OrderingForm({ values, items, numItems, subTotal }: Orde
       <Form.Text data-testid="creditCardNumText" className="checkout-form-info-piece">{creditCardNum}</Form.Text>
     </Form.Group>
    </Form.Group>
+   <div className="checkout-receipt-border"></div>
   </Form>
  );
 }

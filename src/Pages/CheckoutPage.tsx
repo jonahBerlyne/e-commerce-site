@@ -33,7 +33,7 @@ interface Values {
 
 export default function CheckoutPage() {
 
-  const [billing, setBilling] = useState<boolean>(false);
+  const [billing, setBilling] = useState<boolean>(true);
   const [items, setItems] = useState<any[]>([]);
   const [numItems, setNumItems] = useState<number>(0);
   const [subTotal, setSubTotal] = useState<number>(0);
@@ -75,7 +75,7 @@ export default function CheckoutPage() {
     getSubTotal();
   }, [cart]);
   
-  const initialValues = { id: getAuth().currentUser?.uid, billingFirstName: 'Jerry', billingLastName: 'Seinfeld', billingPhone: '198289219', billingEmail: 'jerry@seinfeld.com', billingAddress: '100 Park Ave', billingCity: 'New York', billingState: 'NY', billingZip: '10001', billingCreditCardNum: '8712978912', shippingFirstName: 'George', shippingLastName: 'Costanza', shippingPhone: '9188912', shippingEmail: 'george@costanza.com', shippingAddress: '100 Queens Ave', shippingCity: 'Queens', shippingState: 'NY', shippingZip: '10001' };
+  const initialValues = { id: getAuth().currentUser?.uid, billingFirstName: '', billingLastName: '', billingPhone: '', billingEmail: '', billingAddress: '', billingCity: '', billingState: '', billingZip: '', billingCreditCardNum: '', shippingFirstName: '', shippingLastName: '', shippingPhone: '', shippingEmail: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '' };
 
   const [values, setValues] = useState<Values>(initialValues);
 
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
   const inputProps = { values, handleChange };
   const orderingProps = { values, items, numItems, subTotal };
   const [shipping, setShipping] = useState<boolean>(false);
-  const [ordering, setOrdering] = useState<boolean>(true);
+  const [ordering, setOrdering] = useState<boolean>(false);
 
   const goToShipping = (): void => {
     setBilling(false);
