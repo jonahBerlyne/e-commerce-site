@@ -1,9 +1,18 @@
-table {
- margin: auto;
+.orders-page-container {
  font-family: "Open Sans", sans-serif;
 }
 
-thead > tr > td,
+.no-orders-msg {
+ text-align: center;
+ margin-top: 250px;
+}
+
+table {
+ margin: auto;
+ white-space: nowrap;
+}
+
+thead > tr > th,
 tfoot > tr > td {
  border: none !important;
 }
@@ -11,10 +20,12 @@ tfoot > tr > td {
 .ordered-items-header {
  text-decoration: underline;
  text-align: end;
+ white-space: nowrap;
 }
 
 tbody > tr > td {
  padding: 20px !important;
+ white-space: nowrap;
 }
 
 .ordered-item-img {
@@ -29,12 +40,18 @@ tbody > tr > td {
 
 @media screen and (max-width: 768px) {
  .ordered-items-header {
-  width: 350px;
+  text-align: start;
+  width: 120px;
+  margin-left: 150px;
  }
 
  tbody > tr > td {
-  border: 1px solid black;
-  padding: 0px !important;
-  width: 10px;
+  padding: 8px !important;
+ }
+}
+
+@media screen and (max-width: 425px) {
+ .no-orders-msg {
+  margin-top: 150px;
  }
 }

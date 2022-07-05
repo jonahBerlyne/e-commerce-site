@@ -34,17 +34,17 @@ export default function Orders() {
  }, []);
 
  return (
-  <div>
-   {ordersRetrieved && orders.length === 0 && <h2>You haven't ordered anything, yet.</h2>}
+  <div className='orders-page-container'>
+   {ordersRetrieved && orders.length === 0 && <h2 className="no-orders-msg">You haven't ordered anything, yet.</h2>}
    {ordersRetrieved && orders.length > 0 && orders.map((order, index) => {
     return (
      <div key={index}>
       <Table responsive>
        <thead>
         <tr>
-         <td className='ordered-items-td'>
+         <th className='ordered-items-td'>
           <h2 data-testid={`order${(orders.length - index)}Header`} className="ordered-items-header">Order #{(orders.length - index)}:</h2>
-         </td>
+         </th>
         </tr>
        </thead>
        <tbody>

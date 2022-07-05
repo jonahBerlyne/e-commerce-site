@@ -1,3 +1,8 @@
+.header {
+ background-color: #07f3a43c;
+ color: #000;
+}
+
 .navbar {
  overflow: hidden;
 }
@@ -25,19 +30,19 @@
 }
 
 .nav-item > p {
- color: #949393;
+ color: #000;
 }
 
 .nav-item > p:hover,
 .shopping-cart:hover {
- color: #000;
+ color: #949393;
 }
 
 .shopping-cart {
  display: flex;
  justify-content: center;
  gap: 5px;
- color: #949393;
+ color: #000;
 }
 
 .quantity {

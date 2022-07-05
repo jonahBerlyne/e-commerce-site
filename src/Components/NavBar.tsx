@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
 import { logout, selectUser } from "../Redux/Slices/userSlice";
 import { openCart } from "../Redux/Slices/cartSlice";
 import "../Styles/NavBar.css";
-import { store } from "../Redux/Store";
 import { collection, onSnapshot, query } from "firebase/firestore";
 
 export default function NavBar() {
@@ -48,7 +47,7 @@ export default function NavBar() {
 
  return (
     <div className='header'>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container-fluid navbar-container">
             {user?.name && <h1 className="navbar-brand">{user?.name}, welcome to the <img src="/Images/Seinfeld_Logo.png" alt="Seinfeld" className="seinfeld-logo" /> store!</h1>}
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
