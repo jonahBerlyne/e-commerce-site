@@ -9,9 +9,8 @@ tfoot > tr > td {
 }
 
 .ordered-items-header {
- padding-left: 350px;
- padding-bottom: 100px;
  text-decoration: underline;
+ text-align: end;
 }
 
 tbody > tr > td {
@@ -26,4 +25,16 @@ tbody > tr > td {
 
 .ordered-items-footer {
  padding-bottom: 150px !important;
+}
+
+@media screen and (max-width: 768px) {
+ .ordered-items-header {
+  width: 350px;
+ }
+
+ tbody > tr > td {
+  border: 1px solid black;
+  padding: 0px !important;
+  width: 10px;
+ }
 }

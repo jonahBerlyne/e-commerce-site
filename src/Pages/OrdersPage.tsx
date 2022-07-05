@@ -12,7 +12,7 @@ export default function Orders() {
 
  const retrieveOrders = async (): Promise<any> => {
   try {
-   const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "orders"), orderBy("timestamp", "asc"));
+   const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "orders"), orderBy("timestamp", "desc"));
    const querySnapshot = await getDocs(q);
    if (querySnapshot === undefined) {
     setOrdersRetrieved(true);
@@ -42,8 +42,8 @@ export default function Orders() {
       <Table responsive>
        <thead>
         <tr>
-         <td>
-          <h2 data-testid={`order${index + 1}Header`} className="ordered-items-header">Order #{index + 1}:</h2>
+         <td className='ordered-items-td'>
+          <h2 data-testid={`order${(orders.length - index)}Header`} className="ordered-items-header">Order #{(orders.length - index)}:</h2>
          </td>
         </tr>
        </thead>
@@ -51,10 +51,10 @@ export default function Orders() {
         {order.itemsOrdered.map((item: any) => {
          return (
           <tr key={item.id}>
-           <td><h3 data-testid={`itemTitle${item.id}-${index + 1}`}>{item.title}</h3></td>
-           <td><img data-testid={`itemImage${item.id}-${index + 1}`} src={item.image} alt={item.title} className="ordered-item-img" /></td>
-           <td><h5 data-testid={`itemQuantity${item.id}-${index + 1}`}>x{item.quantity}</h5></td>
-           <td><h3 data-testid={`itemPrice${item.id}-${index + 1}`}>{item.price}</h3></td>
+           <td><h3 data-testid={`itemTitle${item.id}-${(orders.length - index)}`}>{item.title}</h3></td>
+           <td><img data-testid={`itemImage${item.id}-${(orders.length - index)}`} src={item.image} alt={item.title} className="ordered-item-img" /></td>
+           <td><h5 data-testid={`itemQuantity${item.id}-${(orders.length - index)}`}>x{item.quantity}</h5></td>
+           <td><h3 data-testid={`itemPrice${item.id}-${(orders.length - index)}`}>{item.price}</h3></td>
           </tr>
          )
         })}
@@ -62,7 +62,7 @@ export default function Orders() {
        <tfoot>
         <tr>
          <td>
-          <h2 data-testid={`order${index + 1}Total`} className='ordered-items-footer'>Total (After Tax): ${order.total}</h2>
+          <h2 data-testid={`order${(orders.length - index)}Total`} className='ordered-items-footer'>Total (After Tax): ${order.total}</h2>
          </td>
         </tr>
        </tfoot>
