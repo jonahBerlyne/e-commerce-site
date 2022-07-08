@@ -40,6 +40,7 @@ export default function RegisterPage() {
      data-testid="Name"
      value={name} 
      onChange={(e) => {setName(e.target.value)}}
+     maxLength={23}
      required
     />
     <input 
@@ -48,6 +49,7 @@ export default function RegisterPage() {
      data-testid="Email" 
      value={email} 
      onChange={(e) => {setEmail(e.target.value)}}
+     maxLength={30}
      required
     />
     <input 
@@ -56,6 +58,7 @@ export default function RegisterPage() {
      data-testid="Password" 
      value={password} 
      onChange={(e) => {setPassword(e.target.value)}}
+     maxLength={25}
      required
     />
     <input 
@@ -64,6 +67,7 @@ export default function RegisterPage() {
      data-testid="confirmPassword" 
      value={confirmPassword} 
      onChange={(e) => {setConfirmPassword(e.target.value)}}
+     maxLength={25}
      required
     />
    </div>

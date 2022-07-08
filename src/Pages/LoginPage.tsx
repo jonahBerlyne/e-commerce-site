@@ -27,6 +27,8 @@ export default function LoginPage() {
      data-testid="Email" 
      value={email} 
      onChange={(e) => {setEmail(e.target.value)}}
+     maxLength={30}
+     required
     />
     <input 
      type="password" 
@@ -34,6 +36,8 @@ export default function LoginPage() {
      data-testid="Password" 
      value={password} 
      onChange={(e) => {setPassword(e.target.value)}}
+     maxLength={25}
+     required
     />
    </div>
    <button 

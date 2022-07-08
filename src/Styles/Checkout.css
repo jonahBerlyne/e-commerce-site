@@ -139,6 +139,10 @@
  padding-right: 10px;
 }
 
+.checkout-form-info-piece {
+ text-align: start;
+}
+
 .order-btn {
  font-weight: bold;
  border-radius: 15px;
