@@ -360,22 +360,22 @@ describe("Orders Page", () => {
   }];
 
   const mockData = ([
-   {
-    data: () => ({
-        itemsOrdered: items,
-        orderInfo: orderValues,
-        timestamp: 1648052300000,
-        total: 8.98
-    })
-   },
-   {
-    data: () => ({
+    {
+      data: () => ({
         itemsOrdered: secondOrder,
         orderInfo: orderValues,
         timestamp: 1648423100000,
         total: 5.99
-    })
-   }
+      })
+    },
+    {
+     data: () => ({
+         itemsOrdered: items,
+         orderInfo: orderValues,
+         timestamp: 1648052300000,
+         total: 8.98
+     })
+    }
   ]);
   (getDocs as jest.Mock).mockResolvedValue(mockData);
 
